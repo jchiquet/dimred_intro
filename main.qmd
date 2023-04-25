@@ -1,0 +1,89 @@
+---
+title: "Presentation"
+format: 
+  revealjs: 
+    theme: [metropolis.scss]
+    transition: fade
+    toc: true
+    toc-depth: 1
+    chalkboard: true
+    menu: true
+    smaller: true
+---
+
+## Exploratory analysis of (modern) data sets
+
+Assume a table with $n$ individuals described by $p$ features/variables
+  
+### Questions
+
+Look for _patterns_ or _structures_ to summarize the data by
+   
+- Finding _groups_ of "similar" individuals
+- Finding variables _important_ for these data
+- Performing _visualization_
+
+### Challenges
+
+- **Size**: data may be _large_ ("big data": large $n$ large $p$)    
+- **Dimension**: data may be _high dimensional_ ($n \ll p$)
+- **Redundancy** many variables may carry the _same information_
+- **Unsupervised** we _don't necessary know_ what we are looking after
+
+## An example in genetics: 'snp' .fragile
+
+Genetics variant in European population
+
+#### Description: \textcolor{black}{\it medium/large data, high-dimensional}
+
+500, 000 Genetics variants (SNP -- Single Nucleotide Polymorphism) for  3000 individuals (1 meter $\times$ 166 meter (height $\times$ width)
+
+:::: columns
+
+::: {.column width="37%"}
+
+- SNP : 90 \% of human genetic variations
+- coded as 0, 1 or 2 (0, 1 or 2 allel different against the population reference)
+
+:::
+
+::: {.column width="57%"}
+
+![SNP (wikipedia)](figs/SNP.png)
+
+:::
+
+
+::::
+
+## Summarize 500,000 variables with 2 features
+
+![Dimension reduction + labels ](figs/geneMirrorGeography.png)
+
+::: footer
+source: Nature "Gene  Mirror Geography Within  Europe", 2008
+:::
+
+In the original messy $3,000 \times 500,000$ table, we may find
+ 
+- an extremely strong structure between individuals (_"clustering"_)
+- a very simple subspace where it is obvious (_"dimension reduction"_)
+
+## Dimension reduction: general goals
+
+Main objective: find a \alert{\bf low-dimensional representation} that captures the "essence" of (high-dimensional) data
+
+
+#### Application in Machine Learning
+  
+ _Preprocessing, Regularization_
+  
+- Compression, denoising,  anomaly detection
+- Reduce overfitting in supervised learning
+
+#### Application in Statistics/Data analysis
+    
+_Better understanding of the data_
+    
+- descriptive/exploratory methods
+- visualization (difficult to plot and interpret $> 3d$!)

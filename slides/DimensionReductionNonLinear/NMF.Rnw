@@ -1,0 +1,96 @@
+<<echo = FALSE, warning=FALSE, message=FALSE>>=
+library(NMF)
+@
+
+\begin{frame}
+  \frametitle{Non-negative Matrix Factorization -- NMF}
+  
+  \begin{block}{Setup}
+  Assume that $\bX$ contains only non-negative entries (i.e. $\geq 0$).
+  \end{block}
+  
+  \begin{block}{Model}
+   \alert{\bf Linear assumption + non-negativity constraints on both $\bV$ and $\tilde\bx$}
+    \begin{align*}
+      \Phi(\bx) & = \bV^\top \bx  = \tilde\bx \\  
+      \bx \simeq \tilde{\Phi}(\tilde\bx) & = \bV \tilde\bx
+    \end{align*}
+
+  For the whole data matrix $\bX$,
+  \[
+    \hat{\bX} = \underbrace{\tilde\bX}_{\mathbf{F}, \text{ the factors}} \bV^\top 
+  \]
+  \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{NMF reconstruction errors}
+  
+  Build $\hat{\mathbf{X}} = \mathbf{FV}^\top$ to minimize a distance $D(\hat{\mathbf{X}}, \mathbf{X})$. \alert{Several choice, e.g:}
+    \begin{itemize}
+    \item Least-square loss (distance measured by Frobenius norm)
+    \[ \hat{\mathbf{X}}^{\text{ls}} =  \argmin_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q}\\\mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \left\|     \mathbf{X} - \mathbf{FV}^\top \right\|_F^2,
+\]
+    \item Generalized Kullback-Leibler divergence ("distance" for distributions)
+    \begin{align*}
+    \hat{\mathbf{X}}^{\text{kl}} & =  \argmin_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q}\\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log(\frac{x_{ij}}{(\mathbf{F}\bV^\top)_{ij}}) + (\mathbf{F}\bV^\top)_{ij} \\
+    & = \argmax_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q}\\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log((\mathbf{F}\bV^\top)_{ij}) - (\mathbf{F}\bV^\top)_{ij},\\
+    \end{align*}
+    \rsa log-likelihood of a Poisson distribution with mean $(\mathbf{F}\bV^\top)_{ij}$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]
+  \frametitle{Example on 'mollusk'} 
+
+\paragraph{Run the fit}
+
+<<NMF mollusk fit>>=
+nmf_KL <- mollusk %>% dplyr::select(-site, -season) %>% 
+  nmf(rank = 2, method = 'brunet') %>% basis() %>%
+  as.data.frame() %>% add_column(algo = "KL") %>% add_column(site = mollusk$site)
+nmf_LS <- mollusk %>% dplyr::select(-site, -season) %>% 
+  nmf(rank = 2, method = 'lee') %>% basis() %>%
+  as.data.frame() %>% add_column(algo = "LS") %>% add_column(site = mollusk$site)
+@
+
+\paragraph{Compare algorithms}
+
+<<NMF mollusk algo plot, fig.dim=c(10,5), out.width='\\textwidth'>>=
+rbind(nmf_KL, nmf_LS) %>% 
+  ggplot(aes(x = V1, y = V2, color = site)) +
+     geom_point(size=1.25) +
+     guides(colour = guide_legend(override.aes = list(size=6))) +
+  facet_wrap(.~algo, scales = 'free')
+@
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{NMF: limitations}
+
+  \begin{block}{Caveats}  
+    \begin{itemize}
+      \item Basis $\bV$ formed by standard NMF is not orthogonal!
+      \item Visualization is questionable \dots
+      \item Used to performed matrix factorization rather than exploratory analysis
+    \end{itemize}
+  \end{block}
+
+  \bigskip
+
+  \begin{block}{Other model-based approaches}
+    Use a probabilistic-based model to better described non-negative data
+    \begin{itemize}
+      \item[\rsa] Look for models handling\alert{\bf surdispersion} \\
+      {\small multivariate Poisson-lognormal model, Poisson-Gamma, etc.}
+      \item[\rsa] look for \alert{\bf zero-inflated} distributions
+      \[\mathbb{P}(\bx_i) =  \pi_0 \ \delta_0 + (1-\pi_0) f(\bx_{i})\]
+    \end{itemize}
+  \end{block}
+  
+\end{frame}
+
+
