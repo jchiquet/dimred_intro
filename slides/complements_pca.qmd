@@ -1,0 +1,43 @@
+# Additional tools and Complements
+
+## Unifying view of variables and individuals
+
+#### Principal components
+
+The full matrix of principal component connects  individual coordinates to latent factors:
+
+\begin{equation*}
+    \mathrm{PC} = \bX^c \bU = \begin{pmatrix}
+    \mathbf{f}_{1} & \mathbf{f}_{2} & \dots & \mathbf{f}_{p}
+    \end{pmatrix}
+    = \begin{pmatrix} 
+    \bc_{1}^\top \\ \bc_{2}^\top \\\dots \\ \bc_{n}^\top 
+    \end{pmatrix}
+\end{equation*}
+
+\vfill
+  
+  - new variables (latent factor) are seen column-wise
+  - new coordinates are seen row-wise
+
+  $\rightsquigarrow$ Everything can be interpreted on a single plot, called the biplot
+
+## Reconstruction formula
+
+Recall that $\mathbf{F} = (\mathbf{f}_1, \dots, \mathbf{f}_p)$ is the matrix of Principal components. Then,
+
+  - $\mathbf{f}_k = \bX^c \bu_k$ for projection on axis $k$
+  - $\mathbf{F} = \bX^c \bU$ for all axis.
+
+Using orthogonality of $\bU$, we get back the original data as follows, without loss ($\bU^T$ performs the inverse rotation of $\bU$):
+\begin{equation*}
+  \bX^c = \mathbf{F}\bU^\top
+\end{equation*}
+
+We obtain an approximation $\tilde{\bX}^c$ (compression) of the data $\bX^c$ by considering a subset $\mathcal{S}$ of PC, typically $\mathcal{S} = {1, \dots, q}$ with $q \ll p$.
+
+\begin{equation*}
+  \tilde{\bX}^c = \mathbf{F}_{\mathcal{S}}\bU_{\mathcal{S}}^\top = \bX^c \bU_{\mathcal{S}} \bU_{\mathcal{S}}^\top
+\end{equation*}
+
+$\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (information captured by the first $q$ axes).

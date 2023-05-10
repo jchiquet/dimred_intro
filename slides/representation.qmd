@@ -1,0 +1,159 @@
+# Representation and interpretation
+
+## Contribution of each axis and quality of the representation}
+  
+  $\Delta_k$ is carrying inertia/variance defined by its orthogonal, thus 
+  \begin{equation*}
+      I_T = I_{\Delta_1^\bot} + \dots + I_{\Delta_p^\bot} = \lambda_1 + \dots + \lambda_p
+  \end{equation*}
+
+  \begin{block}{Relative contribution of axis $k$}<2->
+    \vspace{-.5cm}
+  \[ 
+    \mathrm{contrib}(\Delta_k) = \frac{\lambda_k}{\sum_{k=1}^p\lambda_j} = \frac{\lambda_k}{\trace{\hat{\bSigma}}} \times 100 
+  \]
+    $^\rightsquigarrow$ \alert{Percentage of explained inertia/variance explained}
+  \end{block}
+
+#### Global quality of the representation on the first $k$ axes
+
+\begin{equation*}
+  \mathrm{contrib}(\Delta_1,\dots,\Delta_k) = \frac{\lambda_1 + \dots + \lambda_k}{\trace{\hat{\bSigma}}}  \times 100 
+\end{equation*}
+
+A few axes may explain a large proportion of the total variance.
+
+$\rightsquigarrow$ \alert{This paves the way for dimension reduction} 
+
+## Individuals: representation in the new basis
+
+#### Projection
+
+The projection of $\bx_i$ onto axis $\Delta_k$ is $c_{ik} \bu_k$, with 
+
+\begin{equation*}
+  c_{ik} = \bu_k^\top (\bx_i - \bar{\bx}),
+\end{equation*}
+
+the coordinate of $i$ in the basis $\bu_k$ (along axis $\Delta_k$).
+
+#### Coordinates
+
+Coordinates of $i$ in the new basis $\{\bu_1, \dots, \bu_p\}$ is thus 
+
+\begin{equation*}
+  \bc_i  = (\bU^\top (\bx_i - \bar{\bx}))^\top = (\bx_i - \bar{\bx})^\top \bU = \bX^c_i \bU, \quad \bc_i \in \Rset^p.
+\end{equation*}
+
+  - \alert{$\bU$ are often the called the \textbf{loadings}, or \textbf{weights}}
+  - \alert{$ \bc_i$ are the \textbf{scores} or \textbf{coordinates} in the new space for the individuals}
+
+## Warning: about distances after projection
+
+  \alert{Close projection doesn't mean close individuals!}
+
+  \begin{figure}
+    \includegraphics[width = .35\textwidth]{figs_pca/plan_indiv_proche}\\[1ex]
+    \includegraphics[width = .35\textwidth]{figs_pca/plan_3d_proche}
+    \includegraphics[width = .35\textwidth]{figs_pca/plan_3d_eloigne}
+    \includegraphics[width = .35\textwidth]{figs_pca/plan_3d_proche2}
+    \includegraphics[width = .35\textwidth]{figs_pca/plan_3d_eloigne2}
+    \caption{Same projections but different situations {\tiny (source: E. Matzner)}}
+
+  \end{figure}
+
+ $\rightsquigarrow$ Only work when individuals are well represented in the lower space
+
+## Individual: representation
+
+#### Quality
+
+- An individual $i$ is well represented by $\Delta_k$ if it is close to this axis.
+- In other word, vector $\bx_i - \bar{\bx}$ and $\bu_k$ are close to collinear
+
+Use the cosine of the angle between $\bx_i - \bar{\bx}$ and $\bu_k$ to measure collinearity:
+
+\begin{equation*}
+  \cos^2(\theta_{ik}) = \frac{\bigg(\bu_k^\top (\bx_i - \bar{\bx})\bigg)^2}{\|\bx_i - \bar{\bx} \|^2 \xout{\|\bu_k \|^2}}
+\end{equation*}
+
+#### Contribution
+
+- Inertia "explained" by $\Delta_k$ is inertia of $\Delta_k^\bot$
+- $I_{\Delta_k^\bot} = n^{-1}\sum_{i=1}^n \distance^2(\Delta_k^\bot, \bx_i)$
+
+Contribution is the proportion of variance/inertia carried by individual $i$:
+\begin{equation*}
+  \mathrm{contr} (\bx_i) = \frac{n^{-1}\distance^2(\Delta_k^\bot, \bx_i)}{I_{\Delta_k^\bot}} = \frac{\bigg(\bu_k^\top (\bx_i - \bar{\bx})\bigg)^2}{n\lambda_k}
+\end{equation*}
+
+## Cloud of variables
+
+![](figs_pca/nuage_var.png){width="40%"}  
+
+Direct equivalence between geometry and statistics (collinearity $\equiv$ correlation) 
+\begin{equation*}
+  \cos(\theta_{kl}) = \frac{\langle \bx^k ,\bx^\ell \rangle}{\|\bx^k\| \|\bx^\ell\|} = \rho(\bx^k,\bx^\ell)
+\end{equation*}
+
+
+## Principal Components
+  
+#### Dual representation
+
+A symmetric reasoning can be made in $\Rset^n$ for the variables, like with the individuals in $\Rset^p$.
+    
+$\rightsquigarrow$ New axes are linear combinaison of the original variables, which can be seen as \alert{\bf new variables} in the new latent space
+
+#### Principal component
+
+It is the linear combinasion formed by the orginal variables with weights given by the loadings $\bu_k = (u_{k1}, \dots, u_{kj}, \dots, u_{kp})$
+
+\begin{equation*}
+  \mathbf{f}_{k}  = \sum_{j=1}^p u_{kj} (\bx^{j} - \bar{x}_j) = \bX^c \bu_k, \quad \mathbf{f}_k \in \Rset^n
+\end{equation*}
+
+Sometimes called \alert{"factors"} in  factor analysis, as \alert{latent (hidden) variables}. 
+
+## Variable representation in the new space
+  
+#### Connection with original variables
+
+  - essential for interpretation
+  - answer to the question: how to read the axes of the individual map
+  - use correlation to measure connection to original variable
+
+\begin{equation*}
+  \var(\mathbf{f}_k) = \frac{1}{n}\var(\bX^c \bu_k) = \bu_k^\top \frac{1}{n}(\bX^c)^\top \bX^c \bu_k =  \bu_k^\top \hat{\bSigma} \bu_k = \lambda_k
+\end{equation*}
+  
+\begin{equation*}
+  \cov(\mathbf{f}_k, (\bx^j - \bar{x}_j)) = \bu_k \top {\bX^c}^\top \bX^c e_j = \bu_k \lambda_k e_j = \lambda_k \bu_{kj}   
+\end{equation*}
+
+\begin{equation*}
+  \cor(\mathbf{f}_k, (\bx^j - \bar{x}_j)) =  \sqrt{\frac{\lambda_k}{\var(\bx^j)}}\bu_{kj}
+\end{equation*}
+
+## Warning: about angle after projection
+
+  \alert{Close projection doesn't mean close variable!}
+
+![Same angle but different situations {\tiny (source: J. Josse)}](figs_pca/proj_var_acp.pdf){width="80%"}
+
+ $\rightsquigarrow$ Only work when variables are well represented in the latent space
+
+## Variable representation
+
+#### Quality
+
+-  An variable $j$ is well represented by $\Delta_k$ if its projection is close to $\mathbf{f}_k$.
+-  High collinearity means high absolute correlation and high cosine.
+-  use cosine to the square of the angle between the original and new variables.
+
+$\rightsquigarrow$ The projection of $j$ must be close to the boundary of the correlation circle
+
+#### Contribution
+
+Similarly to individuals, we can measure the contribution of the original variables to the construction of the new ones.
+

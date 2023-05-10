@@ -1,0 +1,95 @@
+---
+title: "Data Anaysis and Unsupervised Learning"
+subtitle: "Introduction"
+author: "Julien Chiquet"
+institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
+date: 05/25/2023
+date-format: long
+format: beamer
+---
+
+
+ <!-- ==================================================================== -->
+\part{Introduction}
+ <!-- ==================================================================== -->
+
+```{r introduction, child='introduction.qmd'}
+```
+
+---
+<!-- ==================================================================== -->
+\part{Principal Component Analysis}
+<!-- ==================================================================== -->
+
+```{r intro_pca, child='intro_pca.qmd'}
+```
+```{r background_pca, child='background_algebra.qmd'}
+```
+
+ <!-- Geometrical point of View -->
+ ```{r geometry, child='geometry_PCA.qmd'}
+ ```
+<!-- Principal axes by variance maximization -->
+```{r fitting, child='fitting_PCA.qmd'}
+```
+ <!-- Representation and interpretation -->
+```{r representation, child='representation.qmd'}
+```
+ <!-- Complements, reconstructIon -->
+```{r complements, child='complements_pca.qmd'}
+```
+
+<!-- ==================================================================== -->
+\part{probabilistic Principal Component Analysis}
+<!-- ==================================================================== -->
+
+<!-- Gaussian model -->
+<!-- model selection -->
+<!-- Estimation with ML and EM -->
+
+
+
+<!-- Poisson PCA -->
+<!-- estimation with variaitonal EM -->
+
+<!-- ==================================================================== -->
+\part{(Variational) Auto-Encoder}
+<!-- ==================================================================== -->
+
+
+\subsection{PCA as a matrix factorization}
+<<Reconstruction error, child='reconstruction_error_viewpoint.Rnw'>>=
+@
+
+\subsection{Kernel-PCA}
+<<Kernel PCA, child='kernelPCA.Rnw'>>=
+@
+
+\subsection{Non-negative matrix factorization}
+<<NMF, child='NMF.Rnw'>>=
+@
+
+\subsection{Other directions}
+<<others reconstruction, child='others_reconstruction.Rnw'>>=
+@
+
+%% ==========================================================================
+\section{Motivated by relation preservation}
+%% ==========================================================================
+
+<<Relation preservation, child='relation_preservation_viewpoint.Rnw'>>=
+@
+
+\subsection{Multidimensional Scaling}
+<<MDS, child='MDS.Rnw'>>=
+@
+
+\subsection{Stochastic Neighborhood Embedding}
+<<tSNE, child='tSNE.Rnw'>>=
+@
+
+\subsection{Other methods}
+<<others relation, child='others_relation.Rnw'>>=
+@
+
+

@@ -1,0 +1,725 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  11pt,
+  ignorenonframetext,
+  notheorems]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usetheme[]{default}
+\usefonttheme{professionalfonts}
+\useinnertheme{circles}
+\useoutertheme{default}
+\usepackage[]{libertinus}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+  \setmonofont[Scale=0.92]{Latin Modern Mono}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+%%% GENERAL COLORS
+\definecolor{miaps-blue-green}{HTML}{00aeaa}
+\definecolor{miaps-blue-green-darker}{HTML}{006b69}
+\definecolor{miaps-green}{HTML}{41b874}
+\colorlet{miaps-blue-green-lighter}{miaps-green!15}
+\colorlet{miaps-green-darker}{miaps-green!50!black}
+\definecolor{darkred}{rgb}{0.65,0.15,0.25}
+
+%% CALLOUT COLORS
+\colorlet{quarto-callout-color}{miaps-blue-green}
+\colorlet{quarto-callout-color-frame}{miaps-blue-green-darker}
+\colorlet{quarto-callout-note-color}{miaps-blue-green}
+\colorlet{quarto-callout-note-color-frame}{miaps-blue-green-darker}
+\colorlet{quarto-callout-tip-color}{miaps-blue-green}
+\colorlet{quarto-callout-tip-color-frame}{miaps-blue-green-darker}
+
+\colorlet{quarto-callout-important-color}{miaps-green}
+\colorlet{quarto-callout-important-color-frame}{miaps-blue-green-darker}
+\colorlet{quarto-callout-warning-color}{miaps-green}
+\colorlet{quarto-callout-warning-color-frame}{miaps-green-darker}
+\colorlet{quarto-callout-caution-color}{miaps-green}
+\colorlet{quarto-callout-caution-color-frame}{miaps-green-darker}
+
+\setbeamersize{text margin left=1.25em,text margin right=1.25em}
+
+\usefonttheme[onlymath]{serif}
+
+%% Footer : logo + framenumber 
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{section in head/foot shaded}[default][10]
+\usepackage{graphbox}
+\setbeamertemplate{footline}{%
+        \includegraphics[align=c, height=0.5cm]{logo_miaps_notext.png}%
+        \hfill%
+        \usebeamercolor[fg]{page number in head/foot}%
+        \usebeamerfont{page number in head/foot}%
+        \insertframenumber\,/\,\inserttotalframenumber\kern1em%
+}
+
+%% Custom titlepage
+\setbeamertemplate{title page}{
+  \vbox{}
+  \vfill
+  \begingroup
+    \centering
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}\vskip0.5em
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+  \endgroup
+    \vfill
+    \begin{center}
+        \scriptsize\url{https://jchiquet.github.io/}
+    \end{center}
+    \vfill
+    \includegraphics[width=2cm]{logo_miaps}\hfill
+    \includegraphics[width=2.5cm]{logo_inrae}
+}
+\setbeamercovered{transparent=5}
+\setbeamerfont{date}{size=\scriptsize}
+\setbeamerfont{author}{size=\large}
+\setbeamerfont{institute}{size=\scriptsize}
+\setbeamerfont{block title}{size=\normalsize}
+\setbeamercolor{date,author,institute,block title}{fg=darkred}
+
+% INNER
+\setbeamercolor{frametitle}{fg=miaps-blue-green-darker, bg=white}
+\setbeamercolor{sur:head}{bg=miaps-blue-green-darker,fg=white}
+\setbeamercolor{sur:bloc}{bg=black!5,fg=black}
+\setbeamercolor{title}{fg = miaps-blue-green-darker}
+\setbeamercolor{part title}{fg = miaps-blue-green-darker}
+
+% In case you choose to display the Table of Contents, or the Outline slide.
+\setbeamercolor{section in toc}{fg = miaps-blue-green-darker}
+
+% The colour of all the items, subitems and and subsubitems are set to black.
+\setbeamercolor{item}{fg = miaps-blue-green-darker}
+\setbeamercolor{block title}{fg = miaps-blue-green-darker, bg = white}
+\setbeamercolor{block body}{bg = white}
+\setbeamercolor{normal text}{fg = black}
+\setbeamercolor{alerted text}{fg = darkred}
+\setbeamercolor{section in head/foot}{fg=mblue!75!white,bg=miaps-blue-green-darker} 
+\setbeamercolor{caption name}{fg = darkred}
+\setbeamercolor{bibliography entry title}{fg = miaps-blue-green-darker, bg = white}
+\setbeamercolor{bibliography entry author}{fg = miaps-blue-green-darker, bg = white}
+\RequirePackage{amsmath,amssymb,amsfonts}
+\RequirePackage[french,english]{babel}
+\RequirePackage[normalem]{ulem}
+\RequirePackage{tikz}
+\RequirePackage[vlined]{algorithm2e}
+
+\usetikzlibrary{calc,shapes,backgrounds,arrows,automata,shadows,positioning}
+
+\graphicspath{{figures/},{figs_general/}, {figs_intro/}}
+
+\AtBeginSection{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \framesubtitle{\insertpart}
+    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]  
+  \end{frame}
+}
+
+\AtBeginSubsection{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \framesubtitle{\insertpart}
+    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]  
+  \end{frame}
+}
+
+\AtBeginSubsubsection{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \framesubtitle{\insertpart}
+    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]  
+  \end{frame}
+}
+
+\newcommand{\dotoc}{%
+  \begin{frame}
+    \frametitle{Outline}
+    \tableofcontents[currentsection,
+    sectionstyle=show/show,
+    subsectionstyle=hide]
+  \end{frame}
+  %
+}
+% NOTATIONS MATHEMATIQUES
+\newcommand{\Rset}{\mathbb{R}}
+\newcommand{\Rbb}{\mathbb{R}}
+\newcommand{\Nset}{\mathbb{N}}
+\newcommand{\ud}{\mathrm{d}}
+\newcommand{\var}{\mathbb{V}}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\cor}{\mathrm{cor}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Beta}{B}
+\newcommand{\Nbb}{\mathbb{N}}
+
+\newcommand{\projorth}[2]{\text{proj}^{\bot}_{#2}(#1)}
+\newcommand{\proj}[2]{\text{proj}_{#2}(#1)}
+\newcommand{\argmax}{\mathop{\mathrm{arg\ max}}}
+\newcommand{\argmin}{\mathop{\mathrm{arg\ min}}}
+\newcommand{\minimize}{\mathop{\mathrm{minimize}}}
+\newcommand{\maximize}{\mathop{\mathrm{maximize}}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\distance}{\text{dist}}
+% definitions related to groups
+\newcommand{\norm}[2][]{\left|\left|#2\right|\right|_{#1}}
+\newcommand{\group}[1][k]{{\mathcal G}_{#1}}
+\newcommand{\positive}{{\mathcal P}}
+\newcommand{\negative}{{\mathcal N}}
+\newcommand{\zero}{{\mathcal Z}}
+%\renewcommand{\active}[1][k]{{\mathcal A}_{#1}}
+\newcommand{\1}{\mathbf{1}}
+
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\trace}[1]{\mathrm{trace}{\left(#1\right)}}
+\newcommand{\vect}{\mathrm{vec}}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\err}{\mathrm{err}}
+\newcommand{\weights}{\mathbf{w}}
+\newcommand{\supp}{\mathcal{A}}
+\newcommand{\prob}{\mathbb{P}}
+\renewcommand{\P}{\mathbb{P}}
+
+%definitions related to convergences
+\newcommand{\inprob}{\overset{P}{\longrightarrow}}
+\newcommand{\inlaw}{\overset{D}{\longrightarrow}}
+
+\newcommand{\C}{\texttt}
+\newcommand{\R}{\C{R}}
+\newcommand{\easy}{\mbox{\large\fontencoding{U}\fontfamily{wasy}\selectfont\char44}}
+\newcommand{\medium}{\mbox{\large\fontencoding{U}\fontfamily{wasy}\selectfont\char47}}
+\newcommand{\hard}{\raisebox{2pt}{\footnotesize\fontencoding{U}\fontfamily{futs}\selectfont\char77}}
+
+\newcommand{\Easy}{\mbox{\Huge\fontencoding{U}\fontfamily{wasy}\selectfont\char44}}
+\newcommand{\Medium}{\mbox{\Huge\fontencoding{U}\fontfamily{wasy}\selectfont\char47}}
+\newcommand{\Hard}{\raisebox{3pt}{\huge\fontencoding{U}\fontfamily{futs}\selectfont\char77}}
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\green}[1]{\textcolor{green!50!black}{#1}}
+
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%-------------------------------------------------------------------------%
+% Definitions
+%-------------------------------------------------------------------------%
+\def\Argmin{\mathop{\mbox{\rm argmin}}}
+\def\Argmax{\mathop{\mbox{\rm argmax}}}
+
+\newcommand{\hatbeta}{\hat{\beta}}
+\newcommand{\hatbbeta}{\,\hat{\!\bbeta}}
+\newcommand{\hatbetalasso}{\,\hat{\!\beta}^{\mathrm{lasso}}}
+\newcommand{\hatbetacoop}{\,\hat{\!\beta}^{\mathrm{coop}}}
+\newcommand{\hatbetagroup}{\,\hat{\!\beta}^{\mathrm{group}}}
+\newcommand{\hatbetaspgroup}{\,\hat{\!\beta}^{\mathrm{spgroup}}}
+\newcommand{\hatbetaridge}{\,\hat{\!\beta}^{\mathrm{ridge}}}
+\newcommand{\hatbetaols}{\,\hat{\!\beta}^{\mathrm{ols}}}
+\newcommand{\hatbbetacoop}{\,\hat{\!\bbeta}^{\mathrm{coop}}}
+\newcommand{\hatbbetagroup}{\,\hat{\!\bbeta}^{\mathrm{group}}}
+\newcommand{\hatbbetaridge}{\,\hat{\!\bbeta}^{\mathrm{ridge}}}
+\newcommand{\hatbbetalasso}{\,\hat{\!\bbeta}^{\mathrm{lasso}}}
+\newcommand{\hatbbetaols}{\,\hat{\!\bbeta}^{\mathrm{ols}}}
+\newcommand{\hatbbetamv}{\,\hat{\!\bbeta}^{\mathrm{mv}}}
+\newcommand{\tildebbeta}{\,\tilde{\!\bbeta}}
+\newcommand{\bbetaridge}{\bbeta^{\mathrm{ridge}}}
+\newcommand{\bbetacoop}{\bbeta^{\mathrm{coop}}}
+\newcommand{\bbetagroup}{\bbeta^{\mathrm{group}}}
+\newcommand{\bbetaols}{\bbeta^{\mathrm{ols}}}
+
+\newcommand{\hattheta}{\hat{\theta}}
+\newcommand{\hatbtheta}{\,\hat{\!\btheta}}
+\newcommand{\hatthetalasso}{\,\hat{\!\theta}^{\mathrm{lasso}}}
+\newcommand{\hatthetacoop}{\,\hat{\!\theta}^{\mathrm{coop}}}
+\newcommand{\hatthetagroup}{\,\hat{\!\theta}^{\mathrm{group}}}
+\newcommand{\hatthetaspgroup}{\,\hat{\!\theta}^{\mathrm{spgroup}}}
+\newcommand{\hatthetaridge}{\,\hat{\!\theta}^{\mathrm{ridge}}}
+\newcommand{\hatthetaols}{\,\hat{\!\theta}^{\mathrm{ols}}}
+\newcommand{\hatbthetacoop}{\,\hat{\!\btheta}^{\mathrm{coop}}}
+\newcommand{\hatbthetagroup}{\,\hat{\!\btheta}^{\mathrm{group}}}
+\newcommand{\hatbthetaridge}{\,\hat{\!\btheta}^{\mathrm{ridge}}}
+\newcommand{\hatbthetalasso}{\,\hat{\!\btheta}^{\mathrm{lasso}}}
+\newcommand{\hatbthetaols}{\,\hat{\!\btheta}^{\mathrm{ols}}}
+\newcommand{\hatbthetamv}{\,\hat{\!\btheta}^{\mathrm{mv}}}
+\newcommand{\tildebtheta}{\,\tilde{\!\btheta}}
+\newcommand{\bthetaridge}{\btheta^{\mathrm{ridge}}}
+\newcommand{\bthetacoop}{\btheta^{\mathrm{coop}}}
+\newcommand{\bthetagroup}{\btheta^{\mathrm{group}}}
+\newcommand{\bthetaols}{\btheta^{\mathrm{ols}}}
+
+\newcommand{\bTheta}{\boldsymbol\Theta}
+
+\newcommand{\transpose}[1]{\matr{#1}^\trans}
+\newcommand{\crossprod}[2]{\transpose{#1} \matr{#2}}
+\newcommand{\tcrossprod}[2]{\matr{#1} \transpose{#2}}
+
+\newcommand{\bbeta}{\boldsymbol\beta}
+\newcommand{\bPsi}{\boldsymbol\Psi}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+
+\newcommand{\bmu}{\boldsymbol{\mu}}
+\newcommand{\bSigma}{\boldsymbol{\Sigma}}
+\newcommand{\bOmega}{\boldsymbol{\Omega}}
+\newcommand{\invcov}{\bOmega}
+\newcommand{\bsigma}{\boldsymbol{\sigma}}
+\newcommand{\bomega}{\boldsymbol{\omega}}
+
+\newcommand{\tP}{\tilde{p}}
+\newcommand{\diag}{\text{diag}}
+
+\newcommand{\I}{\mathbf{1}}
+\newcommand{\clG}{\mathcal{G}}
+\newcommand{\clV}{\mathcal{V}}
+\newcommand{\clE}{\mathcal{E}}
+\newcommand{\clJ}{\mathcal{J}}
+\newcommand{\clN}{\mathcal{N}}
+\newcommand{\clP}{\mathcal{P}}
+\newcommand{\clA}{\mathcal{A}}
+\newcommand{\clD}{\mathcal{D}}
+\newcommand{\clH}{\mathcal{H}}
+\newcommand{\clO}{\mathcal{O}}
+\newcommand{\clS}{\mathcal{S}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bm}{\mathbf{m}}
+\newcommand{\bs}{\mathbf{s}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bO}{\mathbf{O}}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bg}{\mathbf{g}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bzr}{\mathbf{0}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bV}{\mathbf{V}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\bzero}{\boldsymbol 0}
+\newcommand{\balpha}{\boldsymbol\alpha}
+\newcommand{\bkappa}{\boldsymbol\kappa}
+\newcommand{\bvarphi}{\boldsymbol\varphi}
+\newcommand{\btheta}{\boldsymbol\theta}
+\newcommand{\bgamma}{{\boldsymbol\gamma}}
+\newcommand{\bepsilon}{\boldsymbol\epsilon}
+\newcommand{\bvarepsilon}{\boldsymbol\varepsilon}
+\newcommand{\blambda}{\boldsymbol\lambda}
+\newcommand{\rsa}{\emphase{\mathversion{bold}{$\rightsquigarrow$}~}}
+
+
+\newcommand\xylabellarge[4]{% #1 Image, #2=XText, #3=YText,, #4=Title,
+  \setlength{\unitlength}{0.9\textwidth}%
+  \begin{picture}(1,0.6)%
+    \put(0.025,0.025){\includegraphics[width=0.95\unitlength]{#1}}
+    \put(0.525,0){\makebox[0cm]{\small#2}}
+    \put(0,0.3){\rotatebox{90.0}{\makebox[0cm]{\small#3}}}
+    \put(0.525,0.6){\makebox[0cm]{#4}}
+  \end{picture}%
+}
+
+\newcommand\xylabelsquare[4]{% #1 Image, #2=XText, #3=YText,, #4=Title,
+  \setlength{\unitlength}{0.5\linewidth}%
+  \begin{picture}(1,1)%
+    \put(0.05,0.05){\includegraphics[width=\unitlength]{#1}}
+    \put(0.575,-0.025){\makebox[0cm]{\small#2}}
+    \put(-0.05,0.575){\rotatebox{90.0}{\makebox[0cm]{\small#3}}}
+    \put(0.575,1.075){\makebox[0cm]{#4}}
+  \end{picture}%
+}
+
+\newcommand\xylabel[3]{% #1 Image, #2=XText, #3=YText,
+  \setlength{\unitlength}{0.18\textwidth}
+  \begin{picture}(1,1)
+    \put(0,0){\includegraphics[type=pdf,ext=.pdf,read=.pdf,width=0.18\textwidth]{#1}}
+    \put(0.85,0.325){\small#2}
+    \put(0.275,0.875){\small#3}
+  \end{picture}
+}
+
+\newcommand\xyzlabel[4]{% #1 Image, #2=XText, #3=YText,, #3=ZText,
+  \setlength{\unitlength}{0.18\textwidth}
+  \begin{picture}(1,1)
+    \put(0,0){\includegraphics[type=pdf,ext=.pdf,read=.pdf,width=0.18\textwidth]{#1}}
+    \put(0.85,0.25){\small#2}
+    \put(0.25,0.1){\small#3}
+    \put(0.325,0.85){\small#4}
+  \end{picture}
+}
+
+\newcommand{\emphase}[1]{\textcolor{darkred}{\bf #1}}
+\newcommand{\paragraph}[1]{\textcolor{darkred}{#1}}
+\newcommand{\refer}[1]{{\small{\textcolor{mred}{{\parencite{#1}}}}}}
+
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\usepackage{amsthm}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{remark}
+\AtBeginDocument{\renewcommand*{\proofname}{Proof}}
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  colorlinks=true,
+  linkcolor={miaps-blue-green-darker},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={miaps-blue-green-darker},
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, frame hidden, boxrule=0pt, sharp corners, breakable, borderline west={3pt}{0pt}{shadecolor}, enhanced]}{\end{tcolorbox}}\fi
+
+\hypertarget{geometric-approach-to-pca}{%
+\section{Geometric approach to PCA\}}\label{geometric-approach-to-pca}}
+
+\begin{frame}[fragile]{The data matrix}
+\protect\hypertarget{the-data-matrix}{}
+The data set is a \(n\times p\) matrix \(\bX = (x_{ij})\) with values in
+\(\Rset\):
+
+\begin{itemize}
+\tightlist
+\item
+  each row \(\bx_i\) represents an individual/observation
+\item
+  each col \(\bx^j\) represents a variable/attribute
+\end{itemize}
+
+\begin{equation*}
+  \bX = \bordermatrix{%
+           ~ & \bx^1  & \bx^2  &  \dots & \bx^j   & \dots & \bx^p  \cr
+    \bx_1  & x_{11} & x_{12} &  \dots & x_{1j} & \dots & x_{1p}  \cr
+    \bx_2  & x_{21} & x_{22} &  \dots & x_{2j} & \dots & x_{2p}  \cr
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots  \cr
+    \bx_i  & x_{i1} & x_{i2} &  \dots & x_{ij} & \dots & x_{ip} \cr
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots  \cr
+    \bx_n  & x_{n1} & x_{n2} &  \dots & x_{nj} & \dots & x_{np} \cr
+  }
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Cloud of observation in \(\Rset^p\)}
+\protect\hypertarget{cloud-of-observation-in-rsetp}{}
+Individuals can be represented in the \alert{variable space $\Rset^p$}
+as a point cloud
+
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+{[}Example in \(\Rset^3\){]}\{cloud\_centering\}\{width=``60\%''{]}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\begin{block}{Center of Inertia}
+\protect\hypertarget{center-of-inertia}{}
+(or barycentrum, or empirical mean)
+
+\begin{equation*}
+\bar{\bx} = \frac{1}{n} \sum _{i=1}^n \bx_i =
+      \begin{pmatrix}
+        \sum _{i=1}^n x_{i1}/n \\
+        \sum _{i=1}^n x_{i2}/n \\
+        \vdots\\
+        \sum _{i=1}^n x_{ip}/n
+      \end{pmatrix}
+\end{equation*}
+\end{block}
+\end{column}
+\end{columns}
+
+We center the cloud \(\bX\) around \(\bx\) denote this by \(\bX^c\)
+
+\begin{equation*}
+  \bX^c = \begin{pmatrix}
+  x_{11} - \bar{x}_1 &   \dots & x_{1j}  - \bar{x}_j & \dots  & x_{1p} - \bar{x}_p   \cr
+            \vdots   &  \vdots & \vdots              & \vdots & \vdots  \cr
+  x_{i1} - \bar{x}_1 &   \dots & x_{ij} - \bar{x}_j  & \dots  & x_{ip}  - \bar{x}_p \cr
+            \vdots   &  \vdots & \vdots              & \vdots & \vdots  \cr
+  x_{n1} - \bar{x}_1 &  \dots  & x_{nj} - \bar{x}_j  & \dots  & x_{np}  - \bar{x}_p \cr
+  \end{pmatrix}
+\end{equation*}
+\end{frame}
+
+\begin{frame}{Inertia and Variance}
+\protect\hypertarget{inertia-and-variance}{}
+\paragraph{Total Inertia:}
+
+distance of the individuals to the center of the cloud
+
+\begin{equation*}
+    I_T = \frac{1}{n}\sum_{i=1}^n \sum_{j=1}^p  (x_{ij}- \bar{x}_{j}) ^2
+    = \frac{1}{n}\sum_{i=1}^n \|\bx_i - \bar{\bx} \|^2
+    = \frac{1}{n}\sum_{i=1}^n \distance^2 (\bx_i,\bar{\bx})
+\end {equation*}
+
+\begin{block}{Proportional to the total variance}
+\protect\hypertarget{proportional-to-the-total-variance}{}
+Let \(\hat{\bSigma}\) be the empirical variance-covariance matrix
+\begin{equation*}
+      I_T = \frac{1}{n}\sum_{j=1}^p  \sum_{i=1}^n (x_{ij}- \bar{x}_{j}) ^2
+      = \sum_{j=1}^p \frac{1}{n}\|\bx^j - \bar{x}_{j} \|^2
+      = \sum_{j=1}^p \var(\bx^j) = \trace{\hat{\bSigma}}
+\end{equation*}
+
+\(\rightsquigarrow\) \alert{Good representation has large inertia} (much
+variability)
+
+\(\rightsquigarrow\)
+\alert{Large dispertion $\sim$ Large distances between points}
+\end{block}
+\end{frame}
+
+\begin{frame}{Inertia with respect to an axis}
+\protect\hypertarget{inertia-with-respect-to-an-axis}{}
+The Inertia of the cloud wrt axe \(\Delta\) is the sum of the distances
+between all points and their orthogonal projection on \(\Delta\).
+
+\begin{equation*}
+  \begin{aligned}
+    I_\Delta = \frac{1}{n}\sum_{i=1}^n \distance^2(\bx_i, \Delta)
+    \end{aligned}
+\end{equation*}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\textwidth,height=\textheight]{proj_axis.pdf}
+
+}
+
+\caption{Projection of \(\bx_i\) onto a line \(\Delta\) passing through
+\(\bar\bx\)}
+
+\end{figure}
+\end{frame}
+
+\begin{frame}{Decomposition of total Inertia (1)}
+\protect\hypertarget{decomposition-of-total-inertia-1}{}
+Let \(\Delta^\bot\) be the orthogonal subspace of \(\Delta\) in
+\(\Rset^p\)
+
+\includegraphics[width=0.5\textwidth,height=\textheight]{supp_spaces.pdf}
+
+\begin{theorem}[Huygens]\protect\hypertarget{thm-huygens}{}\label{thm-huygens}
+
+A consequence of the above (Pythagoras Theorem) is the decomposition of
+the following total inertia:
+
+\begin{equation*}
+  I_T = I_{\Delta} + I_{\Delta^\bot}
+\end{equation*}
+
+\alert{By projecting the cloud $\bX$ onto $\Delta$, with loss the inertia measured by $\Delta^\bot$}
+
+\end{theorem}
+\end{frame}
+
+\begin{frame}{Decomposition of total Inertia (2)}
+\protect\hypertarget{decomposition-of-total-inertia-2}{}
+Consider only subspaces with dimension \(1\) (that is, lines or axes).
+We can decompose \(\Rset^p\) as the sum of \(p\) othogonal axis.
+
+\begin{equation*}
+  \Rset^p = \Delta_1 \oplus \Delta_2 \oplus \dots \oplus \Delta_p
+\end{equation*}
+
+\alert{$\rightsquigarrow$ These axes form a new basis for representing the point cloud.}
+
+\begin{theorem}[Huygens]\protect\hypertarget{thm-huygens2}{}\label{thm-huygens2}
+
+\begin{equation*}
+  I_{T} = I_{\Delta_1} + I_{\Delta_2} + \dots + I_{\Delta_p}
+\end{equation*}
+
+\end{theorem}
+\end{frame}
+
+
+
+\end{document}

@@ -1,87 +1,78 @@
-% __________________________________________________________________
-%
-% INCLUSION DES PACKAGES NECESSAIRES
-\RequirePackage{pgf}
-\RequirePackage{amsmath,amssymb,amsfonts}
-\RequirePackage[french,english]{babel}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage[OT1]{fontenc}
-\RequirePackage[normalem]{ulem}
-\RequirePackage{multicol}
-
-\newcommand{\emphase}[1]{\textcolor{darkred}{#1}}
-\newcommand{\paragraph}[1]{\textcolor{darkred}{#1}}
-\newcommand{\refer}[1]{{\small{\textcolor{mred}{{\parencite{#1}}}}}}
-
-\usetheme{default}
 
 \setbeamersize{text margin left=1.25em,text margin right=1.25em}
-\useinnertheme{circles}
-\useoutertheme{default}
+
 \usefonttheme[onlymath]{serif}
 
-\setbeamertemplate{footline}{}
-\setbeamertemplate{footline}[frame number]
+%% Footer : logo + framenumber 
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{section in head/foot shaded}[default][10]
+\usepackage{graphbox}
+\setbeamertemplate{footline}{%
+        \includegraphics[align=c, height=0.5cm]{logo_miaps_notext.png}%
+        \hfill%
+        \usebeamercolor[fg]{page number in head/foot}%
+        \usebeamerfont{page number in head/foot}%
+        \insertframenumber\,/\,\inserttotalframenumber\kern1em%
+}
+
+%% Custom titlepage
+\setbeamertemplate{title page}{
+  \vbox{}
+  \vfill
+  \begingroup
+    \centering
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1em\par
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}\vskip0.5em
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+  \endgroup
+    \vfill
+    \begin{center}
+        \scriptsize\url{https://jchiquet.github.io/}
+    \end{center}
+    \vfill
+    \includegraphics[width=2cm]{logo_miaps}\hfill
+    \includegraphics[width=2.5cm]{logo_inrae}
+}
 \setbeamercovered{transparent=5}
 \setbeamerfont{date}{size=\scriptsize}
 \setbeamerfont{author}{size=\large}
 \setbeamerfont{institute}{size=\scriptsize}
 \setbeamerfont{block title}{size=\normalsize}
-\setbeamercolor{date,author,institute,block title}{fg=mred}
-
-% PAS DE BARRE DE NAVIGUATION
-\setbeamertemplate{navigation symbols}{}
-
-%% COLOR
-\definecolor{darkred}{rgb}{0.65,0.15,0.25}
-\definecolor{lightgray}{gray}{0.90}
-\definecolor{mblue}{RGB}{94,135,173}
-\colorlet{mred}{red!80!black}
+\setbeamercolor{date,author,institute,block title}{fg=darkred}
 
 % INNER
-\setbeamercolor{frametitle}{fg=mblue!75!black, bg=white}
-\setbeamercolor{sur:head}{bg=mblue!75!black,fg=white}
+\setbeamercolor{frametitle}{fg=miaps-blue-green-darker, bg=white}
+\setbeamercolor{sur:head}{bg=miaps-blue-green-darker,fg=white}
 \setbeamercolor{sur:bloc}{bg=black!5,fg=black}
-
-\setbeamercolor{title}{fg = mblue!75!black}
-\setbeamercolor{part title}{fg = mblue!75!black}
+\setbeamercolor{title}{fg = miaps-blue-green-darker}
+\setbeamercolor{part title}{fg = miaps-blue-green-darker}
 
 % In case you choose to display the Table of Contents, or the Outline slide.
-\setbeamercolor{section in toc}{fg = mblue!75!black}
+\setbeamercolor{section in toc}{fg = miaps-blue-green-darker}
 
 % The colour of all the items, subitems and and subsubitems are set to black.
-\setbeamercolor{item}{fg = mblue!75!black}
-
-\setbeamercolor{block title}{fg = mblue!75!black, bg = white}
+\setbeamercolor{item}{fg = miaps-blue-green-darker}
+\setbeamercolor{block title}{fg = miaps-blue-green-darker, bg = white}
 \setbeamercolor{block body}{bg = white}
-
 \setbeamercolor{normal text}{fg = black}
 \setbeamercolor{alerted text}{fg = darkred}
-
-\setbeamercolor{section in head/foot}{fg=mblue!75!white,bg=mblue!75!black} 
-\setbeamertemplate{section in head/foot shaded}[default][10]
-
+\setbeamercolor{section in head/foot}{fg=mblue!75!white,bg=miaps-blue-green-darker} 
 \setbeamercolor{caption name}{fg = darkred}
-
-\setbeamercolor{bibliography entry title}{fg = mblue!75!black, bg = white}
-\setbeamercolor{bibliography entry author}{fg = mblue!75!black, bg = white}
-
-{
-  \ifbeamer@blocks
-    \newtheorem{theoreme}[theorem]{Th\'{e}or\`{e}me}
-    \newtheorem{definitionf}[theorem]{D\'efinition}
-    \newtheorem{proposition}[theorem]{Proposition}
-    \newtheorem{propriete}[theorem]{Propri\'{e}t\'{e}}
-    \newtheorem{properties}[theorem]{Properties}
-    \newtheorem{corollaire}[theorem]{Corollaire}
-    \newtheorem{lemme}[theorem]{Lemme}
-    \newtheorem{probleme}[theorem]{Probl\`{e}me}
-    \newtheorem{fait}[theorem]{Fait}
-    \newtheorem{remarque}{Remarque}
-    \newtheorem{principe}{Principe}
-    \newtheorem{hypothese}{Hypoth\`{e}se}
-  \fi
-}
-
-\RequirePackage{../some_macros}
-
+\setbeamercolor{bibliography entry title}{fg = miaps-blue-green-darker, bg = white}
+\setbeamercolor{bibliography entry author}{fg = miaps-blue-green-darker, bg = white}

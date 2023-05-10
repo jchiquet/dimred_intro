@@ -1,0 +1,124 @@
+## Exploratory analysis of (modern) data sets
+
+Assume a table with $n$ individuals described by $p$ features/variables
+  
+#### Questions
+  
+  Look for \emphase{patterns} or \emphase{structures} to summarize the data by
+
+  - Finding \alert{groups} of "similar" individuals
+  - Finding variables \alert{important} for these data
+  - Performing \alert{visualization}
+
+#### Challenges
+
+  - Size data may be \alert{large} ("big data": large $n$ large $p$)    
+  - Dimension data may be \alert{high dimensional} (more variables than individual or $n \ll p$)    
+  - Redundancy many variables may carry the \alert{same information}
+  - Unsupervised we \alert{don't necessary know} what we are looking after
+
+## An example in genetics: 'snp' {.fragile}
+
+\framesubtitle{Genetics variant in European population}
+
+#### Description: \textcolor{black}{\it medium/large data, high-dimensional}}
+
+500, 000 Genetics variants (SNP -- Single Nucleotide Polymorphism) for  3000 individuals
+(1 meter $\times$ 166 meter (height $\times$ width)
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+  - SNP : 90 \% of human genetic variations
+  - coded as 0, 1 or 2 (10, 1 or 2 allel different against the population reference)
+
+:::
+
+::: {.column width="45%"}
+
+![SNP (wikipedia)](figs_intro/SNP.pdf){height=4cm}
+
+:::
+
+::::
+
+## Summarize 500,000 variables with 2 features
+
+![Dimension reduction + labels {\tiny source: Nature "Gene  Mirror Geography Within  Europe", 2008}](figs_intro/geneMirrorGeography.png){width=5.5cm}
+
+  In the original messy $3,000 \times 500,000$ table, we may find
+  - an extremely strong structure between individuals (\emphase{"clustering"})
+  - a very simple subspace where it is obvious (\emphase{"dimension reduction"})
+
+## Theoretical argument: dimensionality Curse
+
+::: {#thm-folks}
+
+## Folks theorem
+
+If $\bx_1,\ldots, \bx_n$ in the hypercube of dimension $p$  such that their coordinates are i.i.d then
+\begin{align*}
+\mspace{-20mu} p^{-1/2} \left( \max \|\bx_i-\bx_{i'}\|_2 - \min \|\bx_i-\bx_{i'}\|_2 \right)  &= 0 + O\left(\sqrt{\frac{\log n}{p}}\right)\\
+\frac{\max \|\bx_i-\bx_{i'}\|_2}{\min \|\bx_i-\bx_{i'}\|_2} &= 1 + O\left(\sqrt{\frac{\log n}{p}}\right).
+\end{align*}
+
+:::
+
+$\rightsquigarrow$ When $p$ is large, all the points are almost equidistant\\
+
+Hopefully, the data \alert{\bf are not really leaving in $p$} dimension (think of the SNP example)
+
+## Dimension reduction: general goals
+
+\paragraph{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
+
+#### Application in Machine Learning
+
+  \alert{Preprocessing, Regularization}
+
+  - Compression, denoising,  anomaly detection
+  - Reduce overfitting in supervised learning
+
+#### Application in Statistics/Data analysis}
+
+\alert{Better understanding of the data}
+
+- descriptive/exploratory methods
+- visualization (difficult to plot and interpret $> 3d$!)
+
+<!-- :::{.callout-note} -->
+<!-- We will only give some formatting elements. Authors can refer to the [Quarto web page](https://quarto.org/) for a complete view of the formatting possibilities. -->
+<!-- ::: -->
+
+## Dimension reduction: problem setup
+
+#### Settings
+
+  - \alert{Training data} : $\mathcal{D}=\{\bx_1,\ldots,\bx_n\} \in \Rset^p$,   (i.i.d.)
+  - Space $\Rset^p$ of possibly high dimension $(n \ll p)$
+
+
+#### Dimension Reduction Map
+
+Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \alert{smaller dimension}:
+
+\begin{align*}
+  \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
+                     & \bx \mapsto \Phi(\bx)
+\end{align*}
+
+## How should we design/construct $\Phi$?
+
+#### Criterion
+
+  - Geometrical approach
+  - Reconstruction error
+  - Relationship preservation
+
+
+#### Form of the map $\Phi$
+
+  - \alert{\bf Linear} or non-linear ?
+  - tradeoff between \alert{\bf interpretability} and versatility ?
+  - tradeoff between high or \alert{\bf low} computational resource

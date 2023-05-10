@@ -1,0 +1,37 @@
+project:
+  title: "Dimension Reduction: a tutorial"
+
+knitr:
+  opts_chunk: 
+    size: 'scriptsize'
+    dev: 'pdf'
+    fig.path: 'figs_quarto/'
+    fig.width: 9
+    fig.height: 6
+    message: FALSE
+    fig.pos: 'htbp!'
+    warning: false
+    out.width: '.8\\textwidth'
+    cache: true
+    
+format: 
+  beamer: 
+    classoption: ['notheorems']
+    fontfamily: libertinus
+    fontsize: 11pt
+    highlight-style: github
+    monofont: Latin Modern Mono
+    monofontoptions:
+      - Scale=0.92
+    linkcolor: miaps-blue-green-darker
+    urlcolor: miaps-blue-green-darker
+    colorlinks: true
+    theme: default
+    innertheme: circles
+    outertheme: default
+    fonttheme: professionalfonts
+    include-in-header: 
+      - "color_theme_miaps.sty"
+      - "beamer_theme.sty"
+      - "preamble.sty"
+      - "macros.sty"

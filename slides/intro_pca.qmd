@@ -1,0 +1,23 @@
+
+## Objectives
+
+\paragraph{Individual/Observations}
+
+  - similarity between observations with respect to all the variables
+  - Find pattern ($\sim$ partition) between individuals
+
+\vfill
+
+\paragraph{Variables}
+
+  - linear relationships between variables
+  - visualization of the correlation circle
+  - find synthetic variables
+
+\vfill
+
+\paragraph{Link between the two}
+
+  - characterization of the groups of individuals with variables
+  - specific observations to understand links between variables
+

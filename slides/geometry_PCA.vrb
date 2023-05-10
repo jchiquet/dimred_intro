@@ -1,0 +1,24 @@
+\frametitle{The data matrix}
+\protect\hypertarget{the-data-matrix}{}
+The data set is a \(n\times p\) matrix \(\bX = (x_{ij})\) with values in
+\(\Rset\):
+
+\begin{itemize}
+\tightlist
+\item
+  each row \(\bx_i\) represents an individual/observation
+\item
+  each col \(\bx^j\) represents a variable/attribute
+\end{itemize}
+
+\begin{equation*}
+  \bX = \bordermatrix{%
+           ~ & \bx^1  & \bx^2  &  \dots & \bx^j   & \dots & \bx^p  \cr
+    \bx_1  & x_{11} & x_{12} &  \dots & x_{1j} & \dots & x_{1p}  \cr
+    \bx_2  & x_{21} & x_{22} &  \dots & x_{2j} & \dots & x_{2p}  \cr
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots  \cr
+    \bx_i  & x_{i1} & x_{i2} &  \dots & x_{ij} & \dots & x_{ip} \cr
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots  \cr
+    \bx_n  & x_{n1} & x_{n2} &  \dots & x_{nj} & \dots & x_{np} \cr
+  }
+\end{equation*}

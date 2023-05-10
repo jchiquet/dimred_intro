@@ -79,7 +79,7 @@ crabs %>% head(6) %>% knitr::kable("latex")
 
   \begin{itemize}
   \item linear relationships between variables
-  \item visualization of the correlation matrix
+  \item visualization of the correlation circle
   \item find synthetic variables
   \end{itemize}
 
