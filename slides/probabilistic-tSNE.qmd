@@ -1,0 +1,195 @@
+
+# Probabilistic Neighborhood Embedding
+
+## Hidden Graph to structure observations
+
+Consider $W$ the adjacency matrix of a hidden random graph
+
+The graph Laplacian operator is the map $L$ such that for $(i,j) \in [n]^2$:
+$$L(\bW)_{ij} = \left\{
+\begin{array}{ll}
+    - W_{ij} & \text{if } i \neq j \\
+    \sum_{k \in [n]} W_{ik} & \text{otherwise} \:.
+\end{array} 
+\right. $$
+
+$L = L(\bW)$ has the following property:
+$$
+\forall X \in \mathbb{R}^{n \times p}, \quad
+\sum_{i,j} W_{ij}\|X_i -X_j\|^2 = \operatorname{tr}(X^T L X).
+$$
+
+_In a first step, consider a graph with one connected component_
+
+## Conditional distribution of $X$ on a graph $W_X$
+
+Consider a Matrix Normal model with row and column dependencies
+
+$$
+X \mid W_X  \sim \mathcal{MN} \bigg(0 , L_X^{-1},\, \Sigma^{-1} \bigg),
+$$
+
+The conditional density relates to the Gaussian kernel
+
+$$
+k ( X_i- X_j) = \exp \left( - \frac{1}{2} \| X_i-X_j \|_\Sigma^2 \right), 
+$$
+which can be generalized to translation invariant kernels:
+
+$$
+\mathbb{P}(X \mid W_X) \propto \prod_{(i,j) \in [n]^2} k(\mathbf{X}_{i} - \mathbf{X}_{j})^{W_{X,ij}} \: .
+$$
+
+## Conditional distribution of $Z$ on a graph $W_Z$
+
+Consider that the low-dimensional representation is also structured according to a graph
+$$
+Z \mid W_Z  \sim \mathcal{MN} \bigg(0 , L_Z^{-1},\, I_q\bigg),
+$$
+
+with the Gaussian kernel for $Z$
+$$
+k ( Z_i- Z_j) = \exp \left( - \frac{1}{2} \| Z_i-Z_j \|^2_{I_q} \right), 
+$$
+
+The Conditional distribution of $Z \mid W_Z$ is
+
+$$\mathbb{P}(Z \mid W_Z) \propto \prod_{(i,j) \in [n]^2}  k(Z_i - Z_j)^{W_{Z,ij}}$$
+
+## Embedding with Graph Coupling
+
+:::: {.columns}
+
+::: {.column}
+Couple the 2 hidden graphs $W_X$ and $W_Z$ in a probabilistic way by matching their posterior distributions:
+
+$$\begin{aligned}
+\mathbf{P}^{X} &= \mathbb{P}(W_X \mid X) \\
+\mathbf{Q}^{Z} &= \mathbb{P}(W_Z \mid X; Z)
+\end{aligned}$$
+
+$\rightsquigarrow$ $Z$ becomes a parameter to be estimated
+
+:::
+
+::: {.column}
+
+![](figs_PNE/two_graph_model_W.pdf){width="80%"}
+
+:::
+
+::::
+
+
+## Graph Coupling with $Z$ as a parameter
+
+ Consider the cross entropy between posteriors
+ 
+$$
+\mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) = - \mathbb{E}_{W_X \sim \mathbf{P}^{X}} \bigg(\log \mathbb{P}(W_Z=W_X \mid X ; Z) \bigg)
+$$
+
+ Find the best low-dimensional representation such that the two graphs match
+
+$$
+Z(X) = \arg \min_{Z} \bigg\{  \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) \bigg\}
+$$
+
+ Connection with the KL between posteriors
+
+$$
+\text{KL}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big)   =   \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) - \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{P}^{X} \big)
+$$
+
+<!-- \begin{frame}{First Outline} 
+\textit{Done...}
+\begin{itemize}
+\item Consider two hidden random graphs $W_X,W_Z$
+\item Define a conditional model $X\mid W_X, Z\mid W_Z$ 
+\item Consider pairwise similarity distributions (Pairwise Markov Random Field)
+\item Find $Z$ by matching the posteriors using a cross entropy criterion 
+\end{itemize}
+\vspace{0.5cm}
+\textit{...to be done :}
+\begin{itemize}
+\item Define/Construct the priors for $W_X,W_Z$
+\item Deduce/Induce the posteriors for $W_X,W_Z$
+\item Carefully inspect the case with more than one connected component
+\end{itemize}
+\end{frame} -->
+
+## Conjugate priors and posteriors for hidden graphs
+
+Consider a prior distribution for the hidden graph in the general form
+$$\mathbb{P}_{\mathcal{P}}(\mathbf{W}; {\boldsymbol\pi}) \, \propto \, \underbrace{\cancel{\mathcal{C}_k(W)^\alpha}}_{\alpha=0} \, \Omega_{\mathcal{P}}(\bW) \prod_{(i,j) \in [n]^2} \pi_{ij}^{W_{ij}}$$
+
+For the following priors family, we derive the posterior $\mathbb{P}_{\mathcal{P}}(\mathbf{W}\mid X ; {\boldsymbol\pi}, k)$
+
+\begin{center}
+\begin{footnotesize}
+\begin{tabular}{l|ccc}
+$\mathcal{P}$           & $\Omega_{\mathcal{P}}(\bW)$                  & Prior for $W$\\
+\hline
+$\mathcal{B}\quad$ Bernoulli                &  $\prod_{ij} \mathbf{1}_{W_{ij} \leq 1}$   & $\mathcal{B}\left( \frac{\pi_{ij}}{ 1 + \pi_{ij} } \right)$&  $\mathcal{B}\left( \frac{\pi_{ij}k_{ij}}{1 + \pi_{ij}k_{ij}} \right)$\\
+$\mathcal{D}\quad$ Unitary Fixed degree           & $\prod_{i} \mathbf{1}_{W_{i+} = 1}$        & $\mathcal{M}\left(1, \frac{{\boldsymbol\pi}_{i}}{\pi_{i+}} \right)$ & $\mathcal{M}\left(1, \frac{[{\pi k}]_i}{[\pi k]_{i+}} \right)$ \\
+$\mathcal{E}\quad$ Fixed Number of edges & $\prod_{ij}(W_{ij}!)^{-1}$                  & $\mathcal{M}\left(n, \frac{{\boldsymbol\pi}}{\pi_{++}} \right)$ &  $\mathcal{M}\left(n, \frac{{\pi k}}{ [\pi k]_{++}}\right)$\\
+\end{tabular}
+$\pi_{ij}k_{ij} = \pi_{ij}k(X_i-X_j)$ is the posterior strength of edges (normalized or not)
+\end{footnotesize}
+\end{center}
+
+#### Mixing Prior distributions for coupling
+
+Priors for $W_X$ and $W_Z$ induce posteriors $\mathbf{P}^{\mathcal{P}_X}$ and $\mathbf{Q}^{\mathcal{P}_Z}$ which are with cross entropy $\mathcal{H}\big(\mathbf{P}^{\mathcal{P}_X},\mathbf{Q}^{\mathcal{P}_Z}\big)$
+
+## Model-based Neighbor Embedding
+
+Choosing $\mathcal{P}_X=\mathcal{P}_Z=\mathcal{D}$ lead us to $\displaystyle \mathcal{H}_{D,D} = - \sum_{i \neq j} P^{D}_{ij} \log Q^{D}_{ij} \:$ and
+
+$$\begin{aligned}
+P^{D}_{ij} = \frac{\pi_{ij}k(X_i-X_j)}{\sum_{\ell = 1}^n \pi_{i\ell}k(X_i-X_\ell)}, \quad 
+Q^{D}_{ij} = \frac{\pi_{ij}k(Z_i-Z_j)}{\sum_{\ell = 1}^n \pi_{i\ell}k(Z_i-Z_\ell)}.
+\end{aligned}$$
+
+\emphase{We defined the generative model for SNE!}. Similarly,
+
+\begin{center}
+\begin{scriptsize}
+\begin{tabular}{@{}llll@{}}
+Algorithm & Input Similarity & Latent Similarity & Loss Function  \\ [0.4em]
+\hline &&&\\[-0.7em]
+SNE & $P_{ij}^{D} = \frac{k_x(\mathbf{X}_{i} - \mathbf{X}_{j})}{\sum_\ell k_x(\mathbf{X}_{i} - \mathbf{X}_{\ell})}$ & $Q_{ij}^{D} = \frac{k_z(\mathbf{Z}_{i} - \mathbf{Z}_{j})}{\sum_\ell k_z(\mathbf{Z}_{i} - \mathbf{Z}_{\ell})}$ & $- \sum_{i \neq j} P^{D}_{ij} \log Q^{D}_{ij}$ \\ [0.8em]
+\hline &&&\\[-0.7em]
+Sym-SNE & $\overline{P}^{D}_{ij} = P_{ij}^{D} + P_{ji}^{D}$ & $Q_{ij}^{E} = \frac{k_z(\mathbf{Z}_{i} - \mathbf{Z}_{j})}{\sum_{\ell,t} k_z(\mathbf{Z}_{\ell} - \mathbf{Z}_{t})}$ & $- \sum_{i < j} \overline{P}^{D}_{ij} \log 
+Q^{E}_{ij}$ \\ [0.8em]
+\hline &&&\\[-0.7em]
+LargeVis & $\overline{P}^{D}_{ij} = P_{ij}^{D} + P_{ji}^{D}$ & $Q^{B}_{ij} = \frac{k_z(\mathbf{Z}_{i} - \mathbf{Z}_{j})}{1+k_z(\mathbf{Z}_{i} - \mathbf{Z}_{j})}$ & $- \sum_{i < j} \overline{P}^{D}_{ij} \log Q^{B}_{ij} + \left(2-\overline{P}^{D}_{ij}\right) \log (1- Q^{B}_{ij})$ \\ [0.8em]
+\hline &&&\\[-0.7em]
+UMAP & $\widetilde{P}^{B}_{ij} = P^{B}_{ij} + P^{B}_{ji} - P^{B}_{ij}P^{B}_{ji}$ & $Q^{B}_{ij} = \frac{k_z(\mathbf{Z}_{i} - \mathbf{Z}_{j})}{1+k_z(\mathbf{Z}_{i} - \mathbf{Z}_{j})}$ & $- \sum_{i < j} \widetilde{P}^{B}_{ij} \log Q^{B}_{ij} + \left(1-\widetilde{P}^{B}_{ij}\right) \log (1- Q^{B}_{ij})$ \\ [0.8em]
+\end{tabular}
+\end{scriptsize}
+\end{center}
+
+
+<!-- ## Model-based UMAP
+
+Choose $\mathcal{P}_X=\mathcal{P}_Z=\mathcal{B}$ and define the symmetrized graph
+
+$$
+\widetilde{\bW}_{X} = \mathbf{1}_{\bW_{X} + \bW_X^T \geq 1}
+$$
+
+By independence of the symmetrized edges, 
+
+$$ 
+\widetilde{W}_{X,ij} \sim \mathcal{B}\left(\widetilde{P}^{B}_{ij} \right)
+\quad \text{with} \quad
+\widetilde{P}^{B}_{ij} = P^{B}_{ij} + P^{B}_{ji} - P^{B}_{ij} P^{B}_{ji}
+$$
+
+Coupling $\widetilde{\bW}_{X}$ and $\bW_{Z}$ gives
+
+$$
+\mathcal{H}_{\widetilde{B},B} = -2 \sum_{i<j} \widetilde{P}_{ij}^{B} \log Q_{ij}^{B} + \left(1 - \widetilde{P}_{ij}^{B} \right) \log \left( 1 - Q_{ij}^{B} \right)
+$$ -->
+
