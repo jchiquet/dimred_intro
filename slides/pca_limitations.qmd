@@ -3,13 +3,15 @@
 #### Do not account for 'complex' data distribution
 
   - PCA is tied to a hidden \alert{\bf Gaussian assumption}
-  -  Fails with \alert{\bf Count data}
+  - Fails with \alert{\bf Count data}
   - Fails with \alert{\bf Skew data}
+  - Linear methods like PCA are robust but badly shaped for complex geometries
+  - High-dim. datas are characterized by multiscale properties (local / global structures)
 
 #### Possible solutions
 
   - Probabilistic (non Gaussian) models
-  - Need transformed (non-linear) input space
+  - Need transformed (non-linear) input space (preserving local characteristics of distances)
 
 ## Dimension reduction: revisiting the problem setup
 

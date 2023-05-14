@@ -1,8 +1,11 @@
-\RequirePackage{amsmath,amssymb,amsfonts}
-\RequirePackage[french,english]{babel}
-\RequirePackage[normalem]{ulem}
-\RequirePackage{tikz}
-\RequirePackage[vlined]{algorithm2e}
+\usepackage{amsmath,amssymb,amsfonts}
+%\usepackage{mathspec}
+%\usepackage{bm}
+\usepackage[french,english]{babel}
+\usepackage[normalem]{ulem}
+\usepackage{cancel}
+\usepackage{tikz}
+\usepackage[vlined]{algorithm2e}
 
 \usetikzlibrary{calc,shapes,backgrounds,arrows,automata,shadows,positioning}
 
@@ -12,7 +15,7 @@
   \begin{frame}<beamer>
     \frametitle{Outline}
     \framesubtitle{\insertpart}
-    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]  
+    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]
   \end{frame}
 }
 
@@ -20,7 +23,7 @@
   \begin{frame}<beamer>
     \frametitle{Outline}
     \framesubtitle{\insertpart}
-    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]  
+    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]
   \end{frame}
 }
 
@@ -28,7 +31,7 @@
   \begin{frame}<beamer>
     \frametitle{Outline}
     \framesubtitle{\insertpart}
-    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]  
+    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]
   \end{frame}
 }
 
@@ -36,8 +39,8 @@
   \begin{frame}
     \frametitle{Outline}
     \tableofcontents[currentsection,
-    sectionstyle=show/show,
-    subsectionstyle=hide]
+      sectionstyle=show/show,
+      subsectionstyle=hide]
   \end{frame}
   %
 }

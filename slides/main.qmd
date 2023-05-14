@@ -1,6 +1,6 @@
 ---
-title: "Data Anaysis and Unsupervised Learning"
-subtitle: "Introduction"
+title: "Tutorial on Dimensionality Reduction"
+subtitle: "Some recents approches in statistics and Machine Learning"
 author: "Julien Chiquet"
 institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
 date: 05/25/2023
@@ -8,88 +8,74 @@ date-format: long
 format: beamer
 ---
 
-
- <!-- ==================================================================== -->
-\part{Introduction}
- <!-- ==================================================================== -->
+<!-- ==================================================================== -->
+\part{General Introduction}
 
 ```{r introduction, child='introduction.qmd'}
 ```
 
----
 <!-- ==================================================================== -->
-\part{Principal Component Analysis}
-<!-- ==================================================================== -->
-
-```{r intro_pca, child='intro_pca.qmd'}
-```
-```{r background_pca, child='background_algebra.qmd'}
-```
+\part{Background: Principal Component Analysis}
 
  <!-- Geometrical point of View -->
  ```{r geometry, child='geometry_PCA.qmd'}
  ```
+
 <!-- Principal axes by variance maximization -->
 ```{r fitting, child='fitting_PCA.qmd'}
 ```
+
  <!-- Representation and interpretation -->
 ```{r representation, child='representation.qmd'}
 ```
- <!-- Complements, reconstructIon -->
+
+ <!-- Complements, reconstruction -->
 ```{r complements, child='complements_pca.qmd'}
 ```
 
 <!-- ==================================================================== -->
-\part{probabilistic Principal Component Analysis}
-<!-- ==================================================================== -->
+
+\part{Reconstruction error approach}
+
+```{r limitations, child='pca_limitations.qmd'}
+```
+
+```{r recontruction_error, child='reconstruction_error_viewpoint.qmd'}
+```
+
+```{r NMF, child='NMF.qmd'}
+```
+
+```{r kernel_PCA, child='kernelPCA.qmd'}
+```
 
 <!-- Gaussian model -->
 <!-- model selection -->
 <!-- Estimation with ML and EM -->
 
 
-
 <!-- Poisson PCA -->
-<!-- estimation with variaitonal EM -->
+<!-- estimation with variational EM -->
 
+<!-- (Variational) Auto-Encoder -->
+
+```{r auto-encoder, child='auto-encoders.qmd'}
+```
+
+---
 <!-- ==================================================================== -->
-\part{(Variational) Auto-Encoder}
-<!-- ==================================================================== -->
+\part{Manifold learning (preserving pairwise relations)}
 
+```{r relation_preservation, child='relation_preservation_viewpoint.qmd'}
+```
 
-\subsection{PCA as a matrix factorization}
-<<Reconstruction error, child='reconstruction_error_viewpoint.Rnw'>>=
-@
+```{r mds, child='MDS.qmd'}
+```
 
-\subsection{Kernel-PCA}
-<<Kernel PCA, child='kernelPCA.Rnw'>>=
-@
+```{r tsne, child='tSNE.qmd'}
+```
 
-\subsection{Non-negative matrix factorization}
-<<NMF, child='NMF.Rnw'>>=
-@
+## References
 
-\subsection{Other directions}
-<<others reconstruction, child='others_reconstruction.Rnw'>>=
-@
-
-%% ==========================================================================
-\section{Motivated by relation preservation}
-%% ==========================================================================
-
-<<Relation preservation, child='relation_preservation_viewpoint.Rnw'>>=
-@
-
-\subsection{Multidimensional Scaling}
-<<MDS, child='MDS.Rnw'>>=
-@
-
-\subsection{Stochastic Neighborhood Embedding}
-<<tSNE, child='tSNE.Rnw'>>=
-@
-
-\subsection{Other methods}
-<<others relation, child='others_relation.Rnw'>>=
-@
-
-
+::: {#refs}
+:::
