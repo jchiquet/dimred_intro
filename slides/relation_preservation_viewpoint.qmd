@@ -1,0 +1,25 @@
+## Pairwise Relation
+
+Focus on pairwise relation $\mathcal{R}(\bx_i, \bx_{i'})$.
+
+#### Distance Preservation
+
+Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \alert{smaller dimension}:
+
+$$\begin{aligned}
+  \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
+             & \bx \mapsto \Phi(\bx)
+\end{aligned}$$
+
+$$\text{such that} \quad \mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\tilde\bx_i, \tilde\bx_{i'})$$
+
+#### Multidimensional scaling
+
+A.k.a PCoA (Principal Coordinates Analysis)
+
+Try to preserve inner product related to the distance (e.g. Euclidean)
+
+#### t-SNE -- Stochastic Neighborhood Embedding
+
+Try to preserve relations with close neighbors with Gaussian kernel
+
