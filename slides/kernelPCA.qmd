@@ -1,0 +1,61 @@
+## Kernel-PCA
+
+
+#### Principle: non linear transformation of $\bx$ prior to linear PCA
+
+  1. Project the data into a higher space where it is linearly separable
+  2. Apply PCA to the transformed data 
+
+![Transformation $\Psi : \bx \to \Psi(\bx)$ (illustration in presence of existing labels)](figs_common/kernel_trick.png){height=4cm}
+
+## Kernel-PCA
+
+#### Kernel PCA Model
+
+Assume a non linear transformation $\Psi(\mathbf{x}_i) \text{ where } \Psi : \mathbb{R}^p \to \mathbb{R}^n$,  then perform linear PCA, with $\bU$ a \emphase{$n\times q$} orthonormal matrix
+
+$$
+\Phi(\bx) = \bU^\top \Psi(\bx-\bmu) = \tilde{\bx}
+$$
+
+#### Kernel trick
+
+Never calculate  $\Psi(\bx_i)$ thanks to the kernel trick:
+
+$$
+K = k(\mathbf{x},\mathbf{y}) = (\Psi(\mathbf{x}),\Psi(\mathbf{y})) = \Psi(\mathbf{x})^T\Psi(\mathbf{y})
+$$
+
+#### Solution
+
+Eigen-decomposition of the doubly centered kernel matrix $\mathbf{K} = k(\bx_i, \bx_{i'})$ 
+
+$$
+\tilde{\mathbf{K}} = (\bI - \mathbf{1}\mathbf{1}^\top/n) \mathbf{K} (\bI - \mathbf{1}\mathbf{1}^\top/n) = \bU {\boldsymbol\Lambda} \bU^\top
+$$
+
+## Choice of a kernel
+
+A symmetric positive definite function $k(\mathbf{x},\mathbf{y}) \in \Rset$, which depends on the kind of \alert{\bf similarity} assumed
+
+#### Some common kernels
+
+  - \emphase{Polynormial Kernel}
+$$ 
+  k(\bx_i,\bx_{i'}) = (\bx_{i}^\top \bx_{i'} + c)^d
+$$
+
+  - \emphase{Gaussian (radial) kernel}
+
+$$
+k(\bx_i,\bx_{i'}) = \exp{\frac {-\left\|\bx_i - \bx_{i'} \right\|^2}{2\sigma^2}}
+$$
+
+  - \emphase{Laplacian kernel}
+
+$$
+k(\bx_i,\bx_{i'}) = \exp{\frac {-\left\|\bx_i - \bx_{i'} \right\|}{\sigma}}
+$$
+
+\rsa Kernel PCA suffers from the choice of the Kernel
+
