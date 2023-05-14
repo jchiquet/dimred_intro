@@ -1,0 +1,60 @@
+## Non-negative Matrix Factorization -- NMF
+  
+#### Setup
+
+Assume that $\bX$ contains only non-negative entries (i.e. $\geq 0$).
+  
+#### Model
+
+\emphase{Linear assumption + non-negativity constraints on both $\bV$ and $\tilde\bx$}
+
+$$\begin{aligned}
+  \Phi(\bx) & = \bV^\top \bx  = \tilde\bx \\  
+  \bx \simeq \tilde{\Phi}(\tilde\bx) & = \bV \tilde\bx
+\end{aligned}$$
+
+For the whole data matrix $\bX$,
+
+$$
+  \hat{\bX} = \underbrace{\tilde\bX}_{\mathbf{F}, \text{ the factors}} \bV^\top 
+$$
+
+## NMF reconstruction errors
+  
+Build $\hat{\mathbf{X}} = \mathbf{FV}^\top$ to minimize a distance $D(\hat{\mathbf{X}}, \mathbf{X})$. \alert{Several choice, e.g:}
+
+  - Least-square loss (distance measured by Frobenius norm)
+
+$$\hat{\mathbf{X}}^{\text{ls}} =  \argmin_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q}\\\mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \left\|     \mathbf{X} - \mathbf{FV}^\top \right\|_F^2,
+$$
+
+  - Generalized Kullback-Leibler divergence ("distance" for distributions)
+
+$$\begin{aligned}
+  \hat{\mathbf{X}}^{\text{kl}} & =  \argmin_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q}\\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log(\frac{x_{ij}}{(\mathbf{F}\bV^\top)_{ij}}) + (\mathbf{F}\bV^\top)_{ij} \\
+    & = \argmax_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q}\\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log((\mathbf{F}\bV^\top)_{ij}) - (\mathbf{F}\bV^\top)_{ij},\\
+\end{aligned}$$
+
+\rsa log-likelihood of a Poisson distribution with mean $(\mathbf{F}\bV^\top)_{ij}$.
+
+## NMF: limitations
+
+#### Caveats
+
+  - Basis $\bV$ formed by standard NMF is not orthogonal!
+  - Visualization is questionable \dots
+  - Used to performed matrix factorization rather than exploratory analysis
+
+#### Other model-based approaches
+
+Use a probabilistic-based model to better described non-negative data
+
+  - Look for models handling\emphase{surdispersion} \\
+  {\small multivariate Poisson-lognormal model, Poisson-Gamma, etc.}
+
+  - Look for \alert{\bf zero-inflated} distributions
+$$
+\mathbb{P}(\bx_i) =  \pi_0 \ \delta_0 + (1-\pi_0) f(\bx_{i})
+$$
+  
+
