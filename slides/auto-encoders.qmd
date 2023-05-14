@@ -1,0 +1,17 @@
+## (Variational) Auto-encoders
+   
+#### Highly non-linear model
+
+Find $\Phi$ and $\tilde\Phi$ with \emphase{two} neural-networks, controlling the error.
+
+\begin{equation*}
+  \epsilon(\bX, \hat \bX ) = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2 + \text{regularization}(\Phi, \tilde{\Phi})
+\end{equation*}
+
+  - \# layers and neurons determine the \alert{\bf model complexity}
+  - Need regularization to avoid \alert{\bf overfitting}
+  -  Fitted with optimization tools like stochastic gradient descent
+  - Require \alert{more data} and more computational \alert{resources}
+  - \emphase{Interpretation questionable}
+
+

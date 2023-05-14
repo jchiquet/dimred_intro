@@ -1,0 +1,19 @@
+## Isomap
+ 
+#### Basic idea
+
+  - Metric  MDS performs embedding based on pairwise Euclidean-based distance
+  - Isomap embeds a distance induced by a neighborhood graph
+ 
+Formally, consider a neighborhood $\mathcal{N}_i$ for each point, then
+
+$$
+  d_{ii'} = \left\{
+    \begin{array}{cc}
+    + \infty & \text{ if }j \notin \mathcal{N}_i\\
+    \| \bx_i - \bx_{i'} \|& \\
+    \end{array}
+  \right.,
+$$
+
+and compute the shortest path distance for each pair prior to MDS.
