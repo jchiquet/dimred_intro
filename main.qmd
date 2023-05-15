@@ -22,7 +22,6 @@ reticulate::use_python("/usr/bin/python")
 ```
 
 <!-- ==================================================================== -->
-# Background: Principal Component Analysis
 
  <!-- Quick PCA refresh -->
  ```{r pca-geom, child='pca-geom.qmd'}
