@@ -3,9 +3,9 @@
 
 ## Hidden Graph to structure observations
 
-Consider $W$ the adjacency matrix of a hidden random graph
+Consider $W$ the adjacency matrix of a hidden random graph^[we start with one connected component]
 
-The graph Laplacian operator is the map $L$ such that for $(i,j) \in [n]^2$:
+The graph Laplacian operator is the map $L$ such that
 $$L(\bW)_{ij} = \left\{
 \begin{array}{ll}
     - W_{ij} & \text{if } i \neq j \\
@@ -19,7 +19,7 @@ $$
 \sum_{i,j} W_{ij}\|X_i -X_j\|^2 = \operatorname{tr}(X^T L X).
 $$
 
-_In a first step, consider a graph with one connected component_
+
 
 ## Conditional distribution of $X$ on a graph $W_X$
 
@@ -118,6 +118,7 @@ $$
 \end{itemize}
 \end{frame} -->
 
+
 ## Conjugate priors and posteriors for hidden graphs
 
 Consider a prior distribution for the hidden graph in the general form
@@ -138,9 +139,11 @@ $\pi_{ij}k_{ij} = \pi_{ij}k(X_i-X_j)$ is the posterior strength of edges (normal
 \end{footnotesize}
 \end{center}
 
+\bigskip
+
 #### Mixing Prior distributions for coupling
 
-Priors for $W_X$ and $W_Z$ induce posteriors $\mathbf{P}^{\mathcal{P}_X}$ and $\mathbf{Q}^{\mathcal{P}_Z}$ which are with cross entropy $\mathcal{H}\big(\mathbf{P}^{\mathcal{P}_X},\mathbf{Q}^{\mathcal{P}_Z}\big)$
+Priors for $W_X, W_Z$ induce posteriors $\mathbf{P}^{\mathcal{P}_X}, \mathbf{Q}^{\mathcal{P}_Z}$ matched with cross entropy $\mathcal{H}\big(\mathbf{P}^{\mathcal{P}_X},\mathbf{Q}^{\mathcal{P}_Z}\big)$
 
 ## Model-based Neighbor Embedding
 
