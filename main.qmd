@@ -1,89 +1,81 @@
 ---
-title: "Presentation"
-format: 
-  revealjs: 
-    theme: [metropolis.scss]
-    transition: fade
-    toc: true
-    toc-depth: 1
-    chalkboard: true
-    menu: true
-    smaller: true
+title: "Tutorial on Dimensionality Reduction"
+subtitle: "Some recents approches in statistics and Machine Learning"
+author: "Julien Chiquet"
+institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
+date: 05/25/2023
+date-format: long
+format: beamer
 ---
 
-## Exploratory analysis of (modern) data sets
+<!-- ==================================================================== -->
+\part{General Introduction}
 
-Assume a table with $n$ individuals described by $p$ features/variables
-  
-### Questions
+```{r introduction, child='introduction.qmd'}
+```
 
-Look for _patterns_ or _structures_ to summarize the data by
-   
-- Finding _groups_ of "similar" individuals
-- Finding variables _important_ for these data
-- Performing _visualization_
+<!-- ==================================================================== -->
+\part{Background: Principal Component Analysis}
 
-### Challenges
+ <!-- Geometrical point of View -->
+ ```{r geometry, child='geometry_PCA.qmd'}
+ ```
 
-- **Size**: data may be _large_ ("big data": large $n$ large $p$)    
-- **Dimension**: data may be _high dimensional_ ($n \ll p$)
-- **Redundancy** many variables may carry the _same information_
-- **Unsupervised** we _don't necessary know_ what we are looking after
+<!-- Principal axes by variance maximization -->
+```{r fitting, child='fitting_PCA.qmd'}
+```
 
-## An example in genetics: 'snp' .fragile
+ <!-- Representation and interpretation -->
+```{r representation, child='representation.qmd'}
+```
 
-Genetics variant in European population
+ <!-- Complements, reconstruction -->
+```{r complements, child='complements_pca.qmd'}
+```
 
-#### Description: \textcolor{black}{\it medium/large data, high-dimensional}
+<!-- ==================================================================== -->
 
-500, 000 Genetics variants (SNP -- Single Nucleotide Polymorphism) for  3000 individuals (1 meter $\times$ 166 meter (height $\times$ width)
+\part{Reconstruction error approach}
 
-:::: columns
+```{r limitations, child='pca_limitations.qmd'}
+```
 
-::: {.column width="37%"}
+```{r recontruction_error, child='reconstruction_error_viewpoint.qmd'}
+```
 
-- SNP : 90 \% of human genetic variations
-- coded as 0, 1 or 2 (0, 1 or 2 allel different against the population reference)
+```{r NMF, child='NMF.qmd'}
+```
 
+```{r kernel_PCA, child='kernelPCA.qmd'}
+```
+
+<!-- Gaussian model -->
+<!-- model selection -->
+<!-- Estimation with ML and EM -->
+
+
+<!-- Poisson PCA -->
+<!-- estimation with variational EM -->
+
+<!-- (Variational) Auto-Encoder -->
+
+```{r auto-encoder, child='auto-encoders.qmd'}
+```
+
+---
+<!-- ==================================================================== -->
+\part{Manifold learning (preserving pairwise relations)}
+
+```{r relation_preservation, child='relation_preservation_viewpoint.qmd'}
+```
+
+```{r mds, child='MDS.qmd'}
+```
+
+```{r tsne, child='tSNE.qmd'}
+```
+
+## References
+
+::: {#refs}
 :::
-
-::: {.column width="57%"}
-
-![SNP (wikipedia)](figs/SNP.png)
-
-:::
-
-
-::::
-
-## Summarize 500,000 variables with 2 features
-
-![Dimension reduction + labels ](figs/geneMirrorGeography.png)
-
-::: footer
-source: Nature "Gene  Mirror Geography Within  Europe", 2008
-:::
-
-In the original messy $3,000 \times 500,000$ table, we may find
- 
-- an extremely strong structure between individuals (_"clustering"_)
-- a very simple subspace where it is obvious (_"dimension reduction"_)
-
-## Dimension reduction: general goals
-
-Main objective: find a \alert{\bf low-dimensional representation} that captures the "essence" of (high-dimensional) data
-
-
-#### Application in Machine Learning
-  
- _Preprocessing, Regularization_
-  
-- Compression, denoising,  anomaly detection
-- Reduce overfitting in supervised learning
-
-#### Application in Statistics/Data analysis
-    
-_Better understanding of the data_
-    
-- descriptive/exploratory methods
-- visualization (difficult to plot and interpret $> 3d$!)

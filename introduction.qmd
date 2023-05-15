@@ -13,7 +13,7 @@ Assume a table with $n$ individuals described by $p$ features/variables
 #### Challenges
 
   - Size data may be \alert{large} ("big data": large $n$ large $p$)    
-  - Dimension data may be \alert{high dimensional} (more variables than individual or $n \ll p$)    
+  - Dimension data may be \alert{high dimensional} ($n \ll p$)    
   - Redundancy many variables may carry the \alert{same information}
   - Unsupervised we \alert{don't necessary know} what we are looking after
 
@@ -71,7 +71,7 @@ Hopefully, the data \alert{\bf are not really leaving in $p$} dimension (think o
 
 ## Dimension reduction: general goals
 
-\paragraph{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
+\alert{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
 
 #### Application in Machine Learning
 

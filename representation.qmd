@@ -1,0 +1,78 @@
+# Representation and interpretation
+
+## Contribution of each axis and quality of the representation}
+  
+  $\Delta_k$ is carrying inertia/variance defined by its orthogonal, thus 
+  \begin{equation*}
+      I_T = I_{\Delta_1^\bot} + \dots + I_{\Delta_p^\bot} = \lambda_1 + \dots + \lambda_p
+  \end{equation*}
+
+  \begin{block}{Relative contribution of axis $k$}<2->
+    \vspace{-.5cm}
+  \[ 
+    \mathrm{contrib}(\Delta_k) = \frac{\lambda_k}{\sum_{k=1}^p\lambda_j} = \frac{\lambda_k}{\trace{\hat{\bSigma}}} \times 100 
+  \]
+    $^\rightsquigarrow$ \alert{Percentage of explained inertia/variance explained}
+  \end{block}
+
+## Individuals: representation in the new basis
+
+#### Projection
+
+The projection of $\bx_i$ onto axis $\Delta_k$ is $c_{ik} \bu_k$, with 
+
+\begin{equation*}
+  c_{ik} = \bu_k^\top (\bx_i - \bar{\bx}),
+\end{equation*}
+
+the coordinate of $i$ in the basis $\bu_k$ (along axis $\Delta_k$).
+
+#### Coordinates
+
+Coordinates of $i$ in the new basis $\{\bu_1, \dots, \bu_p\}$ is thus 
+
+\begin{equation*}
+  \bc_i  = (\bU^\top (\bx_i - \bar{\bx}))^\top = (\bx_i - \bar{\bx})^\top \bU = \bX^c_i \bU, \quad \bc_i \in \Rset^p.
+\end{equation*}
+
+  - \alert{$\bU$ are often the called the \textbf{loadings}, or \textbf{weights}}
+  - \alert{$ \bc_i$ are the \textbf{scores} or \textbf{coordinates} in the new space for the individuals}
+
+## Cloud of variables
+
+![](figs_pca/nuage_var.png){width="40%"}  
+
+Direct equivalence between geometry and statistics (collinearity $\equiv$ correlation) 
+\begin{equation*}
+  \cos(\theta_{kl}) = \frac{\langle \bx^k ,\bx^\ell \rangle}{\|\bx^k\| \|\bx^\ell\|} = \rho(\bx^k,\bx^\ell)
+\end{equation*}
+
+
+## Principal Components
+  
+#### Dual representation
+
+A symmetric reasoning can be made in $\Rset^n$ for the variables, like with the individuals in $\Rset^p$.
+    
+$\rightsquigarrow$ New axes are linear combinaison of the original variables, which can be seen as \alert{\bf new variables} in the new latent space
+
+#### Principal component
+
+It is the linear combinasion formed by the orginal variables with weights given by the loadings $\bu_k = (u_{k1}, \dots, u_{kj}, \dots, u_{kp})$
+
+\begin{equation*}
+  \mathbf{f}_{k}  = \sum_{j=1}^p u_{kj} (\bx^{j} - \bar{x}_j) = \bX^c \bu_k, \quad \mathbf{f}_k \in \Rset^n
+\end{equation*}
+
+Sometimes called \alert{"factors"} in  factor analysis, as \alert{latent (hidden) variables}. 
+
+## Warning: about angle after projection
+
+  \alert{Close projection doesn't mean close variable!}
+
+![Same angle but different situations {\tiny (source: J. Josse)}](figs_pca/proj_var_acp.pdf){width="80%"}
+
+  - use correlation to measure connection to original variable
+
+ $\rightsquigarrow$ Only work when variables are well represented in the latent space
+
