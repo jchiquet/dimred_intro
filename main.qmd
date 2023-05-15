@@ -1,12 +1,19 @@
 ---
 title: "Tutorial on Dimensionality Reduction"
-subtitle: "Some recents approches in statistics and Machine Learning"
+subtitle: "Some recents approches in statistics and machine learning"
 author: "Julien Chiquet"
 institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
 date: 05/25/2023
 date-format: long
 format: beamer
 ---
+
+```{r settings, include=FALSE}
+library(tidyverse)
+library(PLNmodels)
+library(reticulate)
+reticulate::use_python("/usr/bin/python")
+```
 
 <!-- ==================================================================== -->
 \part{General Introduction}
@@ -15,26 +22,13 @@ format: beamer
 ```
 
 <!-- ==================================================================== -->
-\part{Background: Principal Component Analysis}
+# Background: Principal Component Analysis
 
- <!-- Geometrical point of View -->
- ```{r geometry, child='geometry_PCA.qmd'}
+ <!-- Quick PCA refresh -->
+ ```{r pca-geom, child='PCA_geom.qmd'}
  ```
 
-<!-- Principal axes by variance maximization -->
-```{r fitting, child='fitting_PCA.qmd'}
-```
-
- <!-- Representation and interpretation -->
-```{r representation, child='representation.qmd'}
-```
-
- <!-- Complements, reconstruction -->
-```{r complements, child='complements_pca.qmd'}
-```
-
 <!-- ==================================================================== -->
-
 \part{Reconstruction error approach}
 
 ```{r limitations, child='pca_limitations.qmd'}
