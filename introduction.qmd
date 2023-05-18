@@ -1,3 +1,4 @@
+
 ```{r r-packages}
 library(tidyverse)    # advanced data manipulation and vizualisation
 library(knitr)        # R notebook export and formatting 
@@ -154,9 +155,9 @@ Describe cell population ($n \to 10^6$) with high dimensional molecular features
 
 ::::
 
-![Successful t-SNE visualizations of sc-RNAseq data](figs_intro/scRNA_tsne.pdf)
+![Successful t-SNE visualizations of sc-RNAseq data](figs_intro/scRNA_tsne.pdf){width="90%"}
 
-## Example in Image: MNIST
+## Example in Image: MNIST {.fragile}
 
 ```{r mnist-dataset, include=FALSE}
 mnist_raw <- read_csv("data/mnist_sample.csv", col_names = FALSE, n_max = 2000)
@@ -205,7 +206,7 @@ UMAP 2-dimensional visualization
 
 ::::
 
-## Dimension reduction: problem setup
+## Dimension reduction: problem setup {.fragile}
 
 #### Dimension Reduction Map
 
@@ -218,7 +219,7 @@ Construct a map $\Phi$ from $\Rset^{p}$ into a $\Rset^{q}$ with $q\ll p$:
 
 $$\begin{aligned}
   \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
-                     & \bx \mapsto \Phi(\bx)
+                     & \bx \mapsto \Phi(\bx) \triangleq\tilde{\bx} 
 \end{aligned}$$
 
 \rsa \emphase{How should we design/construct $\Phi$?}
@@ -246,3 +247,4 @@ $$\begin{aligned}
 :::
 
 ::::
+

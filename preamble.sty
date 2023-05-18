@@ -6,28 +6,10 @@
 \usepackage{cancel}
 \usepackage{tikz}
 \usepackage[vlined]{algorithm2e}
-
+\usepackage[font=scriptsize]{caption}
 \usetikzlibrary{calc,shapes,backgrounds,arrows,automata,shadows,positioning}
 
-\graphicspath{{figures/},{figs_general/}, {figs_intro/}}
-
 \AtBeginSection{
-  \begin{frame}<beamer>
-    \frametitle{Outline}
-    \framesubtitle{\insertpart}
-    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]
-  \end{frame}
-}
-
-\AtBeginSubsection{
-  \begin{frame}<beamer>
-    \frametitle{Outline}
-    \framesubtitle{\insertpart}
-    \tableofcontents[currentsection,currentsubsection, subsectionstyle=show/shaded/hide]
-  \end{frame}
-}
-
-\AtBeginSubsubsection{
   \begin{frame}<beamer>
     \frametitle{Outline}
     \framesubtitle{\insertpart}

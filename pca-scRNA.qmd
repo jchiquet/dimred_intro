@@ -1,0 +1,72 @@
+
+```{r scRNA-data-load, include=FALSE}
+library(ZIPLN)
+data(scRNA)
+log_data <- sweep(log(1 + scRNA$counts), 1, log(scRNA$total_counts), "-")
+```
+
+## Single-Cell data analysed with PCA  {.fragile}
+
+#### Toy single-cell RNA data set ([https://github.com/LuyiTian/sc_mixology/](https://github.com/LuyiTian/sc_mixology/))
+
+The dataset `scRNA` contains the counts of the 500 most varying transcripts (tens of thousands) in the mixtures of 5 cell lines for a total of 3918 cells in human liver (obtained with standard 10x scRNAseq Chromium protocol).
+
+\bigskip
+
+```{r scRNA-table, echo=FALSE}
+log_data <- sweep(log(1 + scRNA$counts), 1, log(scRNA$total_counts), "-")
+scRNA$counts[, 1:8] %>% head(3) %>% kable("latex") %>%  kable_styling(font_size = 7)
+```
+
+\bigskip
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+```{r scrna-hist-counts, echo = FALSE}
+#| fig.cap: "raw counts"
+#| fig.width: 6
+#| fig.height: 4
+ggplot(data.frame(counts = c(scRNA$counts)), aes(counts))  + 
+  geom_histogram() + theme_bw()
+```
+
+:::
+
+::: {.column width="40%"}
+
+```{r scrna-hist-log, echo = FALSE, message=FALSE}
+#| fig.cap: "log/total-counts normalization"
+#| fig.width: 6
+#| fig.height: 4
+ggplot(data.frame(counts = c(log_data)), aes(counts))  + 
+  geom_histogram() + theme_bw()
+```
+
+:::
+
+::::
+
+## Single-Cell data analysed with PCA  {.fragile}
+
+\framesubtitle{Raw data}
+
+
+```{r scrna-biplot-raw}
+prcomp(scRNA$counts, scale.=TRUE) |> factoextra::fviz_pca_biplot(
+  select.var = list(contrib = 40), addEllipses = TRUE, habillage = scRNA$cell_line, alpha=.7,
+  title = "Biplot (50 most contributing genes)") + scale_color_viridis_d()
+```
+
+## Single-Cell data analysis with PCA  {.fragile}
+
+\framesubtitle{Normalized data}
+
+```{r scrna-biplot-log}
+prcomp(log_data, scale.=TRUE) |> factoextra::fviz_pca_biplot(
+  select.var = list(contrib = 40), addEllipses = TRUE, habillage = scRNA$cell_line, alpha=.7,
+  title = "Biplot (50 most contributing genes)") + scale_color_viridis_d()
+```
+
+

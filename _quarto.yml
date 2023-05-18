@@ -6,12 +6,8 @@ knitr:
     size: 'scriptsize'
     dev: 'pdf'
     fig.path: 'figs_quarto/'
-    fig.width: 9
-    fig.height: 6
     message: FALSE
-    fig.pos: 'htbp!'
     warning: false
-    out.width: '.8\\textwidth'
     cache: true
 
 bibliography: 
@@ -35,6 +31,9 @@ format:
     innertheme: circles
     outertheme: default
     fonttheme: professionalfonts
+    fig-width: 12
+    fig-height: 8
+    fig-pos: 'htbp!'
     include-in-header: 
       - "color_theme_miaps.sty"
       - "beamer_theme.sty"

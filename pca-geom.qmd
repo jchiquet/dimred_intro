@@ -1,4 +1,3 @@
-# Background: Geometric view of PCA
 
 ## Cloud of observation in $\Rset^p$ and Inertia
 
@@ -65,21 +64,21 @@ Let $\Delta^\bot$ be the orthogonal subspace of $\Delta$, then $I_T = I_{\Delta}
 The "closest" to the cloud, \textit{ie} \emphase{with minimal inertia}, or equivalently 
 
 $$
-  \minimize_{\Delta} I_{\Delta_1} \Leftrightarrow \maximize_{\Delta^\bot} I_{\Delta_1^\bot}
+ \Delta_1 =  \argmin_{\Delta} I_{\Delta} \Leftrightarrow \argmax_{\Delta^\bot} I_{\Delta^\bot}
 $$
 
 ## Finding the best axis
 
-Let $\bv_1$ be the unitary director vector of $\Delta_1$, normal to $\Delta^\bot$.
+Let $\bv$ be the unitary director vector of $\Delta$, normal to $\Delta^\bot$.
 
 :::: {.columns}
 
 ::: {.column width="60%"}
 
 $$\begin{aligned}
-I_{\Delta_1^\bot} & = \frac{1}{n}\sum_{i=1}^n \distance(\bx_i,\Delta_1^\bot)^2 \\ 
-& = \frac{1}{n}\sum_{i=1}^n \bv_1^\top (\bx_i - \bar{\bx})(\bx_i - \bar{\bx})^\top \bv_1 \\
-& = \bv_1^\top \hat{\bSigma}  \bv_1 \\
+I_{\Delta^\bot} & = \frac{1}{n}\sum_{i=1}^n \distance(\bx_i,\Delta^\bot)^2 \\ 
+& = \frac{1}{n}\sum_{i=1}^n \bv^\top (\bx_i - \bar{\bx})(\bx_i - \bar{\bx})^\top \bv \\
+& = \bv^\top \hat{\bSigma}  \bv \\
 \end{aligned}$$
 
 :::
@@ -161,10 +160,10 @@ In the new basis $\{\bv_1, \dots, \bv_p\}$, coordinates of $i$ (a.k.a. \emphase{
 \vspace{-.25cm}
 
 \begin{equation*}
-  \bc_i  = (\bx_i - \bar{\bx})^\top \bV = \bX^c_i \bV, \quad \bc_i \in \Rset^p.
+  \bc_i^\top  = (\bx_i - \bar{\bx})^\top \bV = \bX^c_i \bV, \quad \bc_i \in \Rset^p.
 \end{equation*}
 
-In the variable space $\Rset^n$, new variables (factors) are formed by linear combinasions of the orginal variables: the \emphase{principal components} (PC)
+In the variable space $\Rset^n$, new variables (factors) are formed by linear combinations of the orginal variables: the \emphase{principal components} (PC)
 
 \vspace{-.25cm}
 
@@ -188,24 +187,4 @@ The matrix of PC connects individual coordinates to latent factors:
 \end{footnotesize}
 
 $\rightsquigarrow$ Everything can be interpreted on a single plot, called the biplot
-
-## Reconstruction formula
-
-Recall that $\mathbf{F} = (\mathbf{f}_1, \dots, \mathbf{f}_p)$ is the matrix of Principal components. Then,
-
-  - $\mathbf{f}_k = \bX^c \bv_k$ for projection on axis $k$
-  - $\mathbf{F} = \bX^c \bV$ for all axis.
-
-Using orthogonality of $\bV$, we get back the original data as follows, without loss ($\bV^T$ performs the inverse rotation of $\bV$):
-\begin{equation*}
-  \bX^c = \mathbf{F}\bV^\top
-\end{equation*}
-
-We obtain an approximation $\tilde{\bX}^c$ (compression) of the data $\bX^c$ by considering a subset $\mathcal{S}$ of PC, typically $\mathcal{S} = {1, \dots, q}$ with $q \ll p$.
-
-\begin{equation*}
-  \tilde{\bX}^c = \mathbf{F}_{\mathcal{S}}\bV_{\mathcal{S}}^\top = \bX^c \bV_{\mathcal{S}} \bV_{\mathcal{S}}^\top
-\end{equation*}
-
-$\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (information captured by the first $q$ axes).
 

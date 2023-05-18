@@ -1,0 +1,53 @@
+
+## MNIST data analysed with PCA {.fragile}
+
+\framesubtitle{Compression/projection}
+
+```{r mnist-projection, include=FALSE}
+## Continuous attributes
+X <- select(mnist, -label, -instance) %>%  scale(TRUE, FALSE)
+## Loadings/rotation matrix
+V <- eigen(cov(X))$vectors
+## Function for projection
+proj_data <- function(k, i) {
+  X[i, , drop = FALSE] %*% V[, 1:k, drop = FALSE] %*% t(V[, 1:k, drop = FALSE]) %>% 
+    as.numeric()
+}
+## Project 9 samples picked randomly
+nb_samples <- 9
+samples <- sample.int(1000, nb_samples)
+nb_axis <- c(1, 2, 10, 20, 100, ncol(X))
+cases <- expand.grid(nb_axis, samples)
+## list of approximated images (stored as vectors)
+approx <- mapply(proj_data, cases[, 1], cases[, 2], SIMPLIFY = FALSE)
+```    
+
+Project 5 samples on the first $\{1, 2, 10, 20, 100, 784 \}$ axes
+
+:::: {.columns}
+
+::: {.column width="90%"}
+
+```{r mnist-projection-output, echo = FALSE, warning=FALSE}
+## fancy ggplot output
+labels <- mnist %>% dplyr::filter(instance %in% samples) %>% pull(label)
+instances <- mnist %>% dplyr::filter(instance %in% samples) %>% pull(instance)
+approx_tibble <- do.call(rbind, approx) %>% as_tibble() %>% 
+  add_column(nb_axis = rep(nb_axis, length(samples)), .before = 1) %>% 
+  add_column(label = rep(labels, each = length(nb_axis)), .before = 1) %>% 
+  add_column(instance = rep(instances, each = length(nb_axis)), .before = 1)
+approx_tibble %>% 
+   gather(pixel, value, -label, -instance, -nb_axis) %>%
+   tidyr::extract(pixel, "pixel", "(\\d+)", convert = TRUE) %>%
+   mutate(pixel = pixel - 2,
+          x = pixel %% 28,
+          y = 28 - pixel %/% 28) %>% 
+   ggplot(aes(x, y, fill = value)) +
+   geom_tile(show_guide=FALSE) +
+   facet_grid(label ~ nb_axis)
+```
+
+:::
+
+::::
+

@@ -1,0 +1,47 @@
+## PCA (and linear methods) limitations
+
+#### Do not account for 'complex' data distribution
+
+  - PCA is tied to a hidden \alert{\bf Gaussian assumption}
+  - Fails with \alert{\bf Count data}
+  - Fails with \alert{\bf Skew data}
+  - Linear methods like PCA are robust but badly shaped for complex geometries
+  - High-dim. datas are characterized by multiscale properties (local / global structures)
+
+#### Possible solutions
+
+  - Probabilistic (non Gaussian) models
+  - Need transformed (non-linear) input space (preserving local characteristics of distances)
+
+## Dimension reduction: revisiting the problem setup
+
+#### Settings
+
+  - \alert{Training data} : $\mathcal{D}=\{\bx_1,\ldots,\bx_n\} \in \Rset^p$,   (i.i.d.)
+  - Space $\Rset^p$ of possibly high dimension $(n \ll p)$
+ 
+
+#### Dimension Reduction Map
+
+Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \alert{smaller dimension}:
+
+$$\begin{aligned}
+\Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
+& \bx \mapsto \Phi(\bx)
+\end{aligned}$$
+
+## How should we design/construct $\Phi$?
+
+\paragraph{Geometrical approach} (\emphase{see slides on PCA})
+
+
+\paragraph{Idea to go beyond linear approaches}
+
+  - Modify the model by amending the \emphase{reconstruction error}
+  - Focus on \emphase{Relationship preservation}
+
+\paragraph{Form of the map $\Phi$}
+
+  -  Linear or \emphase{non-linear ?}
+  - tradeoff between  interpretability and \emphase{versatility ?}
+  - tradeoff between  \emphase{high} or low computational resource
