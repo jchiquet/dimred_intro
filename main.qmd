@@ -6,13 +6,28 @@ institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
 date: 05/25/2023
 date-format: long
 format: beamer
+execute:
+    freeze: auto
 ---
 
-```{r settings, include=FALSE}
-library(tidyverse)
-library(PLNmodels)
+
+```{r settings-reticulate, include=FALSE}
 library(reticulate)
-reticulate::use_python("/usr/bin/python")
+reticulate::virtualenv_create("dimred")
+reticulate::virtualenv_install(envname = "dimred", packages = c("matplotlib", "pyplnmodels", "jaxlib", "statsmodels", "scikit-learn"))
+reticulate::virtualenv_install(envname = "dimred", packages = "xpcax", pip_options = "--upgrade --extra-index-url https://forgemia.inra.fr/api/v4/projects/8098/packages/pypi/simple")
+reticulate::use_virtualenv("dimred")
+```
+
+
+```{r r-packages}
+library(tidyverse)    # advanced data manipulation and vizualisation
+library(knitr)        # R notebook export and formatting 
+library(FactoMineR)   # Factor analysis
+library(factoextra)   # Fancy plotting of FactoMineR outputs
+library(kableExtra)   # integration of table in Rmarkdown
+library(PLNmodels)
+theme_set(theme_bw()) # set default ggplot2 theme to black and white
 ```
 
 <!-- ==================================================================== -->
@@ -20,6 +35,7 @@ reticulate::use_python("/usr/bin/python")
 
 ```{r introduction, child='introduction.qmd'}
 ```
+
 
 <!-- ==================================================================== -->
 

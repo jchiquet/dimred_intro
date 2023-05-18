@@ -1,76 +1,91 @@
+```{r r-packages}
+library(tidyverse)    # advanced data manipulation and vizualisation
+library(knitr)        # R notebook export and formatting 
+library(FactoMineR)   # Factor analysis
+library(factoextra)   # Fancy plotting of FactoMineR outputs
+library(kableExtra)   # integration of table in Rmarkdown
+library(PLNmodels)
+theme_set(theme_bw()) # set default ggplot2 theme to black and white
+```
+
 ## Exploratory analysis of (modern) data sets
 
 Assume a table with $n$ individuals described by $p$ features/variables
-  
-#### Questions
-  
-  Look for \emphase{patterns} or \emphase{structures} to summarize the data by
-
-  - Finding \alert{groups} of "similar" individuals
-  - Finding variables \alert{important} for these data
-  - Performing \alert{visualization}
-
-#### Challenges
-
-  - Size data may be \alert{large} ("big data": large $n$ large $p$)    
-  - Dimension data may be \alert{high dimensional} ($n \ll p$)    
-  - Redundancy many variables may carry the \alert{same information}
-  - Unsupervised we \alert{don't necessary know} what we are looking after
-
-## An example in genetics: 'snp' {.fragile}
-
-\framesubtitle{Genetics variant in European population}
-
-#### Description: \textcolor{black}{\it medium/large data, high-dimensional}}
-
-500, 000 Genetics variants (SNP -- Single Nucleotide Polymorphism) for  3000 individuals
-(1 meter $\times$ 166 meter (height $\times$ width)
 
 :::: {.columns}
 
-::: {.column width="45%"}
+::: {.column width="40%"}
 
-  - SNP : 90 \% of human genetic variations
-  - coded as 0, 1 or 2 (10, 1 or 2 allel different against the population reference)
+\begin{footnotesize}
+$$\bX_{n\times p} = \begin{array}{c|c|c|c|c|c|c} \ \ \ & \ \ \ \, & \ \ \ \, & \ \ \ \,  & \ \ \ \, & \ \ \ \, & \ \ \ \\ \hline \ & \ & \ & x_{ij}  & \ & \ & \ \\ \hline \ & \ & \ & \ & \  & \ & \ \end{array} 
+$$
+\end{footnotesize}
 
 :::
 
-::: {.column width="45%"}
+::: {.column width="57%"}
 
-![SNP (wikipedia)](figs_intro/SNP.pdf){height=4cm}
+  - \small genetics: variant $j$ in genome $i$
+  - \small genomics: gene $j$ in cell $i$
+  - \small ecology: species $j$ in site $j$
+  - \small image: pixel $j$ in image $i$
+  - \small etc.
 
 :::
 
 ::::
 
-## Summarize 500,000 variables with 2 features
+#### Questions
+  
+Look for \emphase{patterns} or \emphase{structures} to summarize the data by
 
-![Dimension reduction + labels {\tiny source: Nature "Gene  Mirror Geography Within  Europe", 2008}](figs_intro/geneMirrorGeography.png){width=5.5cm}
+<!-- 
+  - Finding \alert{groups} of "similar" individuals
+  - Finding variables \alert{important} for these data
+  - Performing \alert{visualization} -->
 
-  In the original messy $3,000 \times 500,000$ table, we may find
-  - an extremely strong structure between individuals (\emphase{"clustering"})
-  - a very simple subspace where it is obvious (\emphase{"dimension reduction"})
+#### Challenges
 
-## Theoretical argument: dimensionality Curse
+  - \emphase{Large} ($n$ and $p$ grows) and \emphase{high dimensional} ($n$ grows but $\ll p$)
+  - \emphase{Redundancy} many variables may carry the same information
+  - \emphase{Unsupervised}: we don't (necessary) know what we are looking for
+  - \emphase{Discrete}: measures with counts are as common as with intensity
+
+## Dimensionality curse
 
 ::: {#thm-folks}
 
 ## Folks theorem
 
-If $\bx_1,\ldots, \bx_n$ in the hypercube of dimension $p$  such that their coordinates are i.i.d then
-\begin{align*}
-\mspace{-20mu} p^{-1/2} \left( \max \|\bx_i-\bx_{i'}\|_2 - \min \|\bx_i-\bx_{i'}\|_2 \right)  &= 0 + O\left(\sqrt{\frac{\log n}{p}}\right)\\
-\frac{\max \|\bx_i-\bx_{i'}\|_2}{\min \|\bx_i-\bx_{i'}\|_2} &= 1 + O\left(\sqrt{\frac{\log n}{p}}\right).
-\end{align*}
+Let $\bx_1,\ldots, \bx_n$ be in the $p$-hypercube with i.i.d. coordinates. Then,
+
+$$
+p^{-1/2} \left( \max \|\bx_i-\bx_{i'}\|_2 - \min \|\bx_i-\bx_{i'}\|_2 \right) = 0 + \mathcal{O}\left(\sqrt{\frac{\log n}{p}}\right)
+$$
+
+\rsa When $p$ is large, all the points are almost equidistant
+:::
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+![](figs_intro/distance_simu_affy.png){width="90%"}
 
 :::
 
-$\rightsquigarrow$ When $p$ is large, all the points are almost equidistant\\
+::: {.column width="30%"}
 
-Hopefully, the data \alert{\bf are not really leaving in $p$} dimension (think of the SNP example)
+\vspace{1cm}
+
+\rsa Hopefully, the data \emphase{are not really leaving in $p$} dimensions!
+
+:::
+
+::::
 
 ## Dimension reduction: general goals
-
+  
 \alert{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
 
 #### Application in Machine Learning
@@ -87,28 +102,130 @@ Hopefully, the data \alert{\bf are not really leaving in $p$} dimension (think o
 - descriptive/exploratory methods
 - visualization (difficult to plot and interpret $> 3d$!)
 
-<!-- :::{.callout-note} -->
-<!-- We will only give some formatting elements. Authors can refer to the [Quarto web page](https://quarto.org/) for a complete view of the formatting possibilities. -->
-<!-- ::: -->
+## Example in genetics  {.fragile}
+
+#### Genetics variant in European population
+
+500, 000 variants (Single Nucleotide Polymorphism) for 3000 individuals
+
+  - SNP: 90 \% of human genetic variations
+  - coded as 0, 1 or 2 (\# allels different against pop. reference)
+
+#### Summarized with 2 features^[source: Nature "Gene  Mirror Geography Within  Europe", 2008]
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figs_intro/geneMirrorGeography.png){width=5.5cm}
+
+:::
+
+::: {.column width="40%"}
+
+  - an extremely strong structure between individuals (\emphase{"clustering"})
+  - a very simple subspace where it is obvious (\emphase{"dimension reduction"})
+
+:::
+
+::::
+
+## Example in genomics
+
+\framesubtitle{Genome-wide cell biology with single-cell RNAseq data}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figs_intro/10xgenomics.png)
+
+:::
+
+::: {.column width="40%"}
+
+\vspace{1cm}
+
+\footnotesize 
+
+Describe cell population ($n \to 10^6$) with high dimensional molecular features ($p\to 10^5$)
+
+:::
+
+::::
+
+![Successful t-SNE visualizations of sc-RNAseq data](figs_intro/scRNA_tsne.pdf)
+
+## Example in Image: MNIST
+
+```{r mnist-dataset, include=FALSE}
+mnist_raw <- read_csv("data/mnist_sample.csv", col_names = FALSE, n_max = 2000)
+mnist <- mnist_raw %>%
+      rename(label = X1) %>%
+      mutate(instance = row_number())
+```
+
+Famous database of 60,000 labeled handwritten digits (28 x 28 images)
+
+:::: {.columns}
+
+::: {.column}
+
+![Data Samples](figs_intro/MnistExamples.png){width="60%"}
+
+:::
+
+::: {.column}
+
+```{r mnist-table, echo = FALSE}
+mnist[, 1:5] %>% head(3) %>% kable("latex", caption = "Vectorized data") %>% kable_styling(font_size = 8)
+```
+
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figs_intro/mnist_umap.png){width="70%"}
+
+:::
+
+::: {.column width="40%"}
+
+\vspace{2cm}
+
+\footnotesize
+
+UMAP 2-dimensional visualization
+
+:::
+
+::::
 
 ## Dimension reduction: problem setup
 
-#### Settings
+#### Dimension Reduction Map
 
   - \alert{Training data} : $\mathcal{D}=\{\bx_1,\ldots,\bx_n\} \in \Rset^p$,   (i.i.d.)
   - Space $\Rset^p$ of possibly high dimension $(n \ll p)$
 
+\medskip
 
-#### Dimension Reduction Map
+Construct a map $\Phi$ from $\Rset^{p}$ into a $\Rset^{q}$ with $q\ll p$:
 
-Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \alert{smaller dimension}:
-
-\begin{align*}
+$$\begin{aligned}
   \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
                      & \bx \mapsto \Phi(\bx)
-\end{align*}
+\end{aligned}$$
 
-## How should we design/construct $\Phi$?
+\rsa \emphase{How should we design/construct $\Phi$?}
+
+:::: {.columns}
+
+::: {.column width="45%"}
 
 #### Criterion
 
@@ -116,9 +233,16 @@ Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \a
   - Reconstruction error
   - Relationship preservation
 
+:::
+
+::: {.column width="55%"}
 
 #### Form of the map $\Phi$
 
-  - \alert{\bf Linear} or non-linear ?
-  - tradeoff between \alert{\bf interpretability} and versatility ?
-  - tradeoff between high or \alert{\bf low} computational resource
+  - Linear or non-linear?
+  - interpretability and versatility?
+  - high or low computational resource?
+
+:::
+
+::::

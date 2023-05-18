@@ -208,3 +208,4 @@ We obtain an approximation $\tilde{\bX}^c$ (compression) of the data $\bX^c$ by 
 \end{equation*}
 
 $\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (information captured by the first $q$ axes).
+
