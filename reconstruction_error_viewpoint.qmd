@@ -33,7 +33,7 @@ $$\begin{aligned}
 #### PCA reconstruction error
 
 $$
-\minimize_{\bmu \in\Rset^p, \bV\in\mathcal{O}_{p,q}} \sum_{i=1}^n \left\| (\bx_i  - \bmu) - \bV\bV^\top ( \bx_i -\bmu)   \right\|^2
+\minimize_{\bmu \in\Rset^p, \bV\in\mathcal{M}_{p,q}} \sum_{i=1}^n \left\| (\bx_i  - \bmu) - \bV\bV^\top ( \bx_i -\bmu)   \right\|^2
 $$
   
 \paragraph{Solution (explicit)} 

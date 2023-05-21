@@ -51,33 +51,23 @@ $\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (captured by the fi
 
 {{< include pca-mnist.qmd >}}
 
+{{< include pca-limitations.qmd >}}
+
 # Reconstruction error approach
 
-```{r limitations, child='pca-limitations.qmd'}
-```
+{{< include reconstruction_error_viewpoint.qmd >}}
 
-```{r recontruction_error, child='reconstruction_error_viewpoint.qmd'}
-```
+{{< include NMF.qmd >}}
 
-```{r NMF, child='NMF.qmd'}
-```
+{{< include kernelPCA.qmd >}}
 
-```{r kernel_PCA, child='kernelPCA.qmd'}
-```
+# Model-based approach
 
-<!-- Gaussian model -->
-<!-- model selection -->
-<!-- Estimation with ML and EM -->
+{{< include ppca.qmd >}}
 
+<!-- {{< include ppca.scRNA >}} -->
 
-<!-- Poisson PCA -->
-<!-- estimation with variational EM -->
-
-<!-- (Variational) Auto-Encoder -->
-
-```{r auto-encoder, child='auto-encoders.qmd'}
-```
-
+{{< include auto-encoders.qmd >}}
 
 # Manifold learning (preserving pairwise relations)
 

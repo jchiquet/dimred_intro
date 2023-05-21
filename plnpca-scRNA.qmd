@@ -1,0 +1,30 @@
+
+## A PCA analysis of the scRNA data set (1)
+
+```{r PLNPCA offset, cache=TRUE, warning=FALSE, message=FALSE, results='hide'}
+PCA_scRNA <- PLNPCA(counts ~ 1 + offset(log(total_counts)), data = scRNA,
+                    ranks = c(1, 2, seq(5, 40, 5)))
+```
+
+### Model Selection
+```{r PCA offset vizu cell-line, fig.width=6, fig.height=6, fig.align="center", echo=FALSE}
+plot(PCA_scRNA)
+myPCA_scRNA <- getBestModel(PCA_scRNA, "BIC")
+```
+
+---
+# A PCA analysis of the scRNA data set  (2)
+
+### Biplot
+
+Individual + Factor map - 40 most contributing genes
+
+<small>
+```{r PCA offset vizu tree, fig.width=6, fig.height=6, fig.align="center", echo=FALSE}
+myPCA_scRNA %>% factoextra::fviz_pca_biplot(
+  select.var = list(contrib = 40), addEllipses = TRUE, habillage = scRNA_train$cell_line,
+  title = "Biplot (50 most contributing genes)"
+  ) + labs(col = "tree status") + scale_color_viridis_d()
+```
+</small>
+

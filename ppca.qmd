@@ -1,0 +1,163 @@
+## Probabilistic Gaussian PCA
+
+#### Generative model [@TiB99]
+
+pPCA is a special factor model with parameter $\theta=(\bC, \sigma)$:
+
+$$\begin{array}{rcl}
+  \text{latent space }  & \bZ_i \quad \text{i.i.d.} & \bW_i \sim \mathcal{N}(\mathbf{0}_q, \mathbf{I}_q)  \\
+  \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX | \bZ_i \sim \mathcal{N}\left({\boldsymbol\mu} + \bC \bZ, \sigma^2 \mathbf{I}_n \right)
+\end{array}$$
+
+By direct integration^[easy since everything is Gaussian], the marginal distribution of the observation is 
+
+$$
+p_\theta(\bX_i) = \int_{\mathbb{R}_q} p_\theta(\bX_i | \bZ_i) \, p(\bZ_i) \mathrm{d}\bZ_i = \mathcal{N}\left({\boldsymbol\mu}, \bSigma \right), \quad \bSigma = \bC\bC^\top + \sigma^2 \mathbf{I}_n
+$$
+
+\rsa rank-$q$ decomposition of the covariance matrix + noise.
+
+## Estimation 
+
+#### Criterion: negative log-likelihood
+
+\vspace{-.75cm}
+
+$$
+- \sum_{i=1}^n \log p_\theta(\bX_i) = \log | \bSigma| + \tr\left(\bSigma^{-1} \hat{\bSigma}\right), \quad \hat{\bSigma} = \frac{1}{n} \sum_i (\bx_i-\bar{\bx})(\bx_i-\bar{\bx})^\top
+$$
+
+#### Maximum likelihood estimator
+
+\vspace{-.5cm}
+
+$$
+\hat{\bC}^{\text{mle}} = \bV_q \left({\boldsymbol\Lambda}_q - \hat{\sigma}^2 \mathbf{I}_n\right)^{1/2}, \quad \hat{\sigma}^2 = \frac{1}{p-q} \sum_{i=q+1}^p \lambda_i, \quad \hat{\bSigma} = \bV {\boldsymbol\Lambda} \bV^\top
+$$
+ 
+#### Latent position: posterior distribution
+
+\vspace{-.5cm}
+
+$$
+\bZ_i \, | \, \bX_i \sim \mathcal{N}\left(\bS^{-1} \hat{\bC}^\top (\bX_i - \bar{\bx}), \bS^{-1} \hat{\sigma}^2  \right), \quad \bS = \left(\hat{\bC} \hat{\bC}^T + \hat{\sigma}^2\right)
+$$
+
+\medskip
+
+When $\sigma^2\to 0$, $\mathbb{E}(\bZ_i|\bX_i) \equiv$ \emphase{orthogonal projection in the latent space}.
+
+## Estimation: alternative
+
+\framesubtitle{Expectation-Maximization}
+
+With $\mathcal{H}(p) = -\mathbb{E}_p(\log(p))$ the entropy of $p$, decompose 
+
+$$
+\log p_\theta(\bX) = \mathbb{E} [\log p_\theta(\bX, \bZ) \,|\,\bX; \theta)] + \mathcal{H}[p_\theta (\bZ \,|\,\bX; \theta)]
+$$
+
+EM requires to evaluate (some moments of) $p_\theta(\bZ \,|\,  \bX; \theta)$
+
+  - E-step: evaluate $Q(\theta|\theta') = \mathbb{E}(\log\ell(\bX,\bW; \theta) |\bX; \theta')$
+  - M-step: update $\theta$ by maximizing $Q(\theta|\theta')$
+
+#### EM for pPCA
+
+  - E-step: update the latente position means $\mathbb{E}(\bZ | \bX)$
+  - M-step: update the model parameters $\bC, \sigma^2$
+
+\bigskip
+
+\rsa can be faster that MLE when $p \gg q$
+
+## PCA for counts: poisson lognormal PCA
+
+#### Generative Model [@PLNPCA]
+
+$$\begin{array}{rcl}
+  \text{latent space }  & \bZ_i \quad \text{i.i.d.} & \bZ_i \sim \mathcal{N}(\mathbf{0}_q, \mathbf{I}_q)  \\
+  \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX | \bZ_i \sim \mathcal{P}\left(\exp\{{\boldsymbol\mu} + \bC^\top \bZ_i\}\right)
+\end{array}$$
+
+#### Estimation: Issues
+
+  - The marginal distribution is hard to compute, even numerically
+
+$$
+p_\theta(\bX_i) = \int_{\mathbb{R}_p} \prod_{j=1}^p p_\theta(X_{ij} | Z_{ij}) \, p_\theta(\mathbf{Z}_i) \mathrm{d}\mathbf{Z}_i
+$$
+
+\rsa no direct MLE possible
+
+  - Posterior distribution of $\bZ_i$ has no close form
+
+\rsa no genuine application of EM possible
+
+## Variational inference
+
+#### Variational approximation [@WaJ08, @blei2017variational]
+
+  - Use a proxy $q_\psi$ of $p_\theta(\bZ\,|\,\bX)$ minimizing a divergence in a class $\mathcal{Q}$
+
+$$
+q_\psi(\mathbf{Z})^\star = \arg\min_{q\in\mathcal{Q}} KL\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right), \, KL(., .) = \mathbb{E}_{q_\psi}\left[\log \frac{q(z)}{p(z)}\right].
+$$
+
+  - maximize the ELBO (Evidence Lower BOund)
+
+$$
+J(\theta, \psi) = \log p_\theta(\mathbf{Y}) - KL[q_\psi (\mathbf{Z}) ||  p_\theta(\mathbf{Z} | \mathbf{Y})] = \mathbb{E}_{\psi} [\log p_\theta(\mathbf{Y}, \mathbf{Z})] + \mathcal{H}[q_\psi(\mathbf{Z})]
+$$
+
+#### Variational EM for Poisson-lognormal [@PLNPCA,@PLNmodels]
+
+Consider $\mathcal{Q}$ the class of diagonal multivariate Gaussian distributions.
+
+The ELBO $J(\theta, \psi)$ hat close-form and is bi-concave.
+
+  - E-step: solve in $\psi$ for given $\theta$ 
+  - M-step: solve in $\theta$ for given $\psi$ 
+
+## Model selection and Visualization
+
+### Number of components/rank $k$ needs to be chosen.
+  
+$\log p_{\hat{\boldsymbol\beta}}(\mathbf{X})$ intractable: use variational "likelihood"  $J(\hat{\boldsymbol\beta}, \hat{\boldsymbol\psi})$
+
+- BIC $\rightsquigarrow$ $\text{vBIC}_k = J(\hat{\boldsymbol\beta}, \tilde{p}) - \frac12 p (d + k) \log(n)$
+- ICL $\rightsquigarrow$ $\text{vICL}_k = \text{vBIC}_k - \mathcal{H}(\tilde{p})$
+
+$$
+  \hat{k} = \arg\max_k \text{vBIC}_k
+  \qquad \text{or} \qquad
+  \hat{k} = \arg\max_k \text{vICL}_k
+$$
+
+#### Visualization
+
+- Gaussian PCA: Optimal subspaces nested when $q$ increases.
+- PLN-pPCA: Non-nested subspaces.
+
+For the selected dimension dimension $\hat{k}$:
+
+- Compute the estimated latent positions $\mathbb{E}_q(\mathbf{Z}_i)$
+- Perform PCA on these estimated positions$
+- Display result in any dimension $k \leq \hat{k}$
+
+## PCA: Goodness of fit
+
+\emphase{pPCA:} Cumulated sum of the  eigenvalues = \% of variance preserved on the first $q$ components.
+
+### PLN-pPCA
+
+Deviance based criterion.
+
+- Take $\lambda_{ij}^{(k)} = \exp\left(\mathbb{E}_q(Z_{ij}^{(k)})\right)$
+- Define $\lambda_{ij}^{\min} = \exp( \tilde{Z}_{ij}^0)$ and $\lambda_{ij}^{\max} = Y_{ij}$
+- Compute the Poisson log-likelihood $\ell_k = \log \mathbb{P}(\mathbf{X}; \lambda^{(k)})$
+
+### Pseudo R²
+
+$$R_k^2 = \frac{\ell_k - \ell_{\min}}{\ell_{\max} - \ell_{\min}}$$
+
