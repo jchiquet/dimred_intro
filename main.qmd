@@ -7,7 +7,7 @@ date: 05/25/2023
 date-format: long
 format: beamer
 execute:
-    freeze: auto
+    freeze: auto    
 ---
 
 
@@ -65,7 +65,7 @@ $\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (captured by the fi
 
 {{< include ppca.qmd >}}
 
-<!-- {{< include ppca.scRNA >}} -->
+{{< include plnpca-scRNA.qmd >}}
 
 {{< include auto-encoders.qmd >}}
 
@@ -79,7 +79,7 @@ $\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (captured by the fi
 
 {{< include probabilistic-tSNE.qmd >}}
 
-## References
+## References {.allowframebreaks}
 
 ::: {#refs}
 :::

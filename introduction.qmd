@@ -210,17 +210,18 @@ UMAP 2-dimensional visualization
 
 #### Dimension Reduction Map
 
-  - \alert{Training data} : $\mathcal{D}=\{\bx_1,\ldots,\bx_n\} \in \Rset^p$,   (i.i.d.)
+  - \alert{Original data} : $\{\bx_1,\ldots,\bx_n\} \in \Rset^p$,   (i.i.d.)
   - Space $\Rset^p$ of possibly high dimension $(n \ll p)$
+  - \alert{Low dimnesional data} : $\{\bz_1,\ldots,\bz_n\} \in \Rset^q$, $q\ll p$
 
 \medskip
 
 Construct a map $\Phi$ from $\Rset^{p}$ into a $\Rset^{q}$ with $q\ll p$:
 
-$$\begin{aligned}
-  \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
-                     & \bx \mapsto \Phi(\bx) \triangleq\tilde{\bx} 
-\end{aligned}$$
+$$\Phi:\begin{cases}
+  \quad & \Rset^p \to \Rset^{q}, q \ll p\\
+                     & \bx \mapsto \Phi(\bx) \triangleq \bz
+\end{cases}$$
 
 \rsa \emphase{How should we design/construct $\Phi$?}
 

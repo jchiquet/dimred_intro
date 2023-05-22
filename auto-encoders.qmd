@@ -1,17 +1,73 @@
-## (Variational) Auto-encoders
+
+```{r, include=FALSE}
+
+```
+
+## Variational Auto-Encoders
    
 #### Highly non-linear model
 
 Find $\Phi$ and $\tilde\Phi$ with \emphase{two} neural-networks, controlling the error.
 
-\begin{equation*}
-  \epsilon(\bX, \hat \bX ) = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2 + \text{regularization}(\Phi, \tilde{\Phi})
-\end{equation*}
+$$
+\epsilon(\bX, \hat \bX ) = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2 + \text{regularization}(\Phi, \tilde{\Phi})
+$$
 
-  - \# layers and neurons determine the \alert{\bf model complexity}
-  - Need regularization to avoid \alert{\bf overfitting}
-  -  Fitted with optimization tools like stochastic gradient descent
-  - Require \alert{more data} and more computational \alert{resources}
-  - \emphase{Interpretation questionable}
+![Figure by Hugo Gangloff](vae_fig/vae_scheme.pdf)
 
+## Variational Auto-Encoders
+
+#### Decoder: Generative model
+
+\vspace{-.5cm}
+
+$$
+p_{\theta}(\bX_i,\bZ_i) = p_{\theta}(\bZ_i) p_{\theta}(\bX_i|\bZ_i), \text{ with }
+\begin{cases}
+p_{\theta}(\bZ_i) & = \mathcal{N}(0,\mathbf{I}_q), \\
+p_{\theta}(\bX_i|\bZ_i) & \text{cond. likelihood}. \\
+\end{cases}
+$$
+
+#### Encoder: Variational Inference model
+
+The encoder approximate the posterior distribution with $q_\psi$, $\psi=\{{\boldsymbol\mu}_i,{\boldsymbol\sigma}^2\}$:
+
+$$
+q_{\psi}(\bZ_i|\bX_i) = \mathcal{N}(\bmu_i,\bsigma^2_i \mathbf{I}_q) \approx p_{\theta}(\bZ_i|\bX_i)
+$$
+
+#### Optimization/training
+
+Maximize a lower bound of the marginal $\log p_{\theta}(\bX)$ (a.k.a the ELBO):
+
+\vspace{-.5cm}
+
+$$
+\log p_{\theta}(\bX_i) \geq \mathcal{E}_{\theta,\psi}(\bX_i)=\mathbb{E}_{q_{\psi}(\bZ_i|\bX_i)}\left[\log
+p_{\theta}(\bX_i | \bZ_i)\right] - D_{KL}(q_{\psi}(\bZ_i|\bX_i)||p_{\theta}(\bZ_i))
+$$
+
+## Variational Auto-Encoders
+
+#### Likelihoods relevent for count data
+
+  - Data scaled to [0,1] + Continuous Bernoulli (CB) likelihood [@wang2018vasc]
+  - (Zero Inflated) Negative Binomial (ZINB) likelihood [@dony2020variational]
+  - \emphase{(Zero Inflated) Poisson likelihood} (tried this with Hugo Gangloff)
+
+Let $\lambda\in(\mathbb{R}^+_*)^p$ and $\rho\in[0,1]^p$ be the outputs of the decoder,
+$$
+p_{\theta}(\bx | \bz) = \prod_{j=1}^p 
+\begin{cases} 
+\rho_j + (1-\rho_j) p^{Poiss}_{\theta}(x_{m,n}|\lambda_n), & x_{ij}=0,\\
+(1-\rho_j) p^{Poiss}_{\theta}(x_{ij}|\lambda_n), & x_{ij} > 0.
+\end{cases}
+$$
+
+#### Promising works and questions
+
+  - [@gronbech2020scvae]: Gaussian Mixture VAE + Zero inflated likelihoods 
+  - [@seninge2021vega]: Semi-supervised VA
+  - Us: Connexion with traditional variational inference
 
