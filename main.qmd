@@ -61,7 +61,7 @@ $\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (captured by the fi
 
 {{< include kernelPCA.qmd >}}
 
-# Model-based approach
+# Model-based approaches
 
 {{< include ppca.qmd >}}
 
@@ -69,7 +69,7 @@ $\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (captured by the fi
 
 {{< include auto-encoders.qmd >}}
 
-# Manifold learning (preserving pairwise relations)
+# Preserving pairwise relations
 
 {{< include relation_preservation_viewpoint.qmd >}}
 

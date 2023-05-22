@@ -2,44 +2,25 @@
 
 \framesubtitle{a.k.a Principale Coordinates Analysis}
 
-#### Problem setup
+Consider a $n\times n$ (dis)similarity matrix associated to points $\bx_i\in\Rset^p$ 
 
-Consider a collection of points $\bx_i\in\Rset^p$ and assume either 
-
-  - $D = d_{ii'}$ a $n\times n$ dissimilarity matrix, or
-  - $S = s_{ii'}$ a $n\times n$ similarity matrix, or
-
-  \alert{Goal:} find $\tilde{\bx}_i\in\Rset^q$ while preserving S/D in the latent space
-  
-  \rsa Don't need access to the position in $\Rset^p$ (only $D$ or $S$ \rsa 'kernel').
+\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the  (dis)similarities in the latent space
 
 #### Classical MDS model
 
 Measure similarities with the (centered) \alert{\bf inner product} and minimize 
 
 $$
-  \sum_{i\neq i'} \left( (\bx_i - \bmu)^\top (\bx_i - \bmu) - \tilde{\bx}_i^\top \tilde{\bx}_{i'} \right)^2,
+\text{Stress}^{cMDS}(\bz_i) = \sum_{i\neq i'} \left( (\bx_i - \bmu)^\top (\bx_i - \bmu) - \bz_i^\top \bz_{i'} \right)^2,
 $$
 
-assuming a linear model $\tilde{\bx} =  \bV^\top (\bx_i - \bmu)$, with $\bV \in \mathcal{O}_{p \times q}$.
-
-## Classical MDS: solution
-
-With the linear model $\tilde{\bx} = \Phi(\bx) = \bV^\top (\bx_i - \bmu)$, we aim at minimizing
-
-$$\begin{aligned}
-    \text{Stress}^{cMDS} = & \sum_{i\neq i'}  \left( (\bx_i - \bmu)^\top (\bx_{i'} - \bmu) - \tilde{\bx}_i^\top \tilde{\bx}_{i'} \right)^2, \\
-    = & \sum_{i\neq i'} \left( (\bx_i - \bmu)^\top (\bx_{i'} - \bmu) -  (\bx_i - \bmu)^\top \bV \bV^\top (\bx_{i'} - \bmu) \right)^2,
-\end{aligned}$$
-
-  It can be showed that  $\displaystyle \minimize_{\bmu\in\Rset^p, \bV\in\mathcal{O}_{pq}} \text{Stress}^{cMDS}(\tilde{\bx}_i)$ is dual to principal component analysis and leads to
+Assuming a linear model $\bz = \Phi(\bx) = \bV^\top (\bx_i - \bmu)$, with $\bV \in \mathcal{O}_{p \times q}$, minimizing $\text{Stress}^{cMDS}(\bz_i)$ is dual to PCA and leads to
 
 $$
-\tilde{\bx} = \bX^c \bV = \bU\bD\bV^\top \bV = \bU\bD.
+\bz = \bX^c \bV = \bU\bD\bV^\top \bV = \bU\bD.
 $$
   
 \alert{\rsa The principal coordinates in $\Rset^q$ correspond to the scores of the $n$ individuals projected on the first $q$ principal components.}
-
 
 ## Metric Multidimensional Scalings
   
@@ -51,7 +32,7 @@ $$
 Use a distance base formulation with the following loss (Stress) function:
 
 $$
-\text{Stress}^{SK} = \sum_{i\neq i'} \left(d_{ii'} - \|\tilde{\bx}_i - \tilde{\bx}_{i'}\| \right)^2,
+\text{Stress}^{KS} = \sum_{i\neq i'} \left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2,
 $$
 
   -  Almost equivalent to classical MDS when $d$ is the Euclidean distance
@@ -60,5 +41,5 @@ $$
 #### Sammong mapping - \textcolor{black}{Variant of the loss (Stress) function}
 
 $$
-  \text{Stress}^{SM} = \sum_{i\neq i'} \frac{\left(d_{ii'} - \|\tilde{\bx}_i - \tilde{\bx}_{i'}\| \right)^2}{d_{ii'}}.
+  \text{Stress}^{SM} = \sum_{i\neq i'} \frac{\left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2}{d_{ii'}}.
 $$
