@@ -56,10 +56,6 @@ $$ -->
 
 ![](figs_PNE/tsne_properties_3.pdf) 
 
-## tSNE on single cell Gene Expression data @kobak_tsne_2018
-
-![](figs_PNE/tsne_10xgenomics.pdf) 
-
 ## t-SNE: pros/cons
 
 #### Properties

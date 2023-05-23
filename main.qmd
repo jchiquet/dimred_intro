@@ -69,6 +69,8 @@ Robust but,
 
 {{< include auto-encoders.qmd >}}
 
+{{< include vae-scRNA.qmd >}}
+
 # Preserving pairwise relations
 
 {{< include relation_preservation_viewpoint.qmd >}}
@@ -76,6 +78,8 @@ Robust but,
 {{< include MDS.qmd >}}
 
 {{< include tSNE.qmd >}}
+
+{{< include tSNE-scRNA.qmd >}}
 
 {{< include probabilistic-tSNE.qmd >}}
 

@@ -1,0 +1,47 @@
+## Variational Auto-Encoders on scRNA data^[based on code by Hugo Gangloff]
+
+- encoder dimensions:  [256, 128, 64]
+- decoder dimensions:  [64, 128, 256]
+- ADAM with learning rate = 1e-3
+
+#### Negative-Binomial distribution
+
+:::: {.columns}
+
+::: {.column}
+
+![Negative Binomial](figs_vae/scRNA_VAE_NB.png)
+
+:::
+
+::: {.column}
+
+![Zero-Inflated Negative Binomial](figs_vae/scRNA_VAE_ZINB.png)
+
+:::
+
+::::
+
+## Variational Auto-Encoders on scRNA data^[based on code by Hugo Gangloff]
+
+- encoder dimensions:  [256, 128, 64]
+- decoder dimensions:  [64, 128, 256]
+- ADAM with learning rate = 1e-3
+
+#### Poisson distribution
+
+:::: {.columns}
+
+::: {.column}
+
+![Poisson](figs_vae/scRNA_VAE_poisson.png)
+
+:::
+
+::: {.column}
+
+![Zero-Inflated Poisson](figs_vae/scRNA_VAE_ZIpoisson.png)
+
+:::
+
+::::

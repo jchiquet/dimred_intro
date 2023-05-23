@@ -1,0 +1,11 @@
+## tSNE and UMAP scRNA data^[using the Python module \texttt{scanpy}]
+
+![tSNE + UMAP on raw data](figs_scRNA-tSNE/tSNE_UMAP_raw.png){width="80%"}
+
+## tSNE and UMAP scRNA data^[using the Python module \texttt{scanpy}]
+
+![tSNE + UMAP on log-transformed data](figs_scRNA-tSNE/tSNE_UMAP_log.png){width="80%"}
+
+## tSNE on large scRNA Gene Expression @kobak_tsne_2018
+
+![](figs_PNE/tsne_10xgenomics.pdf) 
