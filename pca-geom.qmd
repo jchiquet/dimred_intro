@@ -40,7 +40,7 @@ $$
 
 \rsa \alert{Good representation has large inertia} (much variability)
 
-## Decomposition of total Inertia and best axis
+<!-- ## Decomposition of total Inertia and best axis
 
 #### Cloud inertia with respect to an axis
 
@@ -97,9 +97,9 @@ I_{\Delta^\bot} & = \frac{1}{n}\sum_{i=1}^n \distance(\bx_i,\Delta^\bot)^2 \\
 
   \rsa $\Delta_1$ is defined by $\bv_1$, the \emphase{first eigen vector} of $\hat{\bSigma}$
 
-  \rsa Variance "carried" by $\Delta_1$ is equal to the \emphase{largest eigen value} $\lambda_1$  of $\hat{\bSigma}$
+  \rsa Variance "carried" by $\Delta_1$ is equal to the \emphase{largest eigen value} $\lambda_1$  of $\hat{\bSigma}$ -->
 
-## Finding the following axes
+## Geometric view in a nutshell
 
 Consider collection of orthogonal axes (with dimension =1), then
 \begin{equation*}
@@ -188,3 +188,22 @@ The matrix of PC connects individual coordinates to latent factors:
 
 $\rightsquigarrow$ Everything can be interpreted on a single plot, called the biplot
 
+## Reconstruction formula
+
+Recall that $\mathbf{F} = (\mathbf{f}_1, \dots, \mathbf{f}_p)$ is the matrix of Principal components. Then,
+
+  - $\mathbf{f}_k = \bX^c \bv_k$ for projection on axis $k$
+  - $\mathbf{F} = \bX^c \bV$ for all axis.
+
+Using orthogonality of $\bV$, we get back the original data as follows, without loss ($\bV^T$ performs the inverse rotation of $\bV$):
+\begin{equation*}
+  \bX^c = \mathbf{F}\bV^\top
+\end{equation*}
+
+We obtain an approximation $\hat{\bX}^c$ (compression) of the data $\bX^c$ by considering a subset $\mathcal{S}$ of PC, typically $\mathcal{S} = {1, \dots, q}$ with $q \ll p$.
+
+\begin{equation*}
+  \hat{\bX}^c = \mathbf{F}_q \bV_q ^\top = \bX^c \bV_q  \bV_q^\top
+\end{equation*}
+
+$\rightsquigarrow$ This is a rank-$q$ approximation of $\bX$ (captured by the first $q$ axes).

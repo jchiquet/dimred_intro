@@ -210,9 +210,9 @@ UMAP 2-dimensional visualization
 
 #### Dimension Reduction Map
 
-  - \alert{Original data} : $\{\bx_1,\ldots,\bx_n\} \in \Rset^p$,   (i.i.d.)
-  - Space $\Rset^p$ of possibly high dimension $(n \ll p)$
-  - \alert{Low dimnesional data} : $\{\bz_1,\ldots,\bz_n\} \in \Rset^q$, $q\ll p$
+  - \alert{Original data} : $\{\bx_1,\ldots,\bx_n\} \in \Rset^p$
+  - \alert{Low dimensional data} : $\{\bz_1,\ldots,\bz_n\} \in \Rset^q$, $q\ll p$
+  - Space $\Rset^p$ of possibly high dimension: $n \ll p$
 
 \medskip
 
