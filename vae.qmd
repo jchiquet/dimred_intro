@@ -3,7 +3,7 @@
 
 ```
 
-## Variational Auto-Encoders
+## Variational Auto-Encoders \scriptsize [@kingma2013auto]
    
 #### Highly non-linear model
 
@@ -56,6 +56,8 @@ $$
   - (Zero Inflated) Negative Binomial (ZINB) likelihood [@dony2020variational]
   - \emphase{(Zero Inflated) Poisson likelihood} (tried this with Hugo Gangloff)
 
+\medskip
+
 Let $\lambda\in(\mathbb{R}^+_*)^p$ and $\rho\in[0,1]^p$ be the outputs of the decoder,
 $$
 p_{\theta}(\bx | \bz) = \prod_{j=1}^p 
@@ -65,9 +67,11 @@ p_{\theta}(\bx | \bz) = \prod_{j=1}^p
 \end{cases}
 $$
 
+\vspace{-.25cm}
+
 #### Promising works and questions
 
-  - [@gronbech2020scvae]: Gaussian Mixture VAE + Zero inflated likelihoods 
-  - [@seninge2021vega]: Semi-supervised VA
+  - @gronbech2020scvae: Gaussian Mixture VAE
+  - @seninge2021vega: Semi-supervised VA
   - Us: Connexion with traditional variational inference
-
+  - Us: Use as block in wider model-based approches

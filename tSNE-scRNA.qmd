@@ -6,6 +6,6 @@
 
 ![tSNE + UMAP on log-transformed data](figs/scRNA-analysis/tSNE_UMAP_log.png){width="80%"}
 
-## tSNE on large scRNA Gene Expression @kobak_tsne_2018
+## tSNE on large scRNA Gene Expression \scriptsize [@kobak_tsne_2018]
 
 ![](figs/pne/tsne_10xgenomics.pdf) 

@@ -84,7 +84,7 @@ $$
 
 {{< include plnpca-scRNA.qmd >}}
 
-{{< include auto-encoders.qmd >}}
+{{< include vae.qmd >}}
 
 {{< include vae-scRNA.qmd >}}
 

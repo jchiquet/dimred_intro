@@ -1,4 +1,4 @@
-## Stochastic Neighbor Embedding (SNE)
+## Stochastic Neighbor Embedding (SNE) \scriptsize [@hinton2002stochastic]
 
 #### High dimensional space
 
@@ -20,22 +20,22 @@ $$
 
 \rsa $\sigma_i$ found by binary search to match a user-defined perplexity for $p_i$
 
-## tSNE and Student / Cauchy kernels
+## tSNE and Student / Cauchy kernels \scriptsize [@MH08]
 
 #### Similarities in the low dimension space
 
-Let $(\tilde{\bx}_1,\hdots,\tilde{\bx}_n)$ be the points in the the low-dimensional space $\mathbb{R}^{q=2}$
+Let $(\bz_1,\hdots,\bz_n)$ be the points in the the low-dimensional space $\mathbb{R}^{q=2}$
 
 $$\begin{aligned}
-\emphase{(SNE)} & \quad q_{i | j} = \frac{ \exp(- \| \tilde{\bx}_i - \tilde{\bx}_j \|^2  ) }{\sum_{k \neq i} \exp(- \| \tilde{\bx}_k - \tilde{\bx}_j \|^2 )} \\
-\emphase{(t-SNE)} & \quad q_{i | j} = \frac{ (1 + \| \tilde{\bx}_i - \tilde{\bx}_j \|^2)^{-1}  }{\sum_{k \neq i} (1 + \| \tilde{\bx}_i - \tilde{\bx}_k \|^2)^{-1}} \\
+\emphase{(SNE)} & \quad q_{i | j} = \frac{ \exp(- \| \bz_i - \bz_j \|^2  ) }{\sum_{k \neq i} \exp(- \| \bz_k - \bz_j \|^2 )} \\
+\emphase{(t-SNE)} & \quad q_{i | j} = \frac{ (1 + \| \bz_i - \bz_j \|^2)^{-1}  }{\sum_{k \neq i} (1 + \| \bz_i - \bz_k \|^2)^{-1}} \\
 \end{aligned}$$
 
  \rsa t-SNE robustifies Gaussian kernel by using Student(1) (Cauchy) kernels
 
 #### Optimization
 
-\alert{Criterion} -- Kullback-Leibler between $p$ and $q:$ $C(\tilde{\bx}) = \sum_{ij} KL(p_{ij},q_{ij})$ \smallskip
+\alert{Criterion} -- Kullback-Leibler between $p$ and $q:$ $C(\bz) = \sum_{ij} KL(p_{ij},q_{ij})$ \smallskip
 
 \alert{Algorithm} -- adaptive stochastic gradient initialized by $\mathcal{N}(0,\epsilon I_q)$ \smallskip
 
@@ -71,7 +71,7 @@ $$ -->
   - Lack of reproducibility due to stochastic optimization
 
 
-## Uniform Manifold Approximation and Projection [@IHM18]
+## Uniform Manifold Approximation and Projection \linebreak \scriptsize @IHM18
 
 For $j$ in the $k$-neighborhood of $i$, define the conditional distribution
 $$
@@ -80,11 +80,15 @@ $$
 
 and its symmetrized version
 
+\vspace{-.25cm}
+
 $$
 p_{ij}  = p_{ j | i} + p_{ i | j} - p_{ j | i} p_{ i | j}.
 $$
 
 Rely on a generalized Student-distribution with $a, b$ fitted on the data:
+
+\vspace{-.25cm}
 
 $$
 q_{ij} =  \left(1 + a\| Z_i-Z_j \|^{2b}_2\right)^{-1}
@@ -92,9 +96,10 @@ $$
 
 UMAP solves the following problem:
 
-$$\begin{aligned}
-\min_{Z\in \mathbb{R}^{n \times d}} \quad & - \sum_{i < j} p_{ij}\log q_{ij} + (1-p_{ij}) \log (1- q_{ij})
-\end{aligned}$$
+\vspace{-.25cm}
+$$
+\min_{Z\in \mathbb{R}^{n \times d}} - \sum_{i < j} p_{ij}\log q_{ij} + (1-p_{ij}) \log (1- q_{ij})
+$$
 
 \emphase{Tends to preserve both local and global representations}
 
