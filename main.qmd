@@ -11,15 +11,6 @@ execute:
     freeze: auto    
 ---
 
-
-```{r settings-reticulate, include=FALSE}
-library(reticulate)
-reticulate::virtualenv_create("dimred")
-reticulate::virtualenv_install(envname = "dimred", packages = c("matplotlib", "pyplnmodels", "jaxlib", "statsmodels", "scikit-learn"))
-reticulate::virtualenv_install(envname = "dimred", packages = "xpcax", pip_options = "--upgrade --extra-index-url https://forgemia.inra.fr/api/v4/projects/8098/packages/pypi/simple")
-reticulate::use_virtualenv("dimred")
-```
-
 # Introduction
 
 {{< include introduction.qmd >}}
@@ -55,13 +46,39 @@ Robust but,
 
 # Reconstruction error approach
 
-{{< include reconstruction_error_viewpoint.qmd >}}
+## Reconstruction error approach
 
-{{< include NMF.qmd >}}
+Find maps $\Phi$ and $\tilde{\Phi}$ in a given family (e.g, linear, constraint on parameters, etc.), minimizing an error between $\bx$ and $\hat{\bx} = \tilde{\Phi}(\Phi(\bx))$
 
-{{< include kernelPCA.qmd >}}
+  - \emphase{Distance} between $\bX$ and $\hat{\bX}$, e.g, sum of squares:
 
-# Model-based approaches
+\vspace{-.25cm}
+
+$$
+\epsilon^\text{SSQ}(\bX, \hat \bX ) = \left\| \bX - \hat \bX \right\|_F^2  = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2
+$$
+
+  - \emphase{Divergence} between distributions $\hat{p}_{\bX}$ and $\hat{p}_{\hat{\bX}}$ of $\bX_i$ and $\hat{\bX}_i$
+
+\vspace{-.25cm}
+
+$$
+D_{\text{KL}}\left(\hat{p}_{\bX}, \hat{p}_{\hat{\bX}}\right) = - \sum_{i} \hat{p}_{\bX_i}  \log\left(\frac{\hat{p}_{\bX_i}}{\hat{p}_{\hat{\bX}_i}}\right)
+$$
+
+  - \emphase{Log-likelihood} of a parametric model $p_\theta$, with $\hat{\bX}=f(\theta)$:
+
+\vspace{-.25cm}
+
+$$
+  - \log p_{\theta}(\bX) = - \sum_{i=1}^n \log p_{\btheta}(\bX_i)
+$$
+
+{{< include reconstruction-error-methods.qmd >}}
+
+{{< include decomposition-mnist.qmd >}}
+
+# Generative models
 
 {{< include ppca.qmd >}}
 
@@ -73,9 +90,24 @@ Robust but,
 
 # Preserving pairwise relations
 
-{{< include relation_preservation_viewpoint.qmd >}}
+## Pairwise Relation
 
-{{< include MDS.qmd >}}
+Focus on pairwise relation $\mathcal{R}(\bx_i, \bx_{i'})$.
+
+#### Distance Preservation
+
+Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \alert{smaller dimension}:
+
+$$\begin{aligned}
+  \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
+             & \bx \mapsto \Phi(\bx)
+\end{aligned}$$
+
+$$\text{such that} \quad \mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\tilde\bx_i, \tilde\bx_{i'})$$
+
+{{< include pairwise-preservation-methods.qmd >}}
+
+{{< include embeddings-scRNA.qmd >}}
 
 {{< include tSNE.qmd >}}
 

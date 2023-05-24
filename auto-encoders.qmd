@@ -13,7 +13,7 @@ $$
 \epsilon(\bX, \hat \bX ) = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2 + \text{regularization}(\Phi, \tilde{\Phi})
 $$
 
-![Figure by Hugo Gangloff](vae_fig/vae_scheme.pdf)
+![Figure by Hugo Gangloff](figs/vae/vae_scheme.pdf)
 
 ## Variational Auto-Encoders
 

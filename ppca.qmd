@@ -40,7 +40,7 @@ $$
 \vspace{-.5cm}
 
 $$
-\bZ_i \, | \, \bX_i \sim \mathcal{N}\left(\bS^{-1} \hat{\bC}^\top (\bX_i - \bar{\bx}), \bS^{-1} \hat{\sigma}^2  \right), \quad \bS = \left(\hat{\bC} \hat{\bC}^T + \hat{\sigma}^2\right)
+\bZ_i \, | \, \bX_i \sim \mathcal{N}\left(\bS^{-1} \hat{\bC}^\top (\bX_i - \bar{\bx}), \bS^{-1} \hat{\sigma}^2  \right), \quad \bS = \left(\hat{\bC}^\top \hat{\bC} + \hat{\sigma}^2\right)
 $$
 
 \medskip

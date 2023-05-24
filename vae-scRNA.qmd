@@ -10,13 +10,13 @@
 
 ::: {.column}
 
-![Negative Binomial](figs_vae/scRNA_VAE_NB.png)
+![Negative Binomial](figs/scRNA-analysis/vae_NB.png)
 
 :::
 
 ::: {.column}
 
-![Zero-Inflated Negative Binomial](figs_vae/scRNA_VAE_ZINB.png)
+![Zero-Inflated Negative Binomial](figs/scRNA-analysis/vae_ZINB.png)
 
 :::
 
@@ -34,13 +34,13 @@
 
 ::: {.column}
 
-![Poisson](figs_vae/scRNA_VAE_poisson.png)
+![Poisson](figs/scRNA-analysis/vae_Poisson.png)
 
 :::
 
 ::: {.column}
 
-![Zero-Inflated Poisson](figs_vae/scRNA_VAE_ZIpoisson.png)
+![Zero-Inflated Poisson](figs/scRNA-analysis/vae_ZIPoisson.png)
 
 :::
 

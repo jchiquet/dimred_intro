@@ -25,7 +25,7 @@ Cloud $\bX$ is centered around^[empirical mean, barycentrum, center of inertia] 
 
 ::: {.column width="30%"}
 
-![Example in $\Rset^3$](figs_pca/cloud_centering.jpg){width="85%"}
+![Example in $\Rset^3$](figs/pca/cloud_centering.jpg){width="85%"}
 
 :::
 
@@ -85,7 +85,7 @@ I_{\Delta^\bot} & = \frac{1}{n}\sum_{i=1}^n \distance(\bx_i,\Delta^\bot)^2 \\
 
 ::: {.column width="35%"}
 
-![](figs_pca/solving_inertia.jpg)
+![](figs/pca/solving_inertia.jpg)
 
 :::
 
@@ -106,7 +106,7 @@ Consider collection of orthogonal axes (with dimension =1), then
   I_{T} = I_{\Delta_1} + I_{\Delta_2} + \dots + I_{\Delta_p}
 \end{equation*}
 
-#### PCA is matrix factorisation
+#### PCA is matrix factorisation [@hotelling1933analysis]
 
 \vspace{-.25cm}
 
@@ -139,13 +139,13 @@ $\bV$ describes a new orthogonal basis and a rotation of data in this basis
 
 ::: {.column width="25%"}
 
-![](figs_pca/rotation.jpg){width="100%"}
+![](figs/pca/rotation.jpg){width="100%"}
 
 :::
 
 ::: {.column width="25%"}
 
-![](figs_pca/PCA_fish.png){width="100%"}
+![](figs/pca/PCA_fish.png){width="100%"}
 
 :::
 

@@ -1,0 +1,12 @@
+## Classical embeddings on scRNA data set
+
+![classical Multidimensional Scaling](figs/scRNA-analysis/mds-scRNA.png){width="90%"}
+
+## Classical embeddings scRNA data set
+
+![Isomap](figs/scRNA-analysis/isomap-scRNA.png){width="90%"}
+
+## Classical embeddings scRNA data set
+
+![Laplacian Eigen map](figs/scRNA-analysis/spectral-scRNA.png){width="90%"}
+

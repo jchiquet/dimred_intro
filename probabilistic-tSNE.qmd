@@ -74,12 +74,11 @@ $\rightsquigarrow$ $Z$ becomes a parameter to be estimated
 
 ::: {.column}
 
-![](figs_PNE/two_graph_model_W.pdf){width="80%"}
+![](figs/pne/two_graph_model_W.pdf){width="80%"}
 
 :::
 
 ::::
-
 
 ## Graph Coupling with $Z$ as a parameter
 

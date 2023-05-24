@@ -1,0 +1,70 @@
+## Multidimensional scaling
+
+\framesubtitle{a.k.a Principale Coordinates Analysis}
+
+Consider a $n\times n$ (dis)similarity matrix associated to points $\bx_i\in\Rset^p$ 
+
+\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the  (dis)similarities in the latent space
+
+#### Classical MDS model
+
+Measure similarities with the (centered) \alert{\bf inner product} and minimize 
+
+$$
+\text{Stress}^{cMDS}(\bz_i) = \sum_{i\neq i'} \left( (\bx_i - \bmu)^\top (\bx_i - \bmu) - \bz_i^\top \bz_{i'} \right)^2,
+$$
+
+Assuming a linear model $\bz = \Phi(\bx) = \bV^\top (\bx_i - \bmu)$, with $\bV \in \mathcal{O}_{p \times q}$, minimizing $\text{Stress}^{cMDS}(\bz_i)$ is dual to PCA and leads to
+
+$$
+\bz = \bX^c \bV = \bU\bD\bV^\top \bV = \bU\bD.
+$$
+  
+\alert{\rsa The principal coordinates in $\Rset^q$ correspond to the scores of the $n$ individuals projected on the first $q$ principal components.}
+
+## Metric Multidimensional Scalings
+  
+\paragraph{Idea to generalize classical MDS:} preserving similarities in term of \alert{\bf inner product} amounts to preserve dissimilarity in terms of Euclidean distance
+
+
+#### Least-squares/Kruskal-Shephard scaling
+
+Use a distance base formulation with the following loss (Stress) function:
+
+$$
+\text{Stress}^{KS} = \sum_{i\neq i'} \left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2,
+$$
+
+  -  Almost equivalent to classical MDS when $d$ is the Euclidean distance
+  - Generalize to any \alert{\bf quantitative} dissimilarity/distance $d$
+
+#### Sammong mapping - \textcolor{black}{Variant of the loss (Stress) function}
+
+$$
+  \text{Stress}^{SM} = \sum_{i\neq i'} \frac{\left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2}{d_{ii'}}.
+$$
+
+## Isomap
+ 
+#### Basic idea
+
+  - Metric  MDS performs embedding based on pairwise Euclidean-based distance
+  - Isomap embeds a distance induced by a neighborhood graph
+ 
+Formally, consider a neighborhood $\mathcal{N}_i$ for each point, then
+
+$$
+  d_{ii'} = \left\{
+    \begin{array}{cc}
+    + \infty & \text{ if }j \notin \mathcal{N}_i\\
+    \| \bx_i - \bx_{i'} \|& \\
+    \end{array}
+  \right.,
+$$
+
+and compute the shortest path distance for each pair prior to MDS.
+
+## Laplacian Eigenmaps
+
+TODO
+ 

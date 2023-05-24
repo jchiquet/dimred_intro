@@ -1,0 +1,107 @@
+## Another interpretation of PCA
+
+#### PCA model
+
+Let $\bV_q$ be a $p\times q$ matrix whose columns are of $q$ orthonormal vectors.
+
+$$\Phi(\bx) = \bV_q^\top(\bx-\bmu)  = \bz, \quad \hat{\bx} = \tilde{\Phi}(\bz) = \bmu + \bV_q \bz.$$
+
+\rsa Model with \emphase{Linear assumption + ortho-normality constraints}
+ 
+#### PCA reconstruction error
+
+\vspace{-.5cm}
+
+$$
+\minimize_{\substack{\bmu \in\Rset^p \\\bV_q\in\mathcal{O}_{p,q}}} \sum_{i=1}^n \left\| (\bx_i  - \bmu) - \bV_q\bV_q^\top ( \bx_i -\bmu)   \right\|^2 = \Bigg( \minimize_{\substack{\mathbf{F}_q\in\mathcal{M}_{n,q} \\\bV_q\in\mathcal{O}_{p,q}}} \left\| \mathbf{X}^c - \mathbf{F_q V_q}^\top \right\|_F^2 \Bigg)
+$$
+
+#### Solution (explicit)
+  
+  - $\bmu$ is the empirical mean, $\bV_q$ eigenvectors of the empirical covariance
+  - In practice: SVD of the centered matrix $\bX^c = \bU_q \bD_q \bV_q^\top = \mathbf{F}_q \bV_q^\top$ 
+
+## Non-negative Matrix Factorization \scriptsize [@sra2005generalized]
+  
+Assume that $\bX$ contains only non-negative entries (i.e. $\geq 0$).
+  
+#### Model: \alert{Linearity of $\Phi$ plus non-negativity constraints:}
+
+\vspace{-.25cm}
+
+$$
+\hat{\bX} \approx \underbrace{\bX \bV_q}_{\mathbf{F}_q} \bV_q^\top, \text{ s.c. } \mathbf{F}_q, \bV_q \text{ has non-negative entries.}
+$$
+
+  - Least-squares loss:  
+
+\vspace{-.25cm}
+
+$$
+\hat{\mathbf{X}}^{\text{ls}} =  \argmin_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q} \\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \left\| \mathbf{X} - \mathbf{FV}^\top \right\|_F^2,
+$$
+
+  - Poisson likelihood for $\bX_{ij}$ with intensity $\lambda^q_{ij} = (\mathbf{F}_q\bV_q^\top)_{ij} \geq 0$: 
+
+$$
+\hat{\mathbf{X}}^{\text{poisson}} = \argmax_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q} \\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log(\lambda^q_{ij}) - \lambda^q_{ij}.
+$$
+
+## Kernel-PCA \scriptsize [@scholkopf1998nonlinear]
+
+#### Principle: non linear transformation of $\bx$ prior to linear PCA
+
+  1. Project the data into a higher space where it is linearly separable
+  2. Apply PCA to the transformed data 
+
+![Transformation $\Psi : \bx \to \Psi(\bx)$ (illustration in presence of existing labels)](figs/common/kernel_trick.png){height=2.5cm}
+
+####  Model
+
+Assume a non linear transformation $\Psi(\mathbf{x}_i) \text{ where } \Psi : \mathbb{R}^p \to \mathbb{R}^n$,  then perform PCA, with $\bV_q$ a \emphase{$n\times q$} orthonormal matrix
+
+$$
+\Phi(\bx) = \bV_q^\top \Psi(\bx-\bmu) = \bz
+$$
+
+## Choice of the transformation
+
+All relationships are described in terms of scalar products between $(\bx_i,\bx_{i'})$:
+
+$$
+K = k(\bx_1,\bx_2) = (\Psi(\bx)_i,\Psi(\bx_{i'})) = \Psi(\bx_i)^\top \Psi(\bx_{i'}),
+$$
+
+where the kernel $K$ is a symmetric positive definite function.
+
+#### Some common kernels
+
+$$\begin{array}{lcr} 
+  \text{\emphase{Polynormial}:} &  k(\bx_i,\bx_{i'}) & = (\bx_{i}^\top \bx_{i'} + c)^d \\[2ex]
+  \text{\emphase{Gaussian}:} & k(\bx_i,\bx_{i'}) & = \exp{\frac {-\left\|\bx_i - \bx_{i'} \right\|^2}{2\sigma^2}} \\[2ex]
+  \text{\emphase{Laplacian kernel}:} & k(\bx_i,\bx_{i'}) & = \exp{\frac {-\left\|\bx_i - \bx_{i'} \right\|}{\sigma}} \\
+\end{array}$$
+
+\bigskip
+
+\rsa Kernel PCA suffers from the choice of the Kernel
+
+## Other methods
+  
+#### Linear models with other constraints
+    
+Let $\bV_q$ be a $p\times q$ matrix and $\bz \in \Rset^q$
+
+$$
+  \hat{\bx} = \tilde{\Phi}(\bz) = \bmu + \sum_{j=1}^q \tilde z^j \bV^j = \bmu + \bV_q \bz
+$$
+
+Apply other constraints on $\bV$ and or the factor/representation $\bz$
+
+  - $\bV_q$ sparse, possibly orthogonal: \alert{\bf sparse PCA}
+  - $\bz$ sparse : \emphase{Dictionary learning}
+  - ($z^j, z^{j'}$) independent : \emphase{Independent Component Anaysis}
+
+\bigskip
+
+\rsa optimize square-loss $\left\| \bX - \hat{\bX} \right\|_F^2$ to fit $\mu, \bV, \bz$

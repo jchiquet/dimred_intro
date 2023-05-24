@@ -46,15 +46,15 @@ $$ -->
 
 ## Empirical properties of tSNE (1)
 
-![](figs_PNE/tsne_properties_1.pdf) 
+![](figs/pne/tsne_properties_1.pdf) 
 
 ## Empirical properties of tSNE (2)
 
-![](figs_PNE/tsne_properties_2.pdf) 
+![](figs/pne/tsne_properties_2.pdf) 
 
 ## Empirical properties of tSNE (3)
 
-![](figs_PNE/tsne_properties_3.pdf) 
+![](figs/pne/tsne_properties_3.pdf) 
 
 ## t-SNE: pros/cons
 

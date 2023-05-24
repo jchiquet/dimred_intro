@@ -1,0 +1,59 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.decomposition import PCA, NMF, KernelPCA, FastICA, MiniBatchDictionaryLearning
+
+mnist = pd.read_csv('data/mnist_sample.csv')
+
+labels = mnist.iloc[:,0]
+digits = mnist.iloc[:,1:mnist.shape[1]]
+
+## PCA
+pca = PCA(n_components=40, random_state=0, whiten=True)
+pca.fit(digits)
+digits_PCA = pca.inverse_transform(pca.transform(digits))
+
+## NMF
+nmf = NMF(n_components=40, random_state=0)
+nmf.fit(digits)
+digits_NMF = nmf.inverse_transform(nmf.transform(digits))
+
+## Kernel-PCA
+kpca = KernelPCA(n_components=40, kernel='linear', random_state=0, fit_inverse_transform=True)
+kpca.fit(digits)
+digits_kPCA = kpca.inverse_transform(kpca.transform(digits))
+
+## ICA
+ica = FastICA(
+    n_components=40, max_iter=400, whiten="arbitrary-variance", tol=15e-5
+)
+ica.fit(digits)
+digits_ICA = ica.inverse_transform(ica.transform(digits))
+
+## Dictionnary learning
+DL = MiniBatchDictionaryLearning(n_components=25, transform_algorithm='lasso_lars', transform_alpha=0.1, batch_size = 3, random_state=0)
+digits_DL = DL.fit_transform(digits) @ DL.components_
+
+def plot_digits(df, labels, n_samples=15) :
+    sns.set()
+    fig, ax = plt.subplots(3,5,figsize=(10,7),subplot_kw={'xticks':(),'yticks':()})
+    ax = ax.ravel()
+    for i in range(n_samples):
+        pixels = df.iloc[i].values.reshape(-1,28)
+        ax[i].imshow(pixels,cmap='viridis')
+        ax[i].set_title('Digit-'+str(labels.iloc[i]))
+
+digits_PCA = pd.DataFrame(digits_PCA)
+digits_NMF = pd.DataFrame(digits_NMF)
+digits_kPCA = pd.DataFrame(digits_kPCA)
+digits_ICA = pd.DataFrame(digits_ICA)
+digits_DL = pd.DataFrame(digits_DL)
+
+## PLOTS
+plot_digits(digits, labels)
+plot_digits(digits_PCA, labels)
+plot_digits(digits_NMF, labels)
+plot_digits(digits_kPCA, labels)
+plot_digits(digits_ICA, labels)
+plot_digits(digits_DL, labels)
