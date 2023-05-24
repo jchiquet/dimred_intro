@@ -1,5 +1,5 @@
 ---
-title: "Tutorial on Dimensionality Reduction"
+title: "Introduction to Dimensionality Reduction"
 subtitle: "Some recents approches in statistics and machine learning"
 author: "Julien Chiquet"
 institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
@@ -46,7 +46,7 @@ Robust but,
 
 # Reconstruction error approach
 
-## Reconstruction error approach
+## Reconstruction error approach: principle
 
 Find maps $\Phi$ and $\tilde{\Phi}$ in a given family (e.g, linear, constraint on parameters, etc.), minimizing an error between $\bx$ and $\hat{\bx} = \tilde{\Phi}(\Phi(\bx))$
 
@@ -90,20 +90,24 @@ $$
 
 # Preserving pairwise relations
 
-## Pairwise Relation
+## Preserving pairwise relations: principle
 
-Focus on pairwise relation $\mathcal{R}(\bx_i, \bx_{i'})$.
+Consider an $n\times n$ (dis)similarity matrix associated to $\bx_i \in \mathbb{R}^p$, measuring pairwise relations $\mathcal{R}(\bullet, \bullet')$, using one among 
 
-#### Distance Preservation
+- distances,
+- kernels,
+- inner products,
+- probability distirbutions.
 
-Construct a map $\Phi$ from the space $\Rset^{p}$ into a space $\Rset^{q}$ of \alert{smaller dimension}:
+\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the (dis)similarities in the latent space
 
-$$\begin{aligned}
-  \Phi:\quad & \Rset^p \to \Rset^{q}, q \ll p\\
-             & \bx \mapsto \Phi(\bx)
-\end{aligned}$$
+#### Preserve local properties
 
-$$\text{such that} \quad \mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\tilde\bx_i, \tilde\bx_{i'})$$
+Find a map $\Phi$ from $\Rset^{p}\to\Rset^{q}$ such that
+
+$$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
+
+\rsa preserve $\mathcal{R}$ both in high and low dimensional spaces to catch complex geometries
 
 {{< include pairwise-preservation-methods.qmd >}}
 

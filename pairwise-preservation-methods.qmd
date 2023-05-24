@@ -2,69 +2,36 @@
 
 \framesubtitle{a.k.a Principale Coordinates Analysis}
 
-Consider a $n\times n$ (dis)similarity matrix associated to points $\bx_i\in\Rset^p$ 
+#### Classical Multidimensional Scalings
 
-\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the  (dis)similarities in the latent space
-
-#### Classical MDS model
-
-Measure similarities with the (centered) \alert{\bf inner product} and minimize 
+Preserve similarities in terms \alert{\bf inner product}: 
 
 $$
 \text{Stress}^{cMDS}(\bz_i) = \sum_{i\neq i'} \left( (\bx_i - \bmu)^\top (\bx_i - \bmu) - \bz_i^\top \bz_{i'} \right)^2,
 $$
 
-Assuming a linear model $\bz = \Phi(\bx) = \bV^\top (\bx_i - \bmu)$, with $\bV \in \mathcal{O}_{p \times q}$, minimizing $\text{Stress}^{cMDS}(\bz_i)$ is dual to PCA and leads to
+#### Metric Multidimensional Scalings
+
+Remarking that cMDS amount to preserve dissimilarities in terms of Euclidean distance, use
 
 $$
-\bz = \bX^c \bV = \bU\bD\bV^\top \bV = \bU\bD.
-$$
-  
-\alert{\rsa The principal coordinates in $\Rset^q$ correspond to the scores of the $n$ individuals projected on the first $q$ principal components.}
-
-## Metric Multidimensional Scalings
-  
-\paragraph{Idea to generalize classical MDS:} preserving similarities in term of \alert{\bf inner product} amounts to preserve dissimilarity in terms of Euclidean distance
-
-
-#### Least-squares/Kruskal-Shephard scaling
-
-Use a distance base formulation with the following loss (Stress) function:
-
-$$
-\text{Stress}^{KS} = \sum_{i\neq i'} \left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2,
+\text{Stress}(\bz_1,\dots,\bz_n) = \sum_{i\neq i'} \left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2,
 $$
 
-  -  Almost equivalent to classical MDS when $d$ is the Euclidean distance
-  - Generalize to any \alert{\bf quantitative} dissimilarity/distance $d$
+\rsa Generalize to other dissimilarities/distances or stress functions
 
-#### Sammong mapping - \textcolor{black}{Variant of the loss (Stress) function}
-
-$$
-  \text{Stress}^{SM} = \sum_{i\neq i'} \frac{\left(d_{ii'} - \|\bz_i - \bz_{i'}\| \right)^2}{d_{ii'}}.
-$$
-
-## Isomap
+## Some Embedding methods
  
-#### Basic idea
+#### Isomap \scriptsize [@balasubramanian2002isomap]
 
-  - Metric  MDS performs embedding based on pairwise Euclidean-based distance
-  - Isomap embeds a distance induced by a neighborhood graph
- 
-Formally, consider a neighborhood $\mathcal{N}_i$ for each point, then
+  - Build a $k$-nearest neighbor graph with adjacency matrix $\mathbf{W}$ 
+  - Weight edges by $W_{ii'} = \| \bx_i - \bx_{i'} \|$
+  - Compute the shortest path distance 
+  - Embeds the distance with MDS.
 
-$$
-  d_{ii'} = \left\{
-    \begin{array}{cc}
-    + \infty & \text{ if }j \notin \mathcal{N}_i\\
-    \| \bx_i - \bx_{i'} \|& \\
-    \end{array}
-  \right.,
-$$
+#### Laplacian Eigenmaps \scriptsize [@belkin2003laplacian]
 
-and compute the shortest path distance for each pair prior to MDS.
-
-## Laplacian Eigenmaps
-
-TODO
- 
+  - Build a $k$-nearest neighbor graph with adjacency matrix $\mathbf{W}$ 
+  - Weight edges with Gaussian kernel $W_{ii'} = \exp(\| \bx_i - \bx_{i'} \|^2/\sigma^2)$
+  - Compute the graph Laplacian $\mathbf{L} = \mathbf{D} - \mathbf{W}$ with $\bD$ diagonal with degrees
+  - Embeddings are obtained with the first eigenvectors associated to positive eigenvalues of $\mathbf{L}$. 
