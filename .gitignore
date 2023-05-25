@@ -1,1 +1,4 @@
 /.quarto/
+/._freeze/
+/.vscode
+/.*_cache/

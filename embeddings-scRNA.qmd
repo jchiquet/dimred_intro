@@ -2,13 +2,13 @@
 
 :::: {.columns}
 
-::: {.column width="45%"}
+::: {.column width="40%"}
 
 ![Multidimensional Scaling](figs/scRNA-analysis/mds-scRNA.png){width="90%"}
 
 :::
 
-::: {.column width="45%"}
+::: {.column width="40%"}
 
 ![Isomap](figs/scRNA-analysis/isomap-scRNA.png){width="90%"}
 
@@ -18,7 +18,7 @@
 
 :::: {.columns}
 
-::: {.column width="45%"}
+::: {.column width="40%"}
 
 ![Laplacian Eigenmap](figs/scRNA-analysis/spectral-scRNA.png){width="90%"}
 

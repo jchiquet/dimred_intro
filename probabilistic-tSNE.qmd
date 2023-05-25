@@ -1,6 +1,4 @@
 
-# Probabilistic Neighborhood Embedding
-
 ## Hidden Graph to structure observations
 
 Consider $W$ the adjacency matrix of a hidden random graph^[we start with one connected component]

@@ -97,7 +97,9 @@ Consider an $n\times n$ (dis)similarity matrix associated to $\bx_i \in \mathbb{
 - distances,
 - kernels,
 - inner products,
-- probability distirbutions.
+- probability distributions.
+
+\medskip
 
 \emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the (dis)similarities in the latent space
 
@@ -117,7 +119,30 @@ $$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
 
 {{< include tSNE-scRNA.qmd >}}
 
+# Probabilistic Neighborhood Embedding \scriptsize [@van2022probabilistic]
+
 {{< include probabilistic-tSNE.qmd >}}
+
+## Conclusion
+
+\begin{center}
+ \emphase{Thank you for your attention}
+\end{center}
+
+#### Co-authors on this topic
+
+- Poisson log-normal PCA: Stéphane Robin, Mahendra Maridassou, Bastien Batardière, Nicolas Jouvin
+- Probabilistic t-SNE: Hugues van Assel, Franck Picard, Thibault Espinasse, Eddie Aamari
+
+#### Some code
+
+- \texttt{R}/\texttt{C++} package \texttt{PLNmodels} is on \url{https://cran.r-project.org/}
+- \texttt{Python}/\texttt{Pytorch} package \texttt{pyplnmodels} is on \url{https://pypi.org/}
+- Github repos of this presentation is available at \url{https://github.com/jchiquet/dimred_intro}
+
+#### Advertissing
+
+\url{https://computo.sfds.asso.fr/}, an open diamond academic journal promoting reproducibility
 
 ## References {.allowframebreaks}
 

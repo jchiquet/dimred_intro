@@ -5,7 +5,7 @@
 pPCA is a special factor model with parameter $\theta=(\bC, \sigma)$:
 
 $$\begin{array}{rcl}
-  \text{latent space }  & \bZ_i \quad \text{i.i.d.} & \bW_i \sim \mathcal{N}(\mathbf{0}_q, \mathbf{I}_q)  \\
+  \text{latent space }  & \bZ_i \quad \text{i.i.d.} & \bZ_i \sim \mathcal{N}(\mathbf{0}_q, \mathbf{I}_q)  \\
   \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX | \bZ_i \sim \mathcal{N}\left({\boldsymbol\mu} + \bC \bZ, \sigma^2 \mathbf{I}_n \right)
 \end{array}$$
 
@@ -40,7 +40,7 @@ $$
 \vspace{-.5cm}
 
 $$
-\bZ_i \, | \, \bX_i \sim \mathcal{N}\left(\bS^{-1} \hat{\bC}^\top (\bX_i - \bar{\bx}), \bS^{-1} \hat{\sigma}^2  \right), \quad \bS = \left(\hat{\bC}^\top \hat{\bC} + \hat{\sigma}^2\right)
+\bZ_i \, | \, \bX_i \sim \mathcal{N}\left(\bS^{-1} \hat{\bC}^\top (\bX_i - \bar{\bx}), \bS^{-1} \hat{\sigma}^2  \right), \quad \bS = \left(\hat{\bC}^\top \hat{\bC} + \hat{\sigma}^2 \mathbf{I}_q \right)
 $$
 
 \medskip
@@ -51,7 +51,7 @@ When $\sigma^2\to 0$, $\mathbb{E}(\bZ_i|\bX_i) \equiv$ \emphase{orthogonal proje
 
 #### Expectation-Maximization
 
-With $\mathcal{H}(p) = -\mathbb{E}_p(\log(p))$ the entropy of $p$, decompose 
+With $\mathcal{H}(p) = -\mathbb{E}_p(\log(p))$ the entropy of $p$, 
 
 $$
 \log p_\theta(\bX) = \mathbb{E} [\log p_\theta(\bX, \bZ) \,|\,\bX; \theta)] + \mathcal{H}[p_\theta (\bZ \,|\,\bX; \theta)]
@@ -69,7 +69,8 @@ EM requires to evaluate (some moments of) $p_\theta(\bZ \,|\,  \bX; \theta)$
 
 \bigskip
 
-\rsa can be faster that MLE when $p \gg q$
+\alert{On-going}: Fast \texttt{JAX} implementation by Hugo Gangloff, mixture of pPCA with Pierre Barbillon and MsC intern
+Pierre Brand
 
 ## PCA for counts: poisson lognormal PCA 
 
@@ -96,12 +97,14 @@ $$
 
 ## Variational inference \scriptsize [@PLNmodels]
 
-#### Variational approximation \scriptsize  [@WaJ08, @blei2017variational]
+#### Variational approximation \scriptsize  [@blei2017variational]
 
   - Use a proxy $q_\psi$ of $p_\theta(\bZ\,|\,\bX)$ minimizing a divergence in a class $\mathcal{Q}$
 
+\vspace{-.25cm}
+
 $$
-q_\psi(\mathbf{Z})^\star = \arg\min_{q\in\mathcal{Q}} KL\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right), \, KL(., .) = \mathbb{E}_{q_\psi}\left[\log \frac{q(z)}{p(z)}\right].
+q_\psi(\mathbf{Z})^\star = \arg\min_{q\in\mathcal{Q}} D_{KL}\left(q(\mathbf{Z}), p(\mathbf{Z} | \mathbf{Y})\right), \quad D_{KL}(p, q) = \mathbb{E}_{q}\left[\log \frac{q(z)}{p(z)}\right].
 $$
 
   - maximize the ELBO (Evidence Lower BOund)
@@ -110,7 +113,7 @@ $$
 J(\theta, \psi) = \log p_\theta(\mathbf{Y}) - KL[q_\psi (\mathbf{Z}) ||  p_\theta(\mathbf{Z} | \mathbf{Y})] = \mathbb{E}_{\psi} [\log p_\theta(\mathbf{Y}, \mathbf{Z})] + \mathcal{H}[q_\psi(\mathbf{Z})]
 $$
 
-#### Variational EM for Poisson-lognormal
+#### Variational EM for Poisson-lognormal PCA (PLN-PCA)
 
 Consider $\mathcal{Q}$ the class of diagonal multivariate Gaussian distributions.
 
