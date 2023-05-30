@@ -1,5 +1,7 @@
 
-## Hidden Graph to structure observations
+## Probabilistic Neighborhood Embedding \scriptsize [@van2022probabilistic]
+
+#### Hidden Graph to structure observations
 
 Consider $W$ the adjacency matrix of a hidden random graph^[we start with one connected component]
 
@@ -114,7 +116,6 @@ $$
 \item Carefully inspect the case with more than one connected component
 \end{itemize}
 \end{frame} -->
-
 
 ## Conjugate priors and posteriors for hidden graphs
 

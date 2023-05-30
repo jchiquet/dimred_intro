@@ -72,7 +72,7 @@ EM requires to evaluate (some moments of) $p_\theta(\bZ \,|\,  \bX; \theta)$
 \alert{On-going}: Fast \texttt{JAX} implementation by Hugo Gangloff, mixture of pPCA with Pierre Barbillon and MsC intern
 Pierre Brand
 
-## PCA for counts: poisson lognormal PCA 
+## PCA for counts: Poisson lognormal PCA 
 
 #### Generative Model \scriptsize [@PLNPCA]
 

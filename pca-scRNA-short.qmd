@@ -1,0 +1,27 @@
+
+```{r scRNA-data-load, include=FALSE}
+library(ZIPLN)
+data(scRNA)
+log_data <- sweep(log(1 + scRNA$counts), 1, log(scRNA$total_counts), "-")
+```
+
+## Single-Cell data analysed with PCA  {.fragile}
+
+#### Toy single-cell RNA data set ([https://github.com/LuyiTian/sc_mixology/](https://github.com/LuyiTian/sc_mixology/))
+
+The dataset `scRNA` contains the counts of the 500 most varying transcripts (tens of thousands) in the mixtures of 5 cell lines for a total of 3918 cells in human liver (obtained with standard 10x scRNAseq Chromium protocol).
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+```{r scrna-biplot-log, echo=FALSE}
+log_data <- sweep(log(1 + scRNA$counts), 1, log(scRNA$total_counts), "-")
+prcomp(log_data, scale.=TRUE) |> factoextra::fviz_pca_biplot(
+  select.var = list(contrib = 40), addEllipses = TRUE, habillage = scRNA$cell_line, alpha=.7,
+  title = "Biplot (50 most contributing genes), log/total-counts normalization") + scale_color_viridis_d()
+```
+
+:::
+
+:::: 

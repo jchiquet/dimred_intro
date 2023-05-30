@@ -1,6 +1,6 @@
 ---
-title: "Some probabilistic Machine learning approaches to Dimension Reduction"
-subtitle: "Applications to Life Sciences"
+title: "Dimension Reduction and Life Sciences"
+subtitle: "Panorama and Probabilistic View of some Recent Approaches"
 author: "Julien Chiquet"
 institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
 date: 05/31/2023
@@ -15,13 +15,11 @@ execute:
 
 {{< include intro_lego.qmd >}}
 
-{{< include pca-scRNA.qmd >}}
+{{< include pca-scRNA-short.qmd >}}
 
 ## Beyond PCA and linear methods
 
-#### Limitations
-
-Robust but,
+\emphase{Robust} but
 
   - badly shaped for complex geometries (like multiscale properties) 
   - Fails with \alert{\bf Count} or \alert{\bf Skew} data (hidden Gaussian assumption)
@@ -29,20 +27,24 @@ Robust but,
 #### Ideas
 
   - Modify the model by playing with the \emphase{reconstruction error}
-  - Gain in versatility with \emphase{probabilistic/model-based approaches}
   - Focus on \emphase{relationship preservation} to keep local characteristics
-  - Go \emphase{non-linear} by transforming the input space or amending the map $\Phi: \Rset^p \to \Rset^{q}$
+ 
+ \medskip
+
+ \rsa Gain in versatility with \emphase{probabilistic/model-based approaches}
 
 #### Challenges
+
+With, non-linear transformations\dots
 
   - tradeoff between  interpretability and \emphase{versatility}
   - tradeoff between  \emphase{high} or low computational resource
 
 # Reconstruction error approach
 
-## Reconstruction error approach: principle
+## Principle
 
-Find maps $\Phi$ and $\tilde{\Phi}$ in a given family (e.g, linear, constraint on parameters, etc.), minimizing an error between $\bx$ and $\hat{\bx} = \tilde{\Phi}(\Phi(\bx))$
+Find maps $\Phi$ and $\tilde{\Phi}$ in a given family (e.g, linear, constraint on parameters, etc.), minimizing an error between $\bx$ and $\hat{\bx} = \tilde{\Phi}(\Phi(\bx))$, with $\Phi(\bx) = \bz$, e.g.
 
   - \emphase{Distance} between $\bX$ and $\hat{\bX}$, e.g, sum of squares:
 
@@ -52,15 +54,7 @@ $$
 \epsilon^\text{SSQ}(\bX, \hat \bX ) = \left\| \bX - \hat \bX \right\|_F^2  = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2
 $$
 
-  - \emphase{Divergence} between distributions $\hat{p}_{\bX}$ and $\hat{p}_{\hat{\bX}}$ of $\bX_i$ and $\hat{\bX}_i$
-
-\vspace{-.25cm}
-
-$$
-D_{\text{KL}}\left(\hat{p}_{\bX}, \hat{p}_{\hat{\bX}}\right) = - \sum_{i} \hat{p}_{\bX_i}  \log\left(\frac{\hat{p}_{\bX_i}}{\hat{p}_{\hat{\bX}_i}}\right)
-$$
-
-  - \emphase{Log-likelihood} of a parametric model $p_\theta$, with $\hat{\bX}=f(\theta)$:
+  - \emphase{Log-likelihood} of a parametric model $p_\theta$, with $\hat{\bX}=\mathbb{E}_{\hat{\theta}}(\cdot)$:
 
 \vspace{-.25cm}
 
@@ -68,15 +62,83 @@ $$
   - \log p_{\theta}(\bX) = - \sum_{i=1}^n \log p_{\btheta}(\bX_i)
 $$
 
-{{< include reconstruction-error-methods.qmd >}}
+## PCA and Reconstruction error
 
-# Generative models
+#### Model
+
+Let $\bV_q$ be a $p\times q$ matrix whose columns are of $q$ orthonormal vectors.
+
+$$\Phi(\bx) = \bV_q^\top(\bx-\bmu)  = \bz, \quad \hat{\bx} = \tilde{\Phi}(\bz) = \bmu + \bV_q \bz.$$
+
+\rsa Model with \emphase{Linear assumption + ortho-normality constraints}
+ 
+#### Reconstruction error
+
+\vspace{-.5cm}
+
+$$
+\minimize_{\substack{\bmu \in\Rset^p \\\bV_q\in\mathcal{O}_{p,q}}} \sum_{i=1}^n \left\| (\bx_i  - \bmu) - \bV_q\bV_q^\top ( \bx_i -\bmu)   \right\|^2 = \Bigg( \minimize_{\substack{\mathbf{F}_q\in\mathcal{M}_{n,q} \\\bV_q\in\mathcal{O}_{p,q}}} \left\| \mathbf{X}^c - \mathbf{F_q V_q}^\top \right\|_F^2 \Bigg)
+$$
+
+#### Solution (explicit)
+  
+  - $\bmu$ is the empirical mean, $\bV_q$ eigenvectors of the empirical covariance
+  - In practice: SVD of the centered matrix $\bX^c = \bU_q \bD_q \bV_q^\top = \mathbf{F}_q \bV_q^\top$ 
+
+## Other methods with same rational
+
+#### Linear models with other constraints
+
+\vspace{-.5cm}
+
+$$
+(\hat{\bmu}, \hat{\bV}, \hat{\bZ}) = \argmin \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2, \quad \hat{\bx} = \tilde{\Phi}(\bz) = \bmu + \bV_q \bz
+$$
+
+  - \emphase{\bf sparse PCA}: $\bV_q$ sparse, possibly orthogonal
+  - \emphase{Dictionary learning}: $\bZ$ sparse
+  - \emphase{Independent Component Anaysis} ($z^j, z^{j'}$) independent
+
+#### Kernel-PCA: \textcolor{black}{non linear transformation of the input $\Psi(\mathbf{x}_i)$,  then  PCA:}
+
+\vspace{-.5cm}
+
+$$
+\Phi(\bx) = \bV_q^\top \Psi(\bx-\bmu) = \bz, \qquad \Psi : \mathbb{R}^p \to \mathbb{R}^n
+$$
+
+#### Non Linear Matrix Factorization
+
+Poisson likelihood for $\bX_{ij}$ with intensity $\lambda^q_{ij} = (\mathbf{F}_q\bV_q^\top)_{ij} \geq 0$: 
+
+$$
+\hat{\mathbf{X}}^{\text{poisson}} = \argmax_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q} \\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log(\lambda^q_{ij}) - \lambda^q_{ij}.
+$$
 
 {{< include ppca.qmd >}}
 
-<!-- 
 {{< include plnpca-scRNA.qmd >}}
- -->
+
+
+## Mixture of PLN-PCA \scriptsize with Nicolas Jouvin
+		
+Gaussian mixture in the \emphase{common} latent $q$-dimensional subspace
+
+<!-- \covar_i^\top \bB +  -->
+$$\begin{aligned}
+	& \bG_i \sim \mathcal{M}(1, {\boldsymbol \pi}= (\pi_1,\dots,\pi_K)) & \textnormal{(clustering)} \\
+	& \bZ_i  \sim \mathcal{N}_q({\boldsymbol 0}, \mathbf{I}_q) & \textnormal{(subspace)} \\
+	& \bW_i \mid \bG_{ik} = 1 \sim \mu_k + \sigma_k \bZ_i & \textnormal{(linear transform)} \\
+  & \bX_i \mid \bW_i, \bG_i \sim \mathcal{P}(\exp(\bC \bW_i)) & \textnormal{(emission)} 
+\end{aligned}$$
+
+With parameters $\{{\boldsymbol\mu}_k, {\boldsymbol\mu}_k, \bC, {\boldsymbol\pi} \}$: use variational inference.
+
+#### More general models
+
+  - Add covariate effects
+  - Use diagonal variance (rather than spherical) $\sigma_k^2 \bI_q \to \bD_k$
+  - Use different $\bC_k$ $\rightsquigarrow$ no common projection
 
 {{< include vae.qmd >}}
 
@@ -84,7 +146,7 @@ $$
 
 # Preserving pairwise relations
 
-## Preserving pairwise relations: principle
+## Principle
 
 Consider an $n\times n$ (dis)similarity matrix associated to $\bx_i \in \mathbb{R}^p$, measuring pairwise relations $\mathcal{R}(\bullet, \bullet')$, using one among 
 
@@ -112,8 +174,6 @@ $$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
 {{< include tSNE.qmd >}}
 
 {{< include tSNE-scRNA.qmd >}}
-
-# Probabilistic Neighborhood Embedding \scriptsize [@van2022probabilistic]
 
 {{< include probabilistic-tSNE.qmd >}}
 

@@ -43,10 +43,10 @@ $$
 
 #### Dimension reduction: general goals
 
-Find a \emphase{low-dimensional representation} that captures the "essence" (local and/or global structure, signal) of the original (high-dimensional) data
+Find a \emphase{low-dimensional representation} that captures the "essence" (local and/or global structure, signal) of the original data
 
-  - \alert{ML}: preprocessing, denoising, Compression
-  - \alert{Stat.}: descriptive/exploratory methods, visualization
+  - \emphase{ML}: preprocessing, denoising, compression
+  - \emphase{Stat.}: descriptive/exploratory methods, visualization
 
 ## Dimensionality curse
 
@@ -81,28 +81,6 @@ $$
 
 ::::
 
-## Dimension reduction: general goals
-  
-\alert{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
-
-#### Application in Machine Learning
-
-  \alert{Preprocessing, Regularization}
-
-  - Compression, denoising,  anomaly detection
-  - Reduce overfitting in supervised learning
-
-#### Application in Statistics/Data analysis
-
-\alert{Better understanding of the data}
-
-- descriptive/exploratory methods
-- visualization (difficult to plot and interpret $> 3d$!)
-
-\bigskip
-
-_See Chapter 20 in @pml1Book for a nice, recent introduction and Chapter 14 in @ESL for reference._
-
 ## Example in genomics
 
 \framesubtitle{Genome-wide cell biology with single-cell RNAseq data}
@@ -129,40 +107,5 @@ Describe cell population ($n \to 10^6$) with high dimensional molecular features
 
 ![Successful t-SNE visualizations of sc-RNAseq data](figs/intro/scRNA_tsne.pdf){width="90%"}
 
-## Dimension reduction: problem setup {.fragile}
 
-#### Dimension Reduction Map
-
-  - \alert{High dimensional data} : $\{\bx_1,\ldots,\bx_n\} \in \Rset^p$, $n \ll p$
-  - \alert{Low dimensional data} : $\{\bz_1,\ldots,\bz_n\} \in \Rset^q$, $q\ll p$
-
-$$\text{Construct a map } \Phi:\begin{cases}
-  \quad & \Rset^p \to \Rset^{q}, q \ll p\\
-                     & \bx \mapsto \Phi(\bx) \triangleq \bz
-\end{cases}$$
-
-:::: {.columns}
-
-::: {.column width="45%"}
-
-\rsa \emphase{How should we design/construct $\Phi$?}
-
-#### Criterion/Objective
-
-  - \emphase{Reconstruction error}
-  - \emphase{Relationship preservation}
-
-:::
-
-::: {.column width="55%"}
-
-#### Constraint on $\Phi$
-
-  - Linear or non-linear?
-  - interpretability and versatility?
-  - high or low computational resource?
-
-:::
-
-::::
 

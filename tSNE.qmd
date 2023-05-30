@@ -56,6 +56,7 @@ $$ -->
 
 ![](figs/pne/tsne_properties_3.pdf) 
 
+<!-- 
 ## t-SNE: pros/cons
 
 #### Properties
@@ -102,4 +103,4 @@ $$
 $$
 
 \emphase{Tends to preserve both local and global representations}
-
+ -->
