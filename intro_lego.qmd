@@ -1,0 +1,168 @@
+
+```{r r-packages}
+library(tidyverse)    # advanced data manipulation and vizualisation
+library(knitr)        # R notebook export and formatting 
+library(FactoMineR)   # Factor analysis
+library(factoextra)   # Fancy plotting of FactoMineR outputs
+library(kableExtra)   # integration of table in Rmarkdown
+library(PLNmodels)
+theme_set(theme_bw()) # set default ggplot2 theme to black and white
+```
+
+## Exploratory analysis of (modern) data sets
+
+Assume a table with $n$ individuals described by $p$ features/variables
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+\begin{footnotesize}
+$$\bX_{n\times p} = \begin{array}{c|c|c|c|c|c|c} \ \ \ & \ \ \ \, & \ \ \ \, & \ \ \ \,  & \ \ \ \, & \ \ \ \, & \ \ \ \\ \hline \ & \ & \ & x_{ij}  & \ & \ & \ \\ \hline \ & \ & \ & \ & \  & \ & \ \end{array} 
+$$
+\end{footnotesize}
+
+:::
+
+::: {.column width="57%"}
+
+  - \small genetics: variant $j$ in genome $i$
+  - \small genomics: gene $j$ in cell $i$
+  - \small ecology: species $j$ in site $j$
+  - \small etc.
+
+:::
+
+::::
+
+#### Challenges
+
+  - \emphase{Large} ($n$ and $p$ grows) and \emphase{high dimensional} ($n$ grows but $\ll p$)
+  - \emphase{Redundancy} many variables may carry the same information
+  - \emphase{Discrete}: measures with counts are as common as with intensity
+
+#### Dimension reduction: general goals
+
+Find a \emphase{low-dimensional representation} that captures the "essence" (local and/or global structure, signal) of the original (high-dimensional) data
+
+  - \alert{ML}: preprocessing, denoising, Compression
+  - \alert{Stat.}: descriptive/exploratory methods, visualization
+
+## Dimensionality curse
+
+::: {#thm-folks}
+
+## Folks theorem
+
+Let $\bx_1,\ldots, \bx_n$ be in the $p$-hypercube with i.i.d. coordinates. Then,
+
+$$
+p^{-1/2} \left( \max \|\bx_i-\bx_{i'}\|_2 - \min \|\bx_i-\bx_{i'}\|_2 \right) = 0 + \mathcal{O}\left(\sqrt{\frac{\log n}{p}}\right)
+$$
+
+\rsa When $p$ is large, all the points are almost equidistant
+:::
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+![](figs/intro/distance_simu_affy.png){width="90%"}
+
+:::
+
+::: {.column width="30%"}
+
+\vspace{1cm}
+
+\rsa Hopefully, the data \emphase{are not really leaving in $p$} dimensions!
+
+:::
+
+::::
+
+## Dimension reduction: general goals
+  
+\alert{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
+
+#### Application in Machine Learning
+
+  \alert{Preprocessing, Regularization}
+
+  - Compression, denoising,  anomaly detection
+  - Reduce overfitting in supervised learning
+
+#### Application in Statistics/Data analysis
+
+\alert{Better understanding of the data}
+
+- descriptive/exploratory methods
+- visualization (difficult to plot and interpret $> 3d$!)
+
+\bigskip
+
+_See Chapter 20 in @pml1Book for a nice, recent introduction and Chapter 14 in @ESL for reference._
+
+## Example in genomics
+
+\framesubtitle{Genome-wide cell biology with single-cell RNAseq data}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figs/intro/10xgenomics.png)
+
+:::
+
+::: {.column width="40%"}
+
+\vspace{1cm}
+
+\footnotesize 
+
+Describe cell population ($n \to 10^6$) with high dimensional molecular features ($p\to 10^5$)
+
+:::
+
+::::
+
+![Successful t-SNE visualizations of sc-RNAseq data](figs/intro/scRNA_tsne.pdf){width="90%"}
+
+## Dimension reduction: problem setup {.fragile}
+
+#### Dimension Reduction Map
+
+  - \alert{High dimensional data} : $\{\bx_1,\ldots,\bx_n\} \in \Rset^p$, $n \ll p$
+  - \alert{Low dimensional data} : $\{\bz_1,\ldots,\bz_n\} \in \Rset^q$, $q\ll p$
+
+$$\text{Construct a map } \Phi:\begin{cases}
+  \quad & \Rset^p \to \Rset^{q}, q \ll p\\
+                     & \bx \mapsto \Phi(\bx) \triangleq \bz
+\end{cases}$$
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+\rsa \emphase{How should we design/construct $\Phi$?}
+
+#### Criterion/Objective
+
+  - \emphase{Reconstruction error}
+  - \emphase{Relationship preservation}
+
+:::
+
+::: {.column width="55%"}
+
+#### Constraint on $\Phi$
+
+  - Linear or non-linear?
+  - interpretability and versatility?
+  - high or low computational resource?
+
+:::
+
+::::
+

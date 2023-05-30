@@ -1,0 +1,144 @@
+---
+title: "Some probabilistic Machine learning approaches to Dimension Reduction"
+subtitle: "Applications to Life Sciences"
+author: "Julien Chiquet"
+institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
+date: 05/31/2023
+date-format: long
+format: beamer
+standalone: true
+execute:
+    freeze: auto    
+---
+
+# Introduction
+
+{{< include intro_lego.qmd >}}
+
+{{< include pca-scRNA.qmd >}}
+
+## Beyond PCA and linear methods
+
+#### Limitations
+
+Robust but,
+
+  - badly shaped for complex geometries (like multiscale properties) 
+  - Fails with \alert{\bf Count} or \alert{\bf Skew} data (hidden Gaussian assumption)
+
+#### Ideas
+
+  - Modify the model by playing with the \emphase{reconstruction error}
+  - Gain in versatility with \emphase{probabilistic/model-based approaches}
+  - Focus on \emphase{relationship preservation} to keep local characteristics
+  - Go \emphase{non-linear} by transforming the input space or amending the map $\Phi: \Rset^p \to \Rset^{q}$
+
+#### Challenges
+
+  - tradeoff between  interpretability and \emphase{versatility}
+  - tradeoff between  \emphase{high} or low computational resource
+
+# Reconstruction error approach
+
+## Reconstruction error approach: principle
+
+Find maps $\Phi$ and $\tilde{\Phi}$ in a given family (e.g, linear, constraint on parameters, etc.), minimizing an error between $\bx$ and $\hat{\bx} = \tilde{\Phi}(\Phi(\bx))$
+
+  - \emphase{Distance} between $\bX$ and $\hat{\bX}$, e.g, sum of squares:
+
+\vspace{-.25cm}
+
+$$
+\epsilon^\text{SSQ}(\bX, \hat \bX ) = \left\| \bX - \hat \bX \right\|_F^2  = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2
+$$
+
+  - \emphase{Divergence} between distributions $\hat{p}_{\bX}$ and $\hat{p}_{\hat{\bX}}$ of $\bX_i$ and $\hat{\bX}_i$
+
+\vspace{-.25cm}
+
+$$
+D_{\text{KL}}\left(\hat{p}_{\bX}, \hat{p}_{\hat{\bX}}\right) = - \sum_{i} \hat{p}_{\bX_i}  \log\left(\frac{\hat{p}_{\bX_i}}{\hat{p}_{\hat{\bX}_i}}\right)
+$$
+
+  - \emphase{Log-likelihood} of a parametric model $p_\theta$, with $\hat{\bX}=f(\theta)$:
+
+\vspace{-.25cm}
+
+$$
+  - \log p_{\theta}(\bX) = - \sum_{i=1}^n \log p_{\btheta}(\bX_i)
+$$
+
+{{< include reconstruction-error-methods.qmd >}}
+
+# Generative models
+
+{{< include ppca.qmd >}}
+
+<!-- 
+{{< include plnpca-scRNA.qmd >}}
+ -->
+
+{{< include vae.qmd >}}
+
+{{< include vae-scRNA.qmd >}}
+
+# Preserving pairwise relations
+
+## Preserving pairwise relations: principle
+
+Consider an $n\times n$ (dis)similarity matrix associated to $\bx_i \in \mathbb{R}^p$, measuring pairwise relations $\mathcal{R}(\bullet, \bullet')$, using one among 
+
+- distances,
+- kernels,
+- inner products,
+- probability distributions.
+
+\medskip
+
+\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the (dis)similarities in the latent space
+
+#### Preserve local properties
+
+Find a map $\Phi$ from $\Rset^{p}\to\Rset^{q}$ such that
+
+$$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
+
+\rsa preserve $\mathcal{R}$ both in high and low dimensional spaces to catch complex geometries
+
+{{< include pairwise-preservation-methods.qmd >}}
+
+{{< include embeddings-scRNA.qmd >}}
+
+{{< include tSNE.qmd >}}
+
+{{< include tSNE-scRNA.qmd >}}
+
+# Probabilistic Neighborhood Embedding \scriptsize [@van2022probabilistic]
+
+{{< include probabilistic-tSNE.qmd >}}
+
+## Conclusion
+
+\begin{center}
+ \emphase{Thank you for your attention}
+\end{center}
+
+#### Co-authors on this topic
+
+- Poisson log-normal PCA: Stéphane Robin, Mahendra Maridassou, Bastien Batardière, Nicolas Jouvin
+- Probabilistic t-SNE: Hugues van Assel, Franck Picard, Thibault Espinasse, Eddie Aamari
+
+#### Some code
+
+- \texttt{R}/\texttt{C++} package \texttt{PLNmodels} is on \url{https://cran.r-project.org/}
+- \texttt{Python}/\texttt{Pytorch} package \texttt{pyplnmodels} is on \url{https://pypi.org/}
+- Github repos of this presentation is available at \url{https://github.com/jchiquet/dimred_intro}
+
+#### Advertissing
+
+\url{https://computo.sfds.asso.fr/}, an open diamond academic journal promoting reproducibility
+
+## References {.allowframebreaks}
+
+::: {#refs}
+:::
