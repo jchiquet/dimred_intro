@@ -1,121 +1,77 @@
 
 ## Probabilistic Neighborhood Embedding \scriptsize [@van2022probabilistic]
 
-#### Hidden Graph to structure observations
 
-Consider $W$ the adjacency matrix of a hidden random graph^[we start with one connected component]
+\framesubtitle{Unifying probabilistic view of t-SNE like approaches}
 
-The graph Laplacian operator is the map $L$ such that
-$$L(\bW)_{ij} = \left\{
-\begin{array}{ll}
-    - W_{ij} & \text{if } i \neq j \\
-    \sum_{k \in [n]} W_{ik} & \text{otherwise} \:.
-\end{array} 
-\right. $$
+<!-- ^[Another important reference: @cai2022theoretical (Analysis of the algorithm, not model-based)] -->
 
-$L = L(\bW)$ has the following property:
-$$
-\forall X \in \mathbb{R}^{n \times p}, \quad
-\sum_{i,j} W_{ij}\|X_i -X_j\|^2 = \operatorname{tr}(X^T L X).
-$$
+#### Hidden graph to structure observations
 
+Let $\bW$ describe a hidden random graph with Laplacian $\bL = \bD - \bW$
 
+<!-- ^[with one connected component, without loss of generality] and its Laplacian  with $\bD_{ii} = \text{deg}(i)$. -->
 
-## Conditional distribution of $X$ on a graph $W_X$
+<!-- $$ -->
+<!-- \sum_{i,j} W_{ij}\|\bX_i - \bX_j\|^2 = \operatorname{tr}(\bX^T \bL \bX). -->
+<!-- $$ -->
 
-Consider a Matrix Normal model with row and column dependencies
+#### Conditional distribution structured by graphs
+
+Consider matrix Normal models with \emphase{row} and column dependencies
 
 $$
-X \mid W_X  \sim \mathcal{MN} \bigg(0 , L_X^{-1},\, \Sigma^{-1} \bigg),
+\bX \mid \bW_X  \sim \mathcal{MN} \bigg(0 , \bL_X^{-1},\, \bSigma^{-1} \bigg), \quad \bZ \mid \bW_Z  \sim \mathcal{MN} \bigg(0 , \bL_Z^{-1},\, \mathbf{I}_q\bigg).
 $$
 
-The conditional density relates to the Gaussian kernel
+The conditional densities relates to the Gaussian kernel:
+
+\vspace{-.5cm}
 
 $$
-k ( X_i- X_j) = \exp \left( - \frac{1}{2} \| X_i-X_j \|_\Sigma^2 \right), 
+k ( \bX_i - \bX_j) = \exp \left( - \frac{1}{2} \| \bX_i-\bX_{j} \|^2_{\Sigma^{-1}} \right), \, k(\bZ_i - \bZ_j) = \exp \left( - \frac{1}{2} \| \bZ_i-\bZ_j \|^2 \right).
 $$
 which can be generalized to translation invariant kernels:
 
-$$
-\mathbb{P}(X \mid W_X) \propto \prod_{(i,j) \in [n]^2} k(\mathbf{X}_{i} - \mathbf{X}_{j})^{W_{X,ij}} \: .
-$$
+\vspace{-.5cm}
 
-## Conditional distribution of $Z$ on a graph $W_Z$
-
-Consider that the low-dimensional representation is also structured according to a graph
 $$
-Z \mid W_Z  \sim \mathcal{MN} \bigg(0 , L_Z^{-1},\, I_q\bigg),
+\mathbb{P}(\bX \mid \bW_X) \varpropto \prod_{(i,j)} k(\bX_{i} - \bX_{j})^{W_{X,ij}},
+\mathbb{P}(\bZ \mid \bW_Z) \varpropto \prod_{(i,j)} k(\bZ_{i} - \bZ_{j})^{W_{Z,ij}}.
 $$
-
-with the Gaussian kernel for $Z$
-$$
-k ( Z_i- Z_j) = \exp \left( - \frac{1}{2} \| Z_i-Z_j \|^2_{I_q} \right), 
-$$
-
-The Conditional distribution of $Z \mid W_Z$ is
-
-$$\mathbb{P}(Z \mid W_Z) \propto \prod_{(i,j) \in [n]^2}  k(Z_i - Z_j)^{W_{Z,ij}}$$
 
 ## Embedding with Graph Coupling
 
 :::: {.columns}
 
-::: {.column}
-Couple the 2 hidden graphs $W_X$ and $W_Z$ in a probabilistic way by matching their posterior distributions:
+::: {.column width="60%"}
+Couple the hidden graphs $W_X$ and $W_Z$ in by matching their posterior distributions:
 
-$$\begin{aligned}
-\mathbf{P}^{X} &= \mathbb{P}(W_X \mid X) \\
-\mathbf{Q}^{Z} &= \mathbb{P}(W_Z \mid X; Z)
-\end{aligned}$$
+$$\mathbf{P}^{X} = \mathbb{P}(W_X \mid \bX), \quad \mathbf{Q}^{Z} = \mathbb{P}(W_Z \mid \bX; \bZ)$$
 
 $\rightsquigarrow$ $Z$ becomes a parameter to be estimated
 
 :::
 
-::: {.column}
+::: {.column width="40%"}
 
-![](figs/pne/two_graph_model_W.pdf){width="80%"}
+![](figs/pne/two_graph_model_W.pdf){width="70%"}
 
 :::
 
 ::::
 
-## Graph Coupling with $Z$ as a parameter
-
- Consider the cross entropy between posteriors
+#### Optimize cross-entropy between posteriors
  
 $$
 \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) = - \mathbb{E}_{W_X \sim \mathbf{P}^{X}} \bigg(\log \mathbb{P}(W_Z=W_X \mid X ; Z) \bigg)
 $$
 
- Find the best low-dimensional representation such that the two graphs match
+Find the best low-dimensional representation such that the 2 graphs match
 
 $$
-Z(X) = \arg \min_{Z} \bigg\{  \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) \bigg\}
+\hat{\bZ}(X) = \argmin_{\bZ} \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) = \argmin_{\bZ} D_\text{KL}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) 
 $$
-
- Connection with the KL between posteriors
-
-$$
-\text{KL}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big)   =   \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{Q}^{Z} \big) - \mathcal{H}\big(\mathbf{P}^{X}, \mathbf{P}^{X} \big)
-$$
-
-<!-- \begin{frame}{First Outline} 
-\textit{Done...}
-\begin{itemize}
-\item Consider two hidden random graphs $W_X,W_Z$
-\item Define a conditional model $X\mid W_X, Z\mid W_Z$ 
-\item Consider pairwise similarity distributions (Pairwise Markov Random Field)
-\item Find $Z$ by matching the posteriors using a cross entropy criterion 
-\end{itemize}
-\vspace{0.5cm}
-\textit{...to be done :}
-\begin{itemize}
-\item Define/Construct the priors for $W_X,W_Z$
-\item Deduce/Induce the posteriors for $W_X,W_Z$
-\item Carefully inspect the case with more than one connected component
-\end{itemize}
-\end{frame} -->
 
 ## Conjugate priors and posteriors for hidden graphs
 
@@ -127,7 +83,7 @@ For the following priors family, we derive the posterior $\mathbb{P}_{\mathcal{P
 \begin{center}
 \begin{footnotesize}
 \begin{tabular}{l|ccc}
-$\mathcal{P}$           & $\Omega_{\mathcal{P}}(\bW)$                  & Prior for $W$\\
+$\mathcal{P}$           & $\Omega_{\mathcal{P}}(\bW)$                  & Prior for $W$ & $\approx$ Posterior for $W$\\
 \hline
 $\mathcal{B}\quad$ Bernoulli                &  $\prod_{ij} \mathbf{1}_{W_{ij} \leq 1}$   & $\mathcal{B}\left( \frac{\pi_{ij}}{ 1 + \pi_{ij} } \right)$&  $\mathcal{B}\left( \frac{\pi_{ij}k_{ij}}{1 + \pi_{ij}k_{ij}} \right)$\\
 $\mathcal{D}\quad$ Unitary Fixed degree           & $\prod_{i} \mathbf{1}_{W_{i+} = 1}$        & $\mathcal{M}\left(1, \frac{{\boldsymbol\pi}_{i}}{\pi_{i+}} \right)$ & $\mathcal{M}\left(1, \frac{[{\pi k}]_i}{[\pi k]_{i+}} \right)$ \\
@@ -141,7 +97,7 @@ $\pi_{ij}k_{ij} = \pi_{ij}k(X_i-X_j)$ is the posterior strength of edges (normal
 
 #### Mixing Prior distributions for coupling
 
-Priors for $W_X, W_Z$ induce posteriors $\mathbf{P}^{\mathcal{P}_X}, \mathbf{Q}^{\mathcal{P}_Z}$ matched with cross entropy $\mathcal{H}\big(\mathbf{P}^{\mathcal{P}_X},\mathbf{Q}^{\mathcal{P}_Z}\big)$
+Priors for $W_X, W_Z$ induce posteriors $\mathbf{P}^{X}, \mathbf{Q}^{Z}$ matched with cross entropy $\mathcal{H}\big(\mathbf{P}^{X},\mathbf{Q}^{Z}\big)$
 
 ## Model-based Neighbor Embedding
 
@@ -170,7 +126,6 @@ UMAP & $\widetilde{P}^{B}_{ij} = P^{B}_{ij} + P^{B}_{ji} - P^{B}_{ij}P^{B}_{ji}$
 \end{tabular}
 \end{scriptsize}
 \end{center}
-
 
 <!-- ## Model-based UMAP
 

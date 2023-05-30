@@ -1,10 +1,20 @@
-## tSNE and UMAP scRNA data^[using the Python module \texttt{scanpy}]
+## tSNE and UMAP scRNA data^[using Python modules \texttt{sklearn, umap-larn}]
 
-![tSNE + UMAP on raw data](figs/scRNA-analysis//tSNE_UMAP_raw.png){width="80%"}
+:::: {.columns}
 
-## tSNE and UMAP scRNA data^[using the Python module \texttt{scanpy}]
+::: {.column width="45%"}
 
-![tSNE + UMAP on log-transformed data](figs/scRNA-analysis/tSNE_UMAP_log.png){width="80%"}
+![tSNE on log-transformed data](figs/scRNA-analysis/tSNE-scRNA-log.png){width="100%"}
+
+:::
+
+::: {.column width="45%"}
+
+![UMAP on log-transformed data](figs/scRNA-analysis/umap-scRNA-log.png){width="100%"}
+
+:::
+
+::::
 
 <!-- ## tSNE on large scRNA Gene Expression \scriptsize [@kobak_tsne_2018]
 

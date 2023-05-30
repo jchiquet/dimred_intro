@@ -194,7 +194,7 @@ $$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
 - \texttt{Python}/\texttt{Pytorch} package \texttt{pyplnmodels} is on \url{https://pypi.org/}
 - Github repos of this presentation is available at \url{https://github.com/jchiquet/dimred_intro}
 
-#### Advertissing
+#### Advertising
 
 \url{https://computo.sfds.asso.fr/}, an open diamond academic journal promoting reproducibility
 
