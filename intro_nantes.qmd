@@ -1,0 +1,257 @@
+
+```{r r-packages}
+library(tidyverse)    # advanced data manipulation and vizualisation
+library(knitr)        # R notebook export and formatting 
+library(FactoMineR)   # Factor analysis
+library(factoextra)   # Fancy plotting of FactoMineR outputs
+library(kableExtra)   # integration of table in Rmarkdown
+library(PLNmodels)
+theme_set(theme_bw()) # set default ggplot2 theme to black and white
+```
+
+## Exploratory analysis of (modern) data sets
+
+Assume a table with $n$ individuals described by $p$ features/variables
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+\begin{footnotesize}
+$$\bX_{n\times p} = \begin{array}{c|c|c|c|c|c|c} \ \ \ & \ \ \ \, & \ \ \ \, & \ \ \ \,  & \ \ \ \, & \ \ \ \, & \ \ \ \\ \hline \ & \ & \ & x_{ij}  & \ & \ & \ \\ \hline \ & \ & \ & \ & \  & \ & \ \end{array} 
+$$
+\end{footnotesize}
+
+:::
+
+::: {.column width="57%"}
+
+  - \small genetics: variant $j$ in genome $i$
+  - \small genomics: gene $j$ in cell $i$
+  - \small ecology: species $j$ in site $j$
+  - \small image: pixel $j$ in image $i$
+  - \small etc.
+
+:::
+
+::::
+
+#### Questions
+  
+Look for \emphase{patterns} or \emphase{structures} to summarize the data by
+
+<!-- 
+  - Finding \alert{groups} of "similar" individuals
+  - Finding variables \alert{important} for these data
+  - Performing \alert{visualization} -->
+
+#### Challenges
+
+  - \emphase{Large} ($n$ and $p$ grows) and \emphase{high dimensional} ($n$ grows but $\ll p$)
+  - \emphase{Redundancy} many variables may carry the same information
+  - \emphase{Unsupervised}: we don't (necessary) know what we are looking for
+  - \emphase{Discrete}: measures with counts are as common as with intensity
+
+## Dimensionality curse
+
+::: {#thm-folks}
+
+## Folks theorem
+
+Let $\bx_1,\ldots, \bx_n$ be in the $p$-hypercube with i.i.d. coordinates. Then,
+
+$$
+p^{-1/2} \left( \max \|\bx_i-\bx_{i'}\|_2 - \min \|\bx_i-\bx_{i'}\|_2 \right) = 0 + \mathcal{O}\left(\sqrt{\frac{\log n}{p}}\right)
+$$
+
+\rsa When $p$ is large, all the points are almost equidistant
+:::
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+![](figs/intro/distance_simu_affy.png){width="90%"}
+
+:::
+
+::: {.column width="30%"}
+
+\vspace{1cm}
+
+\rsa Hopefully, the data \emphase{are not really leaving in $p$} dimensions!
+
+:::
+
+::::
+
+## Dimension reduction: general goals
+  
+\alert{Main objective:} find a \emphase{low-dimensional representation} that captures the "essence" of (high-dimensional) data
+
+#### Application in Machine Learning
+
+  \alert{Preprocessing, Regularization}
+
+  - Compression, denoising,  anomaly detection
+  - Reduce overfitting in supervised learning
+
+#### Application in Statistics/Data analysis
+
+\alert{Better understanding of the data}
+
+- descriptive/exploratory methods
+- visualization (difficult to plot and interpret $> 3d$!)
+
+\bigskip
+
+_See Chapter 20 in @pml1Book for a nice, recent introduction and Chapter 14 in @ESL for reference._
+
+## Example in genetics  {.fragile}
+
+#### Genetics variant in European population
+
+500, 000 variants (Single Nucleotide Polymorphism) for 3000 individuals
+
+  - SNP: 90 \% of human genetic variations
+  - coded as 0, 1 or 2 (\# allels different against pop. reference)
+
+#### Summarized with 2 features^[source: Nature "Gene  Mirror Geography Within  Europe", 2008]
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figs/intro/geneMirrorGeography.png){width=5.5cm}
+
+:::
+
+::: {.column width="40%"}
+
+  - an extremely strong structure between individuals (\emphase{"clustering"})
+  - a very simple subspace where it is obvious (\emphase{"dimension reduction"})
+
+:::
+
+::::
+
+## Example in genomics
+
+\framesubtitle{Genome-wide cell biology with single-cell RNAseq data}
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+![](figs/intro/10xgenomics.png)
+
+:::
+
+::: {.column width="40%"}
+
+\vspace{1cm}
+
+\footnotesize 
+
+Describe cell population ($n \to 10^6$) with high dimensional molecular features ($p\to 10^5$)
+
+:::
+
+::::
+
+![Successful t-SNE visualizations of sc-RNAseq data](figs/intro/scRNA_tsne.pdf){width="90%"}
+
+## Example in Image: MNIST {.fragile}
+
+```{r mnist-dataset, include=FALSE}
+mnist_raw <- read_csv("data/mnist_sample.csv", col_names = FALSE, n_max = 2000)
+mnist <- mnist_raw %>%
+      rename(label = X1) %>%
+      mutate(instance = row_number())
+```
+
+Famous database of 60,000 labeled handwritten digits (28 x 28 images)
+
+:::: {.columns}
+
+::: {.column}
+
+![Data Samples](figs/intro/MnistExamples.png){width="60%"}
+
+:::
+
+::: {.column}
+
+```{r mnist-table, echo = FALSE}
+mnist[, 1:5] %>% head(3) %>% kable("latex", caption = "Vectorized data") %>% kable_styling(font_size = 8)
+```
+
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![](figs/intro/mnist_umap.png){width="85%"}
+
+:::
+
+::: {.column width="50%"}
+
+\vspace{2cm}
+
+\footnotesize
+
+UMAP 2-dimensional visualization\bigskip
+
+
+Obtained via \url{https://projector.tensorflow.org/}, \emphase{try it!}
+:::
+
+::::
+
+## Dimension reduction: problem setup {.fragile}
+
+#### Dimension Reduction Map
+
+  - \alert{Original data} : $\{\bx_1,\ldots,\bx_n\} \in \Rset^p$
+  - \alert{Low dimensional data} : $\{\bz_1,\ldots,\bz_n\} \in \Rset^q$, $q\ll p$
+  - Space $\Rset^p$ of possibly high dimension: $n \ll p$
+
+\medskip
+
+Construct a map $\Phi$ from $\Rset^{p}$ into a $\Rset^{q}$ with $q\ll p$:
+
+$$\Phi:\begin{cases}
+  \quad & \Rset^p \to \Rset^{q}, q \ll p\\
+                     & \bx \mapsto \Phi(\bx) \triangleq \bz
+\end{cases}$$
+
+\rsa \emphase{How should we design/construct $\Phi$?}
+
+:::: {.columns}
+
+::: {.column width="45%"}
+
+#### Criterion
+
+  - Geometrical approach
+  - Reconstruction error
+  - Relationship preservation
+
+:::
+
+::: {.column width="55%"}
+
+#### Form of the map $\Phi$
+
+  - Linear or non-linear?
+  - interpretability and versatility?
+  - high or low computational resource?
+
+:::
+
+::::
+
