@@ -45,8 +45,8 @@ $$
 
 Find a \emphase{low-dimensional representation} that captures the "essence" (local and/or global structure, signal) of the original data
 
-  - \emphase{ML}: preprocessing, denoising, compression
-  - \emphase{Stat.}: descriptive/exploratory methods, visualization
+  - \emphase{Machine-learning}: preprocessing, denoising, compression
+  - \emphase{Statistics}: descriptive/exploratory methods, visualization
 
 ## Dimensionality curse
 
@@ -106,6 +106,4 @@ Describe cell population ($n \to 10^6$) with high dimensional molecular features
 ::::
 
 ![Successful t-SNE visualizations of sc-RNAseq data](figs/intro/scRNA_tsne.pdf){width="90%"}
-
-
 

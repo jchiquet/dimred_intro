@@ -6,7 +6,7 @@ pPCA is a special factor model with parameter $\theta=(\bC, \sigma)$:
 
 $$\begin{array}{rcl}
   \text{latent space }  & \bZ_i \quad \text{i.i.d.} & \bZ_i \sim \mathcal{N}(\mathbf{0}_q, \mathbf{I}_q)  \\
-  \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX | \bZ_i \sim \mathcal{N}\left({\boldsymbol\mu} + \bC \bZ, \sigma^2 \mathbf{I}_n \right)
+  \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX_i | \bZ_i \sim \mathcal{N}\left({\boldsymbol\mu} + \bC \bZ_i, \sigma^2 \mathbf{I}_n \right)
 \end{array}$$
 
 By direct integration^[easy since everything is Gaussian], the marginal distribution of the observation is 
@@ -78,7 +78,7 @@ Pierre Brand
 
 $$\begin{array}{rcl}
   \text{latent space }  & \bZ_i \quad \text{i.i.d.} & \bZ_i \sim \mathcal{N}(\mathbf{0}_q, \mathbf{I}_q)  \\
-  \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX | \bZ_i \sim \mathcal{P}\left(\exp\{{\boldsymbol\mu} + \bC^\top \bZ_i\}\right)
+  \text{observation space } &  \bX_i | \bZ_i \quad \text{indep.} & \bX_i | \bZ_i \sim \mathcal{P}\left(\exp\{{\boldsymbol\mu} + \bC^\top \bZ_i\}\right)
 \end{array}$$
 
 #### Estimation: Issues

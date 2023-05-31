@@ -1,0 +1,19 @@
+
+## Mixture of PLN-PCA \scriptsize with Nicolas Jouvin
+		
+Gaussian mixture in the \emphase{common} latent $q$-dimensional subspace
+
+$$\begin{aligned}
+	& \bG_i \sim \mathcal{M}(1, {\boldsymbol \pi}= (\pi_1,\dots,\pi_K)) & \textnormal{(clustering)} \\
+	& \bZ_i  \sim \mathcal{N}_q({\boldsymbol 0}, \mathbf{I}_q) & \textnormal{(subspace)} \\
+	& \bW_i \mid \bG_{ik} = 1 \sim {\boldsymbol\mu}_k + \sigma_k \bZ_i & \textnormal{(linear transform)} \\
+  & \bX_i \mid \bW_i, \bG_i \sim \mathcal{P}(\exp(\bC \bW_i)) & \textnormal{(emission)} 
+\end{aligned}$$
+
+With parameters $\{{\boldsymbol\mu}_k, {\boldsymbol\sigma}_k, \bC, {\boldsymbol\pi} \}$: use variational inference.
+
+#### More general models
+
+  - Add covariate effects
+  - Use diagonal variance (rather than spherical) $\sigma_k^2 \bI_q \to \bD_k$
+  - Use different $\bC_k$ $\rightsquigarrow$ no common projection

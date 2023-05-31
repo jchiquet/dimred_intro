@@ -1,5 +1,5 @@
 ---
-title: "Dimension Reduction and Life Sciences"
+title: "Dimension Reduction in Life Sciences"
 subtitle: "Panorama and Probabilistic View of some Recent Approaches"
 author: "Julien Chiquet"
 institute: "UMR MIA Paris-Saclay, AgroParisTech, INRAE"
@@ -42,103 +42,13 @@ With, non-linear transformations\dots
 
 # Reconstruction error approach
 
-## Principle
-
-Find maps $\Phi$ and $\tilde{\Phi}$ in a given family (e.g, linear, constraint on parameters, etc.), minimizing an error between $\bx$ and $\hat{\bx} = \tilde{\Phi}(\Phi(\bx))$, with $\Phi(\bx) = \bz$, e.g.
-
-  - \emphase{Distance} between $\bX$ and $\hat{\bX}$, e.g, sum of squares:
-
-\vspace{-.25cm}
-
-$$
-\epsilon^\text{SSQ}(\bX, \hat \bX ) = \left\| \bX - \hat \bX \right\|_F^2  = \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2
-$$
-
-  - \emphase{Log-likelihood} of a parametric model $p_\theta$, with $\hat{\bX}=\mathbb{E}_{\hat{\theta}}(\cdot)$:
-
-\vspace{-.25cm}
-
-$$
-  - \log p_{\theta}(\bX) = - \sum_{i=1}^n \log p_{\btheta}(\bX_i)
-$$
-
-## PCA and Reconstruction error
-
-#### Model
-
-Let $\bV_q$ be a $p\times q$ matrix whose columns are of $q$ orthonormal vectors.
-
-$$\Phi(\bx) = \bV_q^\top(\bx-\bmu)  = \bz, \quad \hat{\bx} = \tilde{\Phi}(\bz) = \bmu + \bV_q \bz.$$
-
-\rsa Model with \emphase{Linear assumption + ortho-normality constraints}
- 
-#### Reconstruction error
-
-\vspace{-.5cm}
-
-$$
-\minimize_{\substack{\bmu \in\Rset^p \\\bV_q\in\mathcal{O}_{p,q}}} \sum_{i=1}^n \left\| (\bx_i  - \bmu) - \bV_q\bV_q^\top ( \bx_i -\bmu)   \right\|^2 = \Bigg( \minimize_{\substack{\mathbf{F}_q\in\mathcal{M}_{n,q} \\\bV_q\in\mathcal{O}_{p,q}}} \left\| \mathbf{X}^c - \mathbf{F_q V_q}^\top \right\|_F^2 \Bigg)
-$$
-
-#### Solution (explicit)
-  
-  - $\bmu$ is the empirical mean, $\bV_q$ eigenvectors of the empirical covariance
-  - In practice: SVD of the centered matrix $\bX^c = \bU_q \bD_q \bV_q^\top = \mathbf{F}_q \bV_q^\top$ 
-
-## Other methods with same rational
-
-#### Linear models with other constraints
-
-\vspace{-.5cm}
-
-$$
-(\hat{\bmu}, \hat{\bV}, \hat{\bZ}) = \argmin \sum_{i=1}^n \left\| \bx_i - \tilde{\Phi}(\Phi(\bx_i)) \right\|^2, \quad \hat{\bx} = \tilde{\Phi}(\bz) = \bmu + \bV_q \bz
-$$
-
-  - \emphase{\bf sparse PCA}: $\bV_q$ sparse, possibly orthogonal
-  - \emphase{Dictionary learning}: $\bZ$ sparse
-  - \emphase{Independent Component Anaysis} ($z^j, z^{j'}$) independent
-
-#### Kernel-PCA: \textcolor{black}{non linear transformation of the input $\Psi(\mathbf{x}_i)$,  then  PCA:}
-
-\vspace{-.5cm}
-
-$$
-\Phi(\bx) = \bV_q^\top \Psi(\bx-\bmu) = \bz, \qquad \Psi : \mathbb{R}^p \to \mathbb{R}^n
-$$
-
-#### Non Linear Matrix Factorization
-
-Poisson likelihood for $\bX_{ij}$ with intensity $\lambda^q_{ij} = (\mathbf{F}_q\bV_q^\top)_{ij} \geq 0$: 
-
-$$
-\hat{\mathbf{X}}^{\text{poisson}} = \argmax_{\substack{\mathbf{F}\in\mathcal{M}(\Rset_+)_{n,q} \\ \mathbf{V}\in\mathcal{M}(\Rset_+)_{p,q}}} \sum_{i,j} x_{ij} \log(\lambda^q_{ij}) - \lambda^q_{ij}.
-$$
+{{< include reconstruction_overview.qmd >}}
 
 {{< include ppca.qmd >}}
 
 {{< include plnpca-scRNA.qmd >}}
 
-
-## Mixture of PLN-PCA \scriptsize with Nicolas Jouvin
-		
-Gaussian mixture in the \emphase{common} latent $q$-dimensional subspace
-
-<!-- \covar_i^\top \bB +  -->
-$$\begin{aligned}
-	& \bG_i \sim \mathcal{M}(1, {\boldsymbol \pi}= (\pi_1,\dots,\pi_K)) & \textnormal{(clustering)} \\
-	& \bZ_i  \sim \mathcal{N}_q({\boldsymbol 0}, \mathbf{I}_q) & \textnormal{(subspace)} \\
-	& \bW_i \mid \bG_{ik} = 1 \sim \mu_k + \sigma_k \bZ_i & \textnormal{(linear transform)} \\
-  & \bX_i \mid \bW_i, \bG_i \sim \mathcal{P}(\exp(\bC \bW_i)) & \textnormal{(emission)} 
-\end{aligned}$$
-
-With parameters $\{{\boldsymbol\mu}_k, {\boldsymbol\mu}_k, \bC, {\boldsymbol\pi} \}$: use variational inference.
-
-#### More general models
-
-  - Add covariate effects
-  - Use diagonal variance (rather than spherical) $\sigma_k^2 \bI_q \to \bD_k$
-  - Use different $\bC_k$ $\rightsquigarrow$ no common projection
+{{< include mix-plnpca.qmd >}}
 
 {{< include vae.qmd >}}
 
@@ -146,26 +56,7 @@ With parameters $\{{\boldsymbol\mu}_k, {\boldsymbol\mu}_k, \bC, {\boldsymbol\pi}
 
 # Preserving pairwise relations
 
-## Principle
-
-Consider an $n\times n$ (dis)similarity matrix associated to $\bx_i \in \mathbb{R}^p$, measuring pairwise relations $\mathcal{R}(\bullet, \bullet')$, using one among 
-
-- distances,
-- kernels,
-- inner products,
-- probability distributions.
-
-\medskip
-
-\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the (dis)similarities in the latent space
-
-#### Preserve local properties
-
-Find a map $\Phi$ from $\Rset^{p}\to\Rset^{q}$ such that
-
-$$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
-
-\rsa preserve $\mathcal{R}$ both in high and low dimensional spaces to catch complex geometries
+{{< include pairwise-overview.qmd >}}
 
 {{< include pairwise-preservation-methods.qmd >}}
 

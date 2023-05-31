@@ -1,0 +1,20 @@
+## Principle
+
+Consider an $n\times n$ (dis)similarity matrix associated to $\bx_i \in \mathbb{R}^p$, measuring pairwise relations $\mathcal{R}(\bullet, \bullet')$, using one among 
+
+- distances,
+- kernels,
+- inner products,
+- probability distributions.
+
+\medskip
+
+\emphase{Goal:} find $\bz_i\in\Rset^q$ while preserving the (dis)similarities in the latent space
+
+#### Preserve local properties
+
+Find a map $\Phi$ from $\Rset^{p}\to\Rset^{q}$ such that
+
+$$\mathcal{R}(\bx_i, \bx_{i'}) \sim\mathcal{R'}(\bz_i, \bz_{i'})$$
+
+\rsa preserve $\mathcal{R}$ both in high and low dimensional spaces to catch complex geometries

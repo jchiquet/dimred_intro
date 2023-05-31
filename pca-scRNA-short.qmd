@@ -24,4 +24,4 @@ prcomp(log_data, scale.=TRUE) |> factoextra::fviz_pca_biplot(
 
 :::
 
-:::: 
+::::
